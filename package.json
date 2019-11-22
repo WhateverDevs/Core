@@ -1,0 +1,14 @@
+{
+  "name": "whateverdevs.core",
+  "version": "0.0.1",
+  "dependencies": {
+  	"whateverdevs.extenject" : "9.1.1"
+  },
+  "displayName": "Whatever Devs' Core",
+  "description": "Core with our basic functionalities.",
+  "unity": "2019.1",
+  "author": {
+    "name": "Whatever Devs",
+    "url": "https://discord.gg/B8aaMzJ"
+  }
+}
