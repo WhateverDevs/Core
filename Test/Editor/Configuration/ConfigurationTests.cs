@@ -33,6 +33,9 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
         {
             const string someStringValue = "Some string";
             const int someIntValue = 56;
+            const string secondStringValue = "Another string";
+            const int secondIntValue = 785;
+            
             TestConfiguration testConfiguration = ScriptableObject.CreateInstance<TestConfiguration>();
             testConfiguration.ConfigurationName = "TestConfig.cfg";
             testConfiguration.Serializers = serializers.ToList();
@@ -41,13 +44,26 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
 
             Assert.IsTrue(testConfiguration.Save());
 
-            testConfiguration.ConfigurationData.SomeString = "Another string";
-            testConfiguration.ConfigurationData.SomeInt = 785;
+            testConfiguration.ConfigurationData.SomeString = secondStringValue;
+            testConfiguration.ConfigurationData.SomeInt = secondIntValue;
 
             Assert.IsTrue(testConfiguration.Load());
 
             Assert.AreEqual(someStringValue, testConfiguration.ConfigurationData.SomeString);
             Assert.AreEqual(someIntValue, testConfiguration.ConfigurationData.SomeInt);
+            
+            testConfiguration.ConfigurationData.SomeString = secondStringValue;
+            testConfiguration.ConfigurationData.SomeInt = secondIntValue;
+            
+            Assert.IsTrue(testConfiguration.Save());
+            
+            testConfiguration.ConfigurationData.SomeString = someStringValue;
+            testConfiguration.ConfigurationData.SomeInt = someIntValue;
+            
+            Assert.IsTrue(testConfiguration.Load());
+
+            Assert.AreEqual(secondStringValue, testConfiguration.ConfigurationData.SomeString);
+            Assert.AreEqual(secondIntValue, testConfiguration.ConfigurationData.SomeInt);
         }
     }
 }
