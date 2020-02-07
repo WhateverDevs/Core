@@ -1,4 +1,3 @@
-using Packages.Core.Runtime.Serialization;
 using UnityEngine;
 using WhateverDevs.Core.Runtime.Configuration;
 using WhateverDevs.Core.Runtime.Formatting;
@@ -27,7 +26,14 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
         {
             // Scriptable objects don't register for injection automatically, so we need to do it manually.
             for (int i = 0; i < ConfigurationsToInstall.Length; ++i)
+            {
                 Container.QueueForInject(ConfigurationsToInstall[i]);
+
+                // Inject a lazy singleton of each configuration into any configuration manager.
+                Container.Bind<IConfiguration>()
+                         .FromInstance((IConfiguration) ConfigurationsToInstall[i])
+                         .WhenInjectedInto<ConfigurationManager>();
+            }
 
             // Inject a lazy singleton Json formatter into the Json Serializer.
             Container.Bind<IFormatter<string>>()
@@ -42,6 +48,9 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
                      .AsSingle()
                      .WhenInjectedInto<TestConfiguration>()
                      .Lazy();
+
+            // Inject the configuration manager to all classes that need that interface.
+            Container.Bind<IConfigurationManager>().To<ConfigurationManager>().AsSingle().Lazy();
         }
     }
 }

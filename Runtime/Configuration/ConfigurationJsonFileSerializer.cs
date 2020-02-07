@@ -1,5 +1,5 @@
 using System.IO;
-using Packages.Core.Runtime.Serialization;
+using WhateverDevs.Core.Runtime.Serialization;
 
 namespace WhateverDevs.Core.Runtime.Configuration
 {

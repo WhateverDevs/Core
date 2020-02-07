@@ -1,8 +1,13 @@
+using System.Collections;
 using NUnit.Framework;
+using Packages.Core.Test.Editor.Configuration;
 using UnityEngine;
+using UnityEngine.TestTools;
 using WhateverDevs.Core.Runtime.Configuration;
 using WhateverDevs.Core.Test.Editor.Configuration;
 using Zenject;
+using Assert = NUnit.Framework.Assert;
+using Object = UnityEngine.Object;
 
 namespace WhateverDevs.Core.Test.Runtime.Configuration
 {
@@ -17,17 +22,27 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
         private TestConfiguration testConfiguration;
 
         /// <summary>
+        /// An object that needs the configuration manager injected.
+        /// </summary>
+        private ConfigTestObject testObject;
+
+        /// <summary>
         /// Set up a scene with an installer.
         /// </summary>
-        [SetUp]
-        public void Setup()
+        [UnitySetUp]
+        public IEnumerator Setup()
         {
+            // Extenject throws some exceptions during tests.
+            LogAssert.ignoreFailingMessages = true;
+            
             GameObject context = new GameObject();
             SceneContext sceneContext = context.AddComponent<SceneContext>();
+            testObject = context.AddComponent<ConfigTestObject>();
 
             ConfigurationTestsInstaller installer = ScriptableObject.CreateInstance<ConfigurationTestsInstaller>();
 
             testConfiguration = ScriptableObject.CreateInstance<TestConfiguration>();
+            testConfiguration.ConfigurationName = "TestConfig.cfg";
 
             installer.ConfigurationsToInstall =
                 new ConfigurationScriptableHolder[] {testConfiguration};
@@ -35,6 +50,14 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
             sceneContext.ScriptableObjectInstallers = new[] {installer};
 
             Object.Instantiate(context);
+            
+            yield return new WaitForEndOfFrame();
+            
+            testObject =
+                context
+                   .AddComponent<ConfigTestObject>(); // Adding monobehaviours to more than one object doesn't work with extenject.
+            
+            yield return new WaitForEndOfFrame();
         }
 
         /// <summary>
@@ -47,8 +70,7 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
             const int someIntValue = 56;
             const string secondStringValue = "Another string";
             const int secondIntValue = 785;
-            
-            testConfiguration.ConfigurationName = "TestConfig.cfg";
+
             testConfiguration.ConfigurationData.SomeString = someStringValue;
             testConfiguration.ConfigurationData.SomeInt = someIntValue;
 
@@ -61,19 +83,47 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
 
             Assert.AreEqual(someStringValue, testConfiguration.ConfigurationData.SomeString);
             Assert.AreEqual(someIntValue, testConfiguration.ConfigurationData.SomeInt);
-            
+
             testConfiguration.ConfigurationData.SomeString = secondStringValue;
             testConfiguration.ConfigurationData.SomeInt = secondIntValue;
-            
+
             Assert.IsTrue(testConfiguration.Save());
-            
+
             testConfiguration.ConfigurationData.SomeString = someStringValue;
             testConfiguration.ConfigurationData.SomeInt = someIntValue;
-            
+
             Assert.IsTrue(testConfiguration.Load());
 
             Assert.AreEqual(secondStringValue, testConfiguration.ConfigurationData.SomeString);
             Assert.AreEqual(secondIntValue, testConfiguration.ConfigurationData.SomeInt);
+        }
+
+        /// <summary>
+        /// Test the configuration manager.
+        /// </summary>
+        [Test]
+        public void ConfigurationManagerUsage()
+        {
+            const string someStringValue = "Some string";
+            const int someIntValue = 56;
+            const string secondStringValue = "Another string";
+            const int secondIntValue = 785;
+
+            testConfiguration.ConfigurationData.SomeString = someStringValue;
+            testConfiguration.ConfigurationData.SomeInt = someIntValue;
+            testConfiguration.Save();
+
+            Assert.IsTrue(testObject.ConfigurationManager.GetConfiguration(out TestConfigurationData testData));
+            Assert.AreEqual(someStringValue, testData.SomeString);
+            Assert.AreEqual(someIntValue, testData.SomeInt);
+
+            testData.SomeString = secondStringValue;
+            testData.SomeInt = secondIntValue;
+
+            Assert.IsTrue(testObject.ConfigurationManager.SetConfiguration(testData));
+            Assert.IsTrue(testObject.ConfigurationManager.GetConfiguration(out testData));
+            Assert.AreEqual(secondStringValue, testData.SomeString);
+            Assert.AreEqual(secondIntValue, testData.SomeInt);
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 using Varguiniano.ExtendedEditor.Editor;
 using WhateverDevs.Core.Runtime.Configuration;
 
-namespace Packages.Core.Editor.Configuration
+namespace WhateverDevs.Core.Editor.Configuration
 {
     /// <summary>
     /// Base editor for classes that inherit from ConfigurationScriptableHolder.

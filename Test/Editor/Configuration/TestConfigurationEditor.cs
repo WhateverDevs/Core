@@ -1,6 +1,6 @@
-using Packages.Core.Editor.Configuration;
 using Packages.Core.Test.Editor.Configuration;
 using UnityEditor;
+using WhateverDevs.Core.Editor.Configuration;
 using WhateverDevs.Core.Test.Editor.Configuration;
 
 namespace WhateverDevs.Core.Test.Runtime.Configuration

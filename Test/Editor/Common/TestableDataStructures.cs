@@ -1,6 +1,6 @@
 using System;
 
-namespace Packages.Core.Test.Editor.Common
+namespace WhateverDevs.Core.Test.Editor.Common
 {
     /// <summary>
     /// Some data structures to be used in tests.

@@ -2,10 +2,9 @@ using System;
 using System.IO;
 using UnityEngine;
 using WhateverDevs.Core.Runtime.Formatting;
-using WhateverDevs.Core.Runtime.Serialization;
 using Zenject;
 
-namespace Packages.Core.Runtime.Serialization
+namespace WhateverDevs.Core.Runtime.Serialization
 {
     /// <summary>
     /// Serializer that stores data to file as Json strings.
@@ -62,7 +61,7 @@ namespace Packages.Core.Runtime.Serialization
         {
             if (!File.Exists(origin))
             {
-                Debug.LogError("The given file does not exist!"); // TODO: Change to custom log system.
+                Debug.LogError("The given file does not exist: " + origin); // TODO: Change to custom log system.
                 throw new ArgumentException(); // We can't just return null as TOriginal may not be nullable.
             }
 
