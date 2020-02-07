@@ -4,14 +4,14 @@ using Packages.Core.Runtime.Serialization;
 using Packages.Core.Test.Editor.Common;
 using WhateverDevs.Core.Runtime.Formatting;
 
-namespace WhateverDevs.Core.Test.Editor.Formatting
+namespace WhateverDevs.Core.Test.Editor.Serialization
 {
     public class JsonFileSerializerTests
     {
         /// <summary>
         /// Reference to the serializer.
         /// </summary>
-        private ISerializer<JsonFormatter, string> serializer;
+        private ISerializer serializer;
 
         /// <summary>
         /// Path to the folder where the tests can happen.

@@ -2,7 +2,8 @@
   "name": "whateverdevs.core",
   "version": "0.0.1",
   "dependencies": {
-  	"whateverdevs.extenject" : "9.1.1"
+    "whateverdevs.extenject": "9.1.1",
+    "varguiniano.extendededitor": "1.0.0"
   },
   "displayName": "Whatever Devs' Core",
   "description": "Core with our basic functionalities.",

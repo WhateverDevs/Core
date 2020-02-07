@@ -40,7 +40,7 @@ namespace WhateverDevs.Core.Test.Editor.Formatting
             Assert.AreEqual(firstTestData.IntValue,
                             firstResult.IntValue); // Classes are never the same as they two different objects.
 
-            TestDataStructureTwo secondTestData = new TestDataStructureTwo()
+            TestDataStructureTwo secondTestData = new TestDataStructureTwo
                                                   {
                                                       BoolArray = new[] {true, false, true},
                                                       DataStructureOne = firstTestData

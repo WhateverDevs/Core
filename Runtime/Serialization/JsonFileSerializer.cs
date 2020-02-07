@@ -9,14 +9,14 @@ namespace Packages.Core.Runtime.Serialization
     /// <summary>
     /// Serializer that stores data to file as Json strings.
     /// </summary>
-    public class JsonFileSerializer : ISerializer<JsonFormatter, string>
+    public class JsonFileSerializer : ISerializer
     {
         /// <summary>
         /// Formatter that this Serializer will use.
         /// This should be injected by ExtenJect on runtime and manually assigned on Editor.
         /// </summary>
         [Inject]
-        public JsonFormatter Formatter { get; set; }
+        public IFormatter<string> Formatter { get; set; }
 
         /// <summary>
         /// Saves data to the given destination in a Json file.
@@ -25,7 +25,7 @@ namespace Packages.Core.Runtime.Serialization
         /// <param name="destination">File path for the json.</param>
         /// <typeparam name="TOriginal">Type of the original data.</typeparam>
         /// <returns>True if it was successful.</returns>
-        public bool Save<TOriginal>(TOriginal data, string destination)
+        public virtual bool Save<TOriginal>(TOriginal data, string destination)
         {
             if (!Directory.GetParent(destination).Exists)
             {
@@ -57,7 +57,7 @@ namespace Packages.Core.Runtime.Serialization
         /// <param name="origin">File path of the json file.</param>
         /// <typeparam name="TOriginal">Type of the original data.</typeparam>
         /// <returns>True if it was successful.</returns>
-        public bool Load<TOriginal>(out TOriginal data, string origin)
+        public virtual bool Load<TOriginal>(out TOriginal data, string origin)
         {
             if (!File.Exists(origin))
             {

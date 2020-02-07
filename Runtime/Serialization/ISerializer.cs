@@ -1,19 +1,10 @@
-using WhateverDevs.Core.Runtime.Formatting;
-
 namespace Packages.Core.Runtime.Serialization
 {
     /// <summary>
     /// Serializer that saves and retrieves data from a persistent storage.
     /// </summary>
-    /// <typeparam name="TFormatter">Type of formatter the serializer will use.</typeparam>
-    /// <typeparam name="TFormatted">Type of the data to format.</typeparam>
-    public interface ISerializer<TFormatter, TFormatted> where TFormatter : IFormatter<TFormatted>
+    public interface ISerializer
     {
-        /// <summary>
-        /// Formatter the serializer will use.
-        /// </summary>
-        TFormatter Formatter { get; set; }
-
         /// <summary>
         /// Save the given data to persistent storage.
         /// </summary>
