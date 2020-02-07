@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Packages.Core.Runtime.Serialization;
+using WhateverDevs.Core.Runtime.Serialization;
 
 namespace WhateverDevs.Core.Runtime.Configuration
 {
@@ -7,7 +7,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
     /// Interface that configuration holders must implement.
     /// </summary>
     /// <typeparam name="TConfigurationData">Type of the configuration data to use.</typeparam>
-    public interface IConfiguration<TConfigurationData> where TConfigurationData : ConfigurationData
+    public interface IConfiguration<TConfigurationData> : IConfiguration where TConfigurationData : ConfigurationData
     {
         /// <summary>
         /// Serializers this configuration will use to persist.
@@ -19,7 +19,13 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// Data this configuration will hold.
         /// </summary>
         TConfigurationData ConfigurationData { get; set; }
-        
+    }
+
+    /// <summary>
+    /// Interface that configuration holders must implement.
+    /// </summary>
+    public interface IConfiguration
+    {
         /// <summary>
         /// Save the data using the persistent serializers.
         /// </summary>

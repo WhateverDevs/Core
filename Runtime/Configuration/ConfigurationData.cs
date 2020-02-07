@@ -8,6 +8,5 @@ namespace WhateverDevs.Core.Runtime.Configuration
     [Serializable]
     public abstract class ConfigurationData
     {
-        
     }
 }

@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using Varguiniano.ExtendedEditor.Editor;
 using WhateverDevs.Core.Runtime.Configuration;
@@ -18,10 +19,15 @@ namespace Packages.Core.Editor.Configuration
         /// </summary>
         protected override void PaintUi()
         {
-            PaintProperty("ConfigurationData", true);
+            PaintProperty("ConfigurationName");
+            
+            PaintProperty("ConfigData", true);
 
+            // TODO: This won't work on editor time because the references to the serializers are not injected.
+            EditorGUI.BeginDisabledGroup(!Application.isPlaying);
             if (GUILayout.Button("Save")) TargetObject.Save();
             if (GUILayout.Button("Load")) TargetObject.Load();
+            EditorGUI.EndDisabledGroup();
         }
     }
 }

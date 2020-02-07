@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Packages.Core.Runtime.Serialization;
 using UnityEngine;
+using WhateverDevs.Core.Runtime.Serialization;
 using Zenject;
 
 namespace WhateverDevs.Core.Runtime.Configuration
@@ -10,7 +10,8 @@ namespace WhateverDevs.Core.Runtime.Configuration
     /// </summary>
     /// <typeparam name="TConfigurationData">Type of configuration the holder will, well, hold.</typeparam>
     public abstract class
-        ConfigurationScriptableHolder<TConfigurationData> : ScriptableObject, IConfiguration<TConfigurationData>
+        ConfigurationScriptableHolder<TConfigurationData> : ConfigurationScriptableHolder,
+                                                            IConfiguration<TConfigurationData>
         where TConfigurationData : ConfigurationData, new()
     {
         /// <summary>
@@ -30,14 +31,16 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         public TConfigurationData ConfigurationData
         {
-            get => ProtectedConfigurationData ?? (ProtectedConfigurationData = new TConfigurationData());
-            set => ProtectedConfigurationData = value;
+            get => ConfigData ?? (ConfigData = new TConfigurationData());
+            set => ConfigData = value;
         }
 
         /// <summary>
         /// Backfield for ConfigurationData.
+        /// Also editable through inspector.
         /// </summary>
-        protected TConfigurationData ProtectedConfigurationData;
+        [SerializeField]
+        protected TConfigurationData ConfigData;
 
         /// <summary>
         /// Save the data using the persistent serializers.
@@ -60,5 +63,12 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         /// <returns>True if it was successful.</returns>
         public abstract bool Load();
+    }
+
+    /// <summary>
+    /// Non generic class for editor referencing.
+    /// </summary>
+    public class ConfigurationScriptableHolder : ScriptableObject
+    {
     }
 }

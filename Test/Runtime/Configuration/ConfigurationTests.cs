@@ -1,30 +1,41 @@
-using System.Linq;
 using NUnit.Framework;
-using Packages.Core.Runtime.Serialization;
-using Packages.Core.Test.Editor.Configuration;
 using UnityEngine;
 using WhateverDevs.Core.Runtime.Configuration;
-using WhateverDevs.Core.Runtime.Formatting;
-using WhateverDevs.Core.Runtime.Serialization;
+using WhateverDevs.Core.Test.Editor.Configuration;
+using Zenject;
 
-namespace WhateverDevs.Core.Test.Editor.Configuration
+namespace WhateverDevs.Core.Test.Runtime.Configuration
 {
     /// <summary>
-    /// Class that tests the configuration system on editor.
+    /// Runtime tests for configuration.
     /// </summary>
     public class ConfigurationTests
     {
         /// <summary>
-        /// Serializers to use during the tests.
+        /// Configuration to test.
         /// </summary>
-        private ISerializer[] serializers;
+        private TestConfiguration testConfiguration;
 
         /// <summary>
-        /// Setup before starting tests.
+        /// Set up a scene with an installer.
         /// </summary>
         [SetUp]
-        public void Setup() =>
-            serializers = new ISerializer[] {new ConfigurationJsonFileSerializer {Formatter = new JsonFormatter()}};
+        public void Setup()
+        {
+            GameObject context = new GameObject();
+            SceneContext sceneContext = context.AddComponent<SceneContext>();
+
+            ConfigurationTestsInstaller installer = ScriptableObject.CreateInstance<ConfigurationTestsInstaller>();
+
+            testConfiguration = ScriptableObject.CreateInstance<TestConfiguration>();
+
+            installer.ConfigurationsToInstall =
+                new ConfigurationScriptableHolder[] {testConfiguration};
+
+            sceneContext.ScriptableObjectInstallers = new[] {installer};
+
+            Object.Instantiate(context);
+        }
 
         /// <summary>
         /// Test normal json file serialization.
@@ -37,9 +48,7 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
             const string secondStringValue = "Another string";
             const int secondIntValue = 785;
             
-            TestConfiguration testConfiguration = ScriptableObject.CreateInstance<TestConfiguration>();
             testConfiguration.ConfigurationName = "TestConfig.cfg";
-            testConfiguration.Serializers = serializers.ToList();
             testConfiguration.ConfigurationData.SomeString = someStringValue;
             testConfiguration.ConfigurationData.SomeInt = someIntValue;
 

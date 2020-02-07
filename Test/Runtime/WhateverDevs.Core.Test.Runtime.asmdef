@@ -1,3 +1,21 @@
-﻿{
-	"name": "WhateverDevs.Core.Test.Runtime"
+{
+    "name": "WhateverDevs.Core.Test.Runtime",
+    "references": [
+        "GUID:6f75e3e9b2be11e40a79ad3ceec60e41",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:27619889b8ba8c24980f49ee34dbb44a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

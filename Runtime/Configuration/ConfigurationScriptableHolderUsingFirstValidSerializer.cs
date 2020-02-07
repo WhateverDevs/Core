@@ -17,7 +17,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
         public override bool Load()
         {
             for (int i = 0; i < Serializers.Count; ++i)
-                if (Serializers[i].Load(out ProtectedConfigurationData, ConfigurationName))
+                if (Serializers[i].Load(out ConfigData, ConfigurationName))
                     return true;
 
             return false;

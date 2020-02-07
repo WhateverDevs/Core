@@ -1,4 +1,4 @@
-namespace Packages.Core.Runtime.Serialization
+namespace WhateverDevs.Core.Runtime.Serialization
 {
     /// <summary>
     /// Serializer that saves and retrieves data from a persistent storage.
