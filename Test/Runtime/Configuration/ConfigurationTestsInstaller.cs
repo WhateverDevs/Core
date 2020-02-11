@@ -1,8 +1,8 @@
 using UnityEngine;
 using WhateverDevs.Core.Runtime.Configuration;
 using WhateverDevs.Core.Runtime.Formatting;
-using WhateverDevs.Core.Runtime.Serialization;
 using WhateverDevs.Core.Test.Editor.Configuration;
+using WhateverDevs.Core.Runtime.Persistence;
 using Zenject;
 
 namespace WhateverDevs.Core.Test.Runtime.Configuration
@@ -15,7 +15,7 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
     public class ConfigurationTestsInstaller : ScriptableObjectInstaller
     {
         /// <summary>
-        /// Configurations that need a serializer injection.
+        /// Configurations that need a persister injection.
         /// </summary>
         public ConfigurationScriptableHolder[] ConfigurationsToInstall;
 
@@ -35,16 +35,16 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
                          .WhenInjectedInto<ConfigurationManager>();
             }
 
-            // Inject a lazy singleton Json formatter into the Json Serializer.
+            // Inject a lazy singleton Json formatter into the Json persister.
             Container.Bind<IFormatter<string>>()
                      .To<JsonFormatter>()
                      .AsSingle()
-                     .WhenInjectedInto<JsonFileSerializer>()
+                     .WhenInjectedInto<JsonFilePersister>()
                      .Lazy();
 
-            // Inject a lazy singleton Json File serializer into the test configuration.
-            Container.Bind<ISerializer>()
-                     .To<ConfigurationJsonFileSerializer>()
+            // Inject a lazy singleton Json File persister into the test configuration.
+            Container.Bind<IPersister>()
+                     .To<ConfigurationJsonFilePersister>()
                      .AsSingle()
                      .WhenInjectedInto<TestConfiguration>()
                      .Lazy();

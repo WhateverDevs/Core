@@ -9,7 +9,7 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
     /// Testable example of a configuration.
     /// </summary>
     [CreateAssetMenu(menuName = "WhateverDevs/Test/TestConfiguration", fileName = "TestConfiguration")]
-    public class TestConfiguration : ConfigurationScriptableHolderUsingFirstValidSerializer<TestConfigurationData>
+    public class TestConfiguration : ConfigurationScriptableHolderUsingFirstValidPersister<TestConfigurationData>
     {
     }
 }

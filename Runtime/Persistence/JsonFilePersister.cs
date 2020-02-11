@@ -4,15 +4,15 @@ using UnityEngine;
 using WhateverDevs.Core.Runtime.Formatting;
 using Zenject;
 
-namespace WhateverDevs.Core.Runtime.Serialization
+namespace WhateverDevs.Core.Runtime.Persistence
 {
     /// <summary>
-    /// Serializer that stores data to file as Json strings.
+    /// Persister that stores data to file as Json strings.
     /// </summary>
-    public class JsonFileSerializer : ISerializer
+    public class JsonFilePersister : IPersister
     {
         /// <summary>
-        /// Formatter that this Serializer will use.
+        /// Formatter that this persister will use.
         /// This should be injected by ExtenJect on runtime and manually assigned on Editor.
         /// </summary>
         [Inject]

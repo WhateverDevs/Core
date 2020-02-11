@@ -23,7 +23,7 @@ namespace WhateverDevs.Core.Editor.Configuration
             
             PaintProperty("ConfigData", true);
 
-            // TODO: This won't work on editor time because the references to the serializers are not injected.
+            // TODO: This won't work on editor time because the references to the persisters are not injected.
             EditorGUI.BeginDisabledGroup(!Application.isPlaying);
             if (GUILayout.Button("Save")) TargetObject.Save();
             if (GUILayout.Button("Load")) TargetObject.Load();

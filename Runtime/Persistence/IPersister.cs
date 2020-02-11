@@ -1,9 +1,9 @@
-namespace WhateverDevs.Core.Runtime.Serialization
+namespace WhateverDevs.Core.Runtime.Persistence
 {
     /// <summary>
-    /// Serializer that saves and retrieves data from a persistent storage.
+    /// Persister that saves and retrieves data from a persistent storage.
     /// </summary>
-    public interface ISerializer
+    public interface IPersister
     {
         /// <summary>
         /// Save the given data to persistent storage.

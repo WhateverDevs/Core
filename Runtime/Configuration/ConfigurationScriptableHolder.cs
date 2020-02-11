@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using WhateverDevs.Core.Runtime.Persistence;
 using UnityEngine;
-using WhateverDevs.Core.Runtime.Serialization;
 using Zenject;
 
 namespace WhateverDevs.Core.Runtime.Configuration
@@ -20,11 +20,11 @@ namespace WhateverDevs.Core.Runtime.Configuration
         public string ConfigurationName;
 
         /// <summary>
-        /// List of serializers the holder will use.
+        /// List of persisters the holder will use.
         /// Injecting lists: https://github.com/svermeulen/Extenject#list-bindings
         /// </summary>
         [Inject]
-        public List<ISerializer> Serializers { get; set; }
+        public List<IPersister> Persisters { get; set; }
 
         /// <summary>
         /// Data this configuration will hold.
@@ -43,23 +43,23 @@ namespace WhateverDevs.Core.Runtime.Configuration
         protected TConfigurationData ConfigData;
 
         /// <summary>
-        /// Save the data using the persistent serializers.
+        /// Save the data using the persistent persisters.
         /// </summary>
         /// <returns>True if it was successful.</returns>
         public bool Save()
         {
             bool success = true;
 
-            for (int i = 0; i < Serializers.Count; ++i)
-                if (!Serializers[i].Save(ConfigurationData, ConfigurationName))
+            for (int i = 0; i < Persisters.Count; ++i)
+                if (!Persisters[i].Save(ConfigurationData, ConfigurationName))
                     success = false;
 
             return success;
         }
 
         /// <summary>
-        /// Load the data using the persistent serializers.
-        /// Priority between serializers to be implemented by children.
+        /// Load the data using the persisters.
+        /// Priority between persisters to be implemented by children.
         /// </summary>
         /// <returns>True if it was successful.</returns>
         public abstract bool Load();

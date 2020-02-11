@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using WhateverDevs.Core.Runtime.Serialization;
+using WhateverDevs.Core.Runtime.Persistence;
 
 namespace WhateverDevs.Core.Runtime.Configuration
 {
@@ -10,10 +10,10 @@ namespace WhateverDevs.Core.Runtime.Configuration
     public interface IConfiguration<TConfigurationData> : IConfiguration where TConfigurationData : ConfigurationData
     {
         /// <summary>
-        /// Serializers this configuration will use to persist.
-        /// Priority on which serializers to use on load should be implemented by children.
+        /// Persisters this configuration will use to persist.
+        /// Priority on which persisters to use on load should be implemented by children.
         /// </summary>
-        List<ISerializer> Serializers { get; set; }
+        List<IPersister> Persisters { get; set; }
         
         /// <summary>
         /// Data this configuration will hold.
@@ -27,13 +27,13 @@ namespace WhateverDevs.Core.Runtime.Configuration
     public interface IConfiguration
     {
         /// <summary>
-        /// Save the data using the persistent serializers.
+        /// Save the data using the persistent persisters.
         /// </summary>
         /// <returns>True if it was successful.</returns>
         bool Save();
 
         /// <summary>
-        /// Load the data using the persistent serializers.
+        /// Load the data using the persistent persisters.
         /// </summary>
         /// <returns>True if it was successful.</returns>
         bool Load();

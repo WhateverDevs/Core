@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using WhateverDevs.Core.Runtime.Configuration;
 using WhateverDevs.Core.Runtime.Formatting;
-using WhateverDevs.Core.Runtime.Serialization;
+using WhateverDevs.Core.Runtime.Persistence;
 
 namespace WhateverDevs.Core.Test.Editor.Configuration
 {
@@ -17,16 +17,16 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
     public class ConfigurationTests
     {
         /// <summary>
-        /// Serializers to use during the tests.
+        /// Persisters to use during the tests.
         /// </summary>
-        private ISerializer[] serializers;
+        private IPersister[] persisters;
 
         /// <summary>
         /// Setup before starting tests.
         /// </summary>
         [SetUp]
         public void Setup() =>
-            serializers = new ISerializer[] {new ConfigurationJsonFileSerializer {Formatter = new JsonFormatter()}};
+            persisters = new IPersister[] {new ConfigurationJsonFilePersister {Formatter = new JsonFormatter()}};
 
         /// <summary>
         /// Test normal json file serialization.
@@ -41,7 +41,7 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
 
             TestConfiguration testConfiguration = ScriptableObject.CreateInstance<TestConfiguration>();
             testConfiguration.ConfigurationName = "TestConfig.cfg";
-            testConfiguration.Serializers = serializers.ToList();
+            testConfiguration.Persisters = persisters.ToList();
             testConfiguration.ConfigurationData.SomeString = someStringValue;
             testConfiguration.ConfigurationData.SomeInt = someIntValue;
 
@@ -82,7 +82,7 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
 
             TestConfiguration testConfiguration = ScriptableObject.CreateInstance<TestConfiguration>();
             testConfiguration.ConfigurationName = "TestConfig.cfg";
-            testConfiguration.Serializers = serializers.ToList();
+            testConfiguration.Persisters = persisters.ToList();
             testConfiguration.ConfigurationData.SomeString = someStringValue;
             testConfiguration.ConfigurationData.SomeInt = someIntValue;
             testConfiguration.Save();

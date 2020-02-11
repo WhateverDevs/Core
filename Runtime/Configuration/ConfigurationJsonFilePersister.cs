@@ -1,12 +1,12 @@
 using System.IO;
-using WhateverDevs.Core.Runtime.Serialization;
+using WhateverDevs.Core.Runtime.Persistence;
 
 namespace WhateverDevs.Core.Runtime.Configuration
 {
     /// <summary>
-    /// Json file serializer that adds a prefix for storing the configuration.
+    /// Json file persister that adds a prefix for storing the configuration.
     /// </summary>
-    public class ConfigurationJsonFileSerializer : JsonFileSerializer
+    public class ConfigurationJsonFilePersister : JsonFilePersister
     {
         /// <summary>
         /// Path to the configuration that is automatically added to the destination.
