@@ -1,8 +1,8 @@
 using UnityEngine;
 using WhateverDevs.Core.Runtime.Configuration;
-using WhateverDevs.Core.Runtime.Formatting;
 using WhateverDevs.Core.Test.Editor.Configuration;
 using WhateverDevs.Core.Runtime.Persistence;
+using WhateverDevs.Core.Runtime.Serialization;
 using Zenject;
 
 namespace WhateverDevs.Core.Test.Runtime.Configuration
@@ -35,9 +35,9 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
                          .WhenInjectedInto<ConfigurationManager>();
             }
 
-            // Inject a lazy singleton Json formatter into the Json persister.
-            Container.Bind<IFormatter<string>>()
-                     .To<JsonFormatter>()
+            // Inject a lazy singleton Json serializer into the Json persister.
+            Container.Bind<ISerializer<string>>()
+                     .To<JsonSerializer>()
                      .AsSingle()
                      .WhenInjectedInto<JsonFilePersister>()
                      .Lazy();

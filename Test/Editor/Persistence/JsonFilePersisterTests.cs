@@ -1,7 +1,7 @@
 using System.IO;
 using NUnit.Framework;
-using WhateverDevs.Core.Runtime.Formatting;
 using WhateverDevs.Core.Runtime.Persistence;
+using WhateverDevs.Core.Runtime.Serialization;
 using WhateverDevs.Core.Test.Editor.Common;
 
 namespace WhateverDevs.Core.Test.Editor.Persistence
@@ -24,7 +24,7 @@ namespace WhateverDevs.Core.Test.Editor.Persistence
         [SetUp]
         public void Setup()
         {
-            persister = new JsonFilePersister {Formatter = new JsonFormatter()};
+            persister = new JsonFilePersister {Serializer = new JsonSerializer()};
             if (!Directory.Exists(TestingFolder)) Directory.CreateDirectory(TestingFolder);
         }
 

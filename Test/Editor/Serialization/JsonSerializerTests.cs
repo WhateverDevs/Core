@@ -4,26 +4,26 @@ using System.Runtime.Serialization;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using WhateverDevs.Core.Runtime.Formatting;
+using WhateverDevs.Core.Runtime.Serialization;
 using WhateverDevs.Core.Test.Editor.Common;
 
-namespace WhateverDevs.Core.Test.Editor.Formatting
+namespace WhateverDevs.Core.Test.Editor.Serialization
 {
     /// <summary>
-    /// Test class for the Json Formatter.
+    /// Test class for the Json Serializer.
     /// </summary>
-    public class JsonFormatterTests
+    public class JsonSerializerTests
     {
         /// <summary>
-        /// Formatter instance.
+        /// Serializer instance.
         /// </summary>
-        private IFormatter<string> formatter;
+        private ISerializer<string> serializer;
 
         /// <summary>
-        /// Create an instance of the formatter.
+        /// Create an instance of the serializer.
         /// </summary>
         [SetUp]
-        public void Setup() => formatter = new JsonFormatter();
+        public void Setup() => serializer = new JsonSerializer();
 
         /// <summary>
         /// Tests the normal serialization and deserialization of data.
@@ -32,10 +32,10 @@ namespace WhateverDevs.Core.Test.Editor.Formatting
         public void NormalJsonSerializationAndDeserialization()
         {
             TestDataStructureOne firstTestData = new TestDataStructureOne {IntValue = 2};
-            string resultString = formatter.To(firstTestData);
+            string resultString = serializer.To(firstTestData);
             Assert.AreEqual(resultString, "{\n    \"IntValue\": 2\n}");
 
-            TestDataStructureOne firstResult = formatter.From<TestDataStructureOne>(resultString);
+            TestDataStructureOne firstResult = serializer.From<TestDataStructureOne>(resultString);
 
             Assert.AreEqual(firstTestData.IntValue,
                             firstResult.IntValue); // Classes are never the same as they two different objects.
@@ -46,12 +46,12 @@ namespace WhateverDevs.Core.Test.Editor.Formatting
                                                       DataStructureOne = firstTestData
                                                   };
 
-            resultString = formatter.To(secondTestData);
+            resultString = serializer.To(secondTestData);
 
             Assert.AreEqual(resultString,
                             "{\n    \"BoolArray\": [\n        true,\n        false,\n        true\n    ],\n    \"DataStructureOne\": {\n        \"IntValue\": 2\n    }\n}");
 
-            TestDataStructureTwo secondResult = formatter.From<TestDataStructureTwo>(resultString);
+            TestDataStructureTwo secondResult = serializer.From<TestDataStructureTwo>(resultString);
             Assert.AreEqual(secondTestData.BoolArray, secondResult.BoolArray);
             Assert.AreEqual(secondTestData.DataStructureOne.IntValue, secondResult.DataStructureOne.IntValue);
         }
@@ -66,11 +66,11 @@ namespace WhateverDevs.Core.Test.Editor.Formatting
             NonSerializableClass testData = new NonSerializableClass {Whatever = "Whatever"};
 
             LogAssert.Expect(LogType.Error, "Data is not serializable, will not serialize.");
-            Assert.Null(formatter.To(testData));
+            Assert.Null(serializer.To(testData));
 
             LogAssert.Expect(LogType.Error, "Data type is not serializable, will not deserialize.");
 
-            Assert.Throws<SerializationException>(() => formatter
+            Assert.Throws<SerializationException>(() => serializer
                                                      .From<NonSerializableClass
                                                       >("This string is actually irrelevant."));
 
@@ -83,7 +83,7 @@ namespace WhateverDevs.Core.Test.Editor.Formatting
         [Test]
         public void NotParseableString() =>
             Assert.Throws<ArgumentException>(() =>
-                                                 formatter
+                                                 serializer
                                                     .From<TestDataStructureOne
                                                      >("Some random data that can't be parsed."));
     }

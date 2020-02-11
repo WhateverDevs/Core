@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using UnityEngine;
-using WhateverDevs.Core.Runtime.Formatting;
+using WhateverDevs.Core.Runtime.Serialization;
 using Zenject;
 
 namespace WhateverDevs.Core.Runtime.Persistence
@@ -12,11 +12,11 @@ namespace WhateverDevs.Core.Runtime.Persistence
     public class JsonFilePersister : IPersister
     {
         /// <summary>
-        /// Formatter that this persister will use.
+        /// Serializer that this persister will use.
         /// This should be injected by ExtenJect on runtime and manually assigned on Editor.
         /// </summary>
         [Inject]
-        public IFormatter<string> Formatter { get; set; }
+        public ISerializer<string> Serializer { get; set; }
 
         /// <summary>
         /// Saves data to the given destination in a Json file.
@@ -33,7 +33,7 @@ namespace WhateverDevs.Core.Runtime.Persistence
                 return false;
             }
 
-            string jsonString = Formatter.To(data);
+            string jsonString = Serializer.To(data);
 
             if (string.IsNullOrEmpty(jsonString)) return false;
 
@@ -67,7 +67,7 @@ namespace WhateverDevs.Core.Runtime.Persistence
 
             string jsonString = File.ReadAllText(origin);
 
-            data = Formatter.From<TOriginal>(jsonString);
+            data = Serializer.From<TOriginal>(jsonString);
             return true;
         }
     }

@@ -1,12 +1,12 @@
 using System.Runtime.Serialization;
 using UnityEngine;
 
-namespace WhateverDevs.Core.Runtime.Formatting
+namespace WhateverDevs.Core.Runtime.Serialization
 {
     /// <summary>
-    /// Class that formats and retrieves data to and from a Json string.
+    /// Class that serializes and retrieves data to and from a Json string.
     /// </summary>
-    public class JsonFormatter : IFormatter<string>
+    public class JsonSerializer : ISerializer<string>
     {
         /// <summary>
         /// Transform the data to a Json string.
@@ -25,12 +25,12 @@ namespace WhateverDevs.Core.Runtime.Formatting
         /// <summary>
         /// Transforms data from a Json string to the given type.
         /// </summary>
-        /// <param name="formatted">Data as a Json string.</param>
+        /// <param name="serialized">Data as a Json string.</param>
         /// <typeparam name="TOriginal">Type of the original data.</typeparam>
         /// <returns>The original data in the original type.</returns>
-        public TOriginal From<TOriginal>(string formatted)
+        public TOriginal From<TOriginal>(string serialized)
         {
-            if (typeof(TOriginal).IsSerializable) return JsonUtility.FromJson<TOriginal>(formatted);
+            if (typeof(TOriginal).IsSerializable) return JsonUtility.FromJson<TOriginal>(serialized);
             
             Debug.LogError("Data type is not serializable, will not deserialize."); // TODO: Change to custom log system.
             throw new SerializationException(); // We can't just return null as TOriginal may not be nullable.

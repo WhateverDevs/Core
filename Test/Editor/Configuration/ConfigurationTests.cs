@@ -6,8 +6,8 @@ using Packages.Core.Test.Editor.Configuration;
 using UnityEngine;
 using UnityEngine.TestTools;
 using WhateverDevs.Core.Runtime.Configuration;
-using WhateverDevs.Core.Runtime.Formatting;
 using WhateverDevs.Core.Runtime.Persistence;
+using WhateverDevs.Core.Runtime.Serialization;
 
 namespace WhateverDevs.Core.Test.Editor.Configuration
 {
@@ -26,7 +26,7 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
         /// </summary>
         [SetUp]
         public void Setup() =>
-            persisters = new IPersister[] {new ConfigurationJsonFilePersister {Formatter = new JsonFormatter()}};
+            persisters = new IPersister[] {new ConfigurationJsonFilePersister {Serializer = new JsonSerializer()}};
 
         /// <summary>
         /// Test normal json file serialization.
