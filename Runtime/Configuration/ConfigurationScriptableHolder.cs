@@ -27,6 +27,11 @@ namespace WhateverDevs.Core.Runtime.Configuration
         public List<IPersister> Persisters { get; set; }
 
         /// <summary>
+        /// List of persisters to use on editor time.
+        /// </summary>
+        public PersisterScriptable[] PersisterScriptables;
+
+        /// <summary>
         /// Data this configuration will hold.
         /// </summary>
         public TConfigurationData ConfigurationData

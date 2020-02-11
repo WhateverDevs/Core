@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Varguiniano.ExtendedEditor.Editor;
 using WhateverDevs.Core.Runtime.Configuration;
+using WhateverDevs.Core.Runtime.Persistence;
 
 namespace WhateverDevs.Core.Editor.Configuration
 {
@@ -20,14 +23,66 @@ namespace WhateverDevs.Core.Editor.Configuration
         protected override void PaintUi()
         {
             PaintProperty("ConfigurationName");
-            
+
             PaintProperty("ConfigData", true);
 
-            // TODO: This won't work on editor time because the references to the persisters are not injected.
-            EditorGUI.BeginDisabledGroup(!Application.isPlaying);
-            if (GUILayout.Button("Save")) TargetObject.Save();
-            if (GUILayout.Button("Load")) TargetObject.Load();
-            EditorGUI.EndDisabledGroup();
+            if (Application.isPlaying)
+            {
+                if (GUILayout.Button("Save")) TargetObject.Save();
+                if (GUILayout.Button("Load")) TargetObject.Load();
+            }
+            else
+            {
+                EditorGUILayout.BeginHorizontal();
+
+                {
+                    EditorGUILayout.BeginVertical();
+
+                    {
+                        PaintProperty("PersisterScriptables", true);
+                    }
+
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUILayout.BeginVertical();
+
+                    {
+                        if (GUILayout.Button("Save"))
+                        {
+                            AssignPersisters();
+                            TargetObject.Save();
+                            UnAssignPersisters();
+                        }
+
+                        if (GUILayout.Button("Load"))
+                        {
+                            AssignPersisters();
+                            TargetObject.Load();
+                            UnAssignPersisters();
+                        }
+                    }
+
+                    EditorGUILayout.EndVertical();
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
         }
+
+        /// <summary>
+        /// Assign the persisters to the object.
+        /// </summary>
+        private void AssignPersisters()
+        {
+            TargetObject.Persisters = new List<IPersister>();
+
+            for (int i = 0; i < TargetObject.PersisterScriptables.Length; ++i)
+                TargetObject.Persisters.Add(TargetObject.PersisterScriptables[i].Persister);
+        }
+        
+        /// <summary>
+        /// Un assign the persisters from the object.
+        /// </summary>
+        private void UnAssignPersisters() => TargetObject.Persisters = null;
     }
 }
