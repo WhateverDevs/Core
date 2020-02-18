@@ -6,8 +6,11 @@
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Zenject-usage.dll",
+        "log4net.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
