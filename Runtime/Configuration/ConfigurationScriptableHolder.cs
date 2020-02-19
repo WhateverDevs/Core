@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using WhateverDevs.Core.Runtime.Persistence;
 using UnityEngine;
 using Zenject;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+
+#endif
 
 namespace WhateverDevs.Core.Runtime.Configuration
 {
@@ -25,11 +29,6 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         [Inject]
         public List<IPersister> Persisters { get; set; }
-
-        /// <summary>
-        /// List of persisters to use on editor time.
-        /// </summary>
-        public PersisterScriptable[] PersisterScriptables;
 
         /// <summary>
         /// Data this configuration will hold.
@@ -68,6 +67,106 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         /// <returns>True if it was successful.</returns>
         public abstract bool Load();
+
+        #if ODIN_INSPECTOR
+
+        #region OdinButtons
+
+        /// <summary>
+        /// Check if the application is playing.
+        /// </summary>
+        private static bool AppPlaying => Application.isPlaying;
+
+        /// <summary>
+        /// Check if the application is not playing.
+        /// </summary>
+        // ReSharper disable once UnusedMember.Local
+        private bool AppNotPlaying => !AppPlaying;
+
+        /// <summary>
+        /// Check if the persisters have been injected.
+        /// </summary>
+        private bool PersistersNotInjected => Persisters == null;
+
+        /// <summary>
+        /// Check if the persisters have been injected.
+        /// </summary>
+        // ReSharper disable once UnusedMember.Local
+        private bool PersistersInjected => !PersistersNotInjected;
+
+        /// <summary>
+        /// Method to be able to save on editor using Odin.
+        /// </summary>
+        /// <param name="persisterScriptables">List of persisters to use.</param>
+        [HideIf("AppPlaying")]
+        [Button(ButtonStyle.FoldoutButton)]
+        private void Save(PersisterScriptable[] persisterScriptables)
+        {
+            AssignPersisters(persisterScriptables);
+            Save();
+            UnAssignPersisters();
+        }
+
+        /// <summary>
+        /// Method to able to load on editor using Odin.
+        /// </summary>
+        /// <param name="persisterScriptables">List of persisters to use.</param>
+        [HideIf("AppPlaying")]
+        [Button(ButtonStyle.FoldoutButton)]
+        private void Load(PersisterScriptable[] persisterScriptables)
+        {
+            AssignPersisters(persisterScriptables);
+            Load();
+            UnAssignPersisters();
+        }
+
+        /// <summary>
+        /// Method to able to save on runtime editor using Odin.
+        /// </summary>
+        [HideIf("AppNotPlaying")]
+        [HideIf("PersistersNotInjected")]
+        [Button]
+        private void SaveWithInjectedPersisters() => Save();
+
+        /// <summary>
+        /// Method to able to load on runtime editor using Odin.
+        /// </summary>
+        [HideIf("AppNotPlaying")]
+        [HideIf("PersistersNotInjected")]
+        [Button]
+        private void LoadWithInjectedPersisters() => Load();
+
+        /// <summary>
+        /// This one is just to show the infobox.
+        /// </summary>
+        [SerializeField]
+        [ReadOnly]
+        [HideIf("AppNotPlaying")]
+        [HideIf("PersistersInjected")]
+        [InfoBox("Persisters are not injected!")]
+        // ReSharper disable once NotAccessedField.Local
+        #pragma warning disable 0414
+        private bool SavingAndLoadingDisabled = true;
+        #pragma warning restore 0414
+
+        /// <summary>
+        /// Assign the persisters to the object.
+        /// </summary>
+        private void AssignPersisters(IReadOnlyList<PersisterScriptable> persisterScriptables)
+        {
+            Persisters = new List<IPersister>();
+
+            for (int i = 0; i < persisterScriptables.Count; ++i) Persisters.Add(persisterScriptables[i].Persister);
+        }
+
+        /// <summary>
+        /// Un assign the persisters from the object.
+        /// </summary>
+        private void UnAssignPersisters() => Persisters = null;
+
+        #endregion
+
+        #endif
     }
 
     /// <summary>

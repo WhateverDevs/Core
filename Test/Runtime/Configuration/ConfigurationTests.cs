@@ -1,6 +1,5 @@
 using System.Collections;
 using NUnit.Framework;
-using Packages.Core.Test.Editor.Configuration;
 using UnityEngine;
 using UnityEngine.TestTools;
 using WhateverDevs.Core.Runtime.Configuration;

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Packages.Core.Test.Editor.Configuration;
 using UnityEngine;
 using UnityEngine.TestTools;
 using WhateverDevs.Core.Runtime.Configuration;
