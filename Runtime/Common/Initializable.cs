@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-
-namespace WhateverDevs.Core.Runtime.Common
+﻿namespace WhateverDevs.Core.Runtime.Common
 {
     /// <summary>
     /// Bas class for initializable classes.
     /// </summary>
-    public abstract class Initializable<TInitializable> : IInitializable
+    public abstract class Initializable<TInitializable> : Loggable<TInitializable>, IInitializable
         where TInitializable : Initializable<TInitializable>
     {
         /// <summary>
@@ -19,20 +17,20 @@ namespace WhateverDevs.Core.Runtime.Common
         public void Initialize()
         {
             string className = typeof(TInitializable).ToString();
-            
+
             if (Initialized)
             {
-                Debug.Log(className + " is already initialized."); // TODO: change to custom log system.
+                GetLogger().Error(className + " is already initialized.");
                 return;
             }
 
-            Debug.Log("Initializing " + className + "..."); // TODO: change to custom log system.
+            GetLogger().Info("Initializing " + className + "...");
 
             Initialized = PreInitialization();
 
             if (!Initialized)
             {
-                Debug.LogError(className + " didn't preinitialize correctly."); // TODO: change to custom log system.
+                GetLogger().Error(className + " didn't preinitialize correctly.");
                 return;
             }
 
@@ -40,7 +38,7 @@ namespace WhateverDevs.Core.Runtime.Common
 
             if (!Initialized)
             {
-                Debug.LogError(className + " didn't initialize correctly."); // TODO: change to custom log system.
+                GetLogger().Error(className + " didn't initialize correctly.");
                 return;
             }
 
@@ -48,11 +46,11 @@ namespace WhateverDevs.Core.Runtime.Common
 
             if (!Initialized)
             {
-                Debug.LogError(className + " didn't postinitialize correctly."); // TODO: change to custom log system.
+                GetLogger().Error(className + " didn't postinitialize correctly.");
                 return;
             }
 
-            Debug.Log(className + " initialized."); // TODO: change to custom log system.
+            GetLogger().Info(className + " initialized.");
         }
 
         /// <summary>

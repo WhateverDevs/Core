@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using log4net;
 using WhateverDevs.Core.Runtime.Persistence;
 using UnityEngine;
 using Zenject;
@@ -102,6 +103,12 @@ namespace WhateverDevs.Core.Runtime.Configuration
         [Button(ButtonStyle.FoldoutButton)]
         private void Save(PersisterScriptable[] persisterScriptables)
         {
+            if (persisterScriptables == null)
+            {
+                Logger.Error("Assign some persister scriptables first!");
+                return;
+            }
+
             AssignPersisters(persisterScriptables);
             Save();
             UnAssignPersisters();
@@ -115,6 +122,12 @@ namespace WhateverDevs.Core.Runtime.Configuration
         [Button(ButtonStyle.FoldoutButton)]
         private void Load(PersisterScriptable[] persisterScriptables)
         {
+            if (persisterScriptables == null)
+            {
+                Logger.Error("Assign some persister scriptables first!");
+                return;
+            }
+
             AssignPersisters(persisterScriptables);
             Load();
             UnAssignPersisters();
@@ -174,5 +187,10 @@ namespace WhateverDevs.Core.Runtime.Configuration
     /// </summary>
     public class ConfigurationScriptableHolder : ScriptableObject
     {
+        /// <summary>
+        /// Logger to send messages to console.
+        /// </summary>
+        protected static readonly ILog Logger =
+            LogManager.GetLogger(typeof(ConfigurationScriptableHolder));
     }
 }

@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using UnityEngine;
+using WhateverDevs.Core.Runtime.Common;
 using WhateverDevs.Core.Runtime.Serialization;
 using Zenject;
 
@@ -9,7 +9,7 @@ namespace WhateverDevs.Core.Runtime.Persistence
     /// <summary>
     /// Persister that stores data to file as Json strings.
     /// </summary>
-    public class JsonFilePersister : IPersister
+    public class JsonFilePersister : Loggable<JsonFilePersister>, IPersister
     {
         /// <summary>
         /// Serializer that this persister will use.
@@ -29,7 +29,7 @@ namespace WhateverDevs.Core.Runtime.Persistence
         {
             if (!Directory.GetParent(destination).Exists)
             {
-                Debug.LogError("The given destination folder doesn't exist!"); // TODO: Change to custom log system.
+                GetLogger().Error("The given destination folder doesn't exist!");
                 return false;
             }
 
@@ -43,7 +43,7 @@ namespace WhateverDevs.Core.Runtime.Persistence
             }
             catch (Exception exception)
             {
-                Debug.LogException(exception); // TODO: Change to custom log system.
+                GetLogger().Fatal(exception);
                 return false;
             }
 
@@ -61,7 +61,7 @@ namespace WhateverDevs.Core.Runtime.Persistence
         {
             if (!File.Exists(origin))
             {
-                Debug.LogError("The given file does not exist: " + origin); // TODO: Change to custom log system.
+                GetLogger().Error("The given file does not exist: " + origin);
                 throw new ArgumentException(); // We can't just return null as TOriginal may not be nullable.
             }
 

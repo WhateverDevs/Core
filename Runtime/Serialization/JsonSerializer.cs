@@ -1,12 +1,13 @@
 using System.Runtime.Serialization;
 using UnityEngine;
+using WhateverDevs.Core.Runtime.Common;
 
 namespace WhateverDevs.Core.Runtime.Serialization
 {
     /// <summary>
     /// Class that serializes and retrieves data to and from a Json string.
     /// </summary>
-    public class JsonSerializer : ISerializer<string>
+    public class JsonSerializer : Loggable<JsonSerializer>, ISerializer<string>
     {
         /// <summary>
         /// Transform the data to a Json string.
@@ -18,7 +19,7 @@ namespace WhateverDevs.Core.Runtime.Serialization
         {
             if (typeof(TOriginal).IsSerializable) return JsonUtility.ToJson(original, true);
 
-            Debug.LogError("Data is not serializable, will not serialize."); // TODO: Change to custom log system.
+            GetLogger().Error("Data is not serializable, will not serialize.");
             return null;
         }
 
@@ -32,7 +33,7 @@ namespace WhateverDevs.Core.Runtime.Serialization
         {
             if (typeof(TOriginal).IsSerializable) return JsonUtility.FromJson<TOriginal>(serialized);
             
-            Debug.LogError("Data type is not serializable, will not deserialize."); // TODO: Change to custom log system.
+            GetLogger().Error("Data type is not serializable, will not deserialize.");
             throw new SerializationException(); // We can't just return null as TOriginal may not be nullable.
         }
     }

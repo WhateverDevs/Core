@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Runtime.Serialization;
 using NUnit.Framework;
-using UnityEngine;
 using UnityEngine.TestTools;
 using WhateverDevs.Core.Runtime.Serialization;
 using WhateverDevs.Core.Test.Editor.Common;
@@ -63,16 +62,16 @@ namespace WhateverDevs.Core.Test.Editor.Serialization
         [UnityTest]
         public IEnumerator TryNonSerializableClass()
         {
+            LogAssert.ignoreFailingMessages = true;
             NonSerializableClass testData = new NonSerializableClass {Whatever = "Whatever"};
 
-            LogAssert.Expect(LogType.Error, "Data is not serializable, will not serialize.");
             Assert.Null(serializer.To(testData));
-
-            LogAssert.Expect(LogType.Error, "Data type is not serializable, will not deserialize.");
 
             Assert.Throws<SerializationException>(() => serializer
                                                      .From<NonSerializableClass
                                                       >("This string is actually irrelevant."));
+
+            LogAssert.ignoreFailingMessages = false;
 
             yield return null;
         }

@@ -44,13 +44,14 @@ namespace WhateverDevs.Core.Runtime.Configuration
                 Debug.LogError("Configurations have not been injected!");
                 return false;
             }
-                
+
             for (int i = 0; i < Configurations.Count; ++i)
             {
                 if (checkedTypes.Contains(Configurations[i].GetType()))
                 {
-                    Debug.LogError("You have two configuration files of the same type added to the configuration list. "
-                                 + "Only one file of each type should be created. Manager won't initialize."); // TODO: change to custom log system.
+                    GetLogger()
+                       .Error("You have two configuration files of the same type added to the configuration list. "
+                            + "Only one file of each type should be created. Manager won't initialize.");
 
                     return false;
                 }
@@ -75,7 +76,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
 
             if (!Initialized)
             {
-                Debug.LogError("The configuration manager has not been initialized!"); // TODO: change to custom log system.
+                GetLogger().Error("The configuration manager has not been initialized!");
                 return false;
             }
 
@@ -86,9 +87,10 @@ namespace WhateverDevs.Core.Runtime.Configuration
                     return true;
                 }
 
-            Debug.LogError("Config file not found for configuration type "
-                         + typeof(TConfigurationData)
-                         + "!"); // TODO: change to custom log system.
+            GetLogger()
+               .Error("Config file not found for configuration type "
+                    + typeof(TConfigurationData)
+                    + "!");
 
             return false;
         }
@@ -104,7 +106,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
         {
             if (!Initialized)
             {
-                Debug.LogError("The configuration manager has not been initialized!"); // TODO: change to custom log system.
+                GetLogger().Error("The configuration manager has not been initialized!");
                 return false;
             }
 
@@ -122,9 +124,10 @@ namespace WhateverDevs.Core.Runtime.Configuration
                     return true;
                 }
 
-            Debug.LogError("Config file not found for configuration type "
-                         + typeof(TConfigurationData)
-                         + "!"); // TODO: change to custom log system.
+            GetLogger()
+               .Error("Config file not found for configuration type "
+                    + typeof(TConfigurationData)
+                    + "!");
 
             return false;
         }
