@@ -19,8 +19,8 @@ namespace WhateverDevs.Core.Runtime.Logger.Editor
             VisualElement root = rootVisualElement;
 
             // Import UXML
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/whateverdevs.core/Runtime/Logger/Editor/LoggerWindow.uxml");
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/whateverdevs.core/Runtime/Logger/Editor/LoggerWindow.uss");
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/whateverdevs.core/Editor/Logger/LoggerWindow.uxml");
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/whateverdevs.core/Editor/Logger/LoggerWindow.uss");
             root.styleSheets.Add(styleSheet);
             VisualElement xmlTree = visualTree.CloneTree();
             root.Add(xmlTree);

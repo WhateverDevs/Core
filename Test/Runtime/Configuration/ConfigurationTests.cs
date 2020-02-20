@@ -26,11 +26,19 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
         private ConfigTestObject testObject;
 
         /// <summary>
+        /// Flag to know if the setup has been run once.
+        /// Unity does not have a OneTimeSetUpAttribute equivalent.
+        /// </summary>
+        private bool firstTimeSetUpRan;
+
+        /// <summary>
         /// Set up a scene with an installer.
         /// </summary>
         [UnitySetUp]
         public IEnumerator Setup()
         {
+            if(firstTimeSetUpRan) yield break;
+            
             // Extenject throws some exceptions during tests.
             LogAssert.ignoreFailingMessages = true;
             
@@ -51,12 +59,8 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
             Object.Instantiate(context);
             
             yield return new WaitForEndOfFrame();
-            
-            testObject =
-                context
-                   .AddComponent<ConfigTestObject>(); // Adding monobehaviours to more than one object doesn't work with extenject.
-            
-            yield return new WaitForEndOfFrame();
+
+            firstTimeSetUpRan = true;
         }
 
         /// <summary>
