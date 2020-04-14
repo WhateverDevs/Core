@@ -24,7 +24,7 @@ namespace WhateverDevs.Core.Runtime.Logger
 
         static LogHandler()
         {
-            FileInfo fileInfo = new FileInfo("./Packages/Core/Runtime/Logger/log4net.xml");
+            FileInfo fileInfo = new FileInfo("./Packages/whateverdevs.core/Runtime/Logger/log4net.xml");
             XmlConfigurator.Configure(fileInfo);
 
             // TODO: Here is the bind to the default debug log in case we want to extend anytime it. 
