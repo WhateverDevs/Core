@@ -24,8 +24,31 @@ namespace WhateverDevs.Core.Runtime.Logger
 
         static LogHandler()
         {
-            FileInfo fileInfo = new FileInfo("./Packages/whateverdevs.core/Runtime/Logger/log4net.xml");
+            Initialize();
+        }
+
+        #if !UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod]
+        #endif
+        static void Initialize()
+        {
+            if (!Log4NetConfigProvider.ConfigExists)
+            {
+                Debug.LogError("There is no LoggerConfiguration asset on the resources folder, create one or the logger won't work!");
+                return;
+            }
+
+            if (!Log4NetConfigProvider.DefaultConfigSet)
+            {
+                Debug.LogError("The LoggerConfiguration asset does not reference the default config, set it or the logger won't work!");
+                return;
+            }
+
+            FileInfo fileInfo = Log4NetConfigProvider.GetConfig(out string message);
+
             XmlConfigurator.Configure(fileInfo);
+
+            Log.Info(message);
 
             // TODO: Here is the bind to the default debug log in case we want to extend anytime it. 
             // In that case we need to rebuild the whole console window because no log would be printed.
