@@ -15,10 +15,10 @@ namespace WhateverDevs.Core.Runtime.Persistence
         /// Define injections.
         /// </summary>
         public override void InstallBindings() =>
-            // Inject a lazy singleton Json serializer into the Json persister.
+            // Inject a lazy cached Json serializer into the Json persister.
             Container.Bind<ISerializer<string>>()
                      .To<JsonSerializer>()
-                     .AsSingle()
+                     .AsCached()
                      .WhenInjectedInto<JsonFilePersister>()
                      .Lazy();
     }
