@@ -65,6 +65,15 @@ namespace WhateverDevs.Core.Runtime.Logger
                 >("Packages/whateverdevs.core/Runtime/Logger/Data/Log4NetDefaultConfig.asset");
 
         /// <summary>
+        /// Sets the reference to the default logger configuration.
+        /// </summary>
+        public static void FixDefaultLoggerReference()
+        {
+            Log4NetConfiguration config = Resources.Load<Log4NetConfiguration>("LoggerConfiguration");
+            config.DefaultConfig = GetDefaultConfig();
+        }
+
+        /// <summary>
         /// Create the logger configuration scriptable in the resources folder.
         /// </summary>
         public static void CreateLoggerConfigInResources()

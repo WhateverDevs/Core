@@ -24,13 +24,27 @@ namespace WhateverDevs.Core.Editor.Logger
 
                 if (GUILayout.Button("Find default config"))
                     TargetObject.DefaultConfig = Log4NetConfigProvider.GetDefaultConfig();
+
+                PaintProperty("DefaultConfig");
+
+                return;
             }
-            else
-                EditorGUILayout.HelpBox("Everything set up correctly, you can use the logger :)", MessageType.Info);
+
+            EditorGUILayout.HelpBox("Everything set up correctly, you can use the logger :)", MessageType.Info);
 
             PaintProperty("DefaultConfig");
 
             PaintProperty("AlwaysOverride");
+
+            if (!GUILayout.Button(new GUIContent("One Time Override",
+                                                 "This will override the config in the persistent datapath the first time the app is run. Then it will use the one in the persistent datapath."))
+            )
+                return;
+
+            bool originalOverride = TargetObject.AlwaysOverride;
+            TargetObject.AlwaysOverride = true;
+            Log4NetConfigProvider.GetConfig(out string result);
+            TargetObject.AlwaysOverride = originalOverride;
         }
     }
 }

@@ -12,14 +12,13 @@ namespace WhateverDevs.Core.Runtime.Logger
         /// <summary>
         /// Reference to the default configuration.
         /// </summary>
+        [Tooltip("Reference to the default log for net configuration. This is stored within the WhateverDevs' Core package.")]
         public Log4NetDefaultConfig DefaultConfig;
-        
+
         /// <summary>
         /// Always override the configs?
         /// </summary>
+        [Tooltip("This will always override the configuration set on the persistent datapath with the default one.")]
         public bool AlwaysOverride;
-        
-        // TODO: Create a one time switch that allows for a single override of the configuration on a device to install the new default.
-        // We probably need to store this bool value on a json file for that.
     }
 }

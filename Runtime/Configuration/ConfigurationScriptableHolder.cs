@@ -3,10 +3,7 @@ using log4net;
 using WhateverDevs.Core.Runtime.Persistence;
 using UnityEngine;
 using Zenject;
-#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
-
-#endif
 
 namespace WhateverDevs.Core.Runtime.Configuration
 {
@@ -68,8 +65,6 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         /// <returns>True if it was successful.</returns>
         public abstract bool Load();
-
-        #if ODIN_INSPECTOR
 
         #region OdinButtons
 
@@ -178,8 +173,6 @@ namespace WhateverDevs.Core.Runtime.Configuration
         private void UnAssignPersisters() => Persisters = null;
 
         #endregion
-
-        #endif
     }
 
     /// <summary>

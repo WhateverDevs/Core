@@ -36,7 +36,7 @@ namespace WhateverDevs.Core.Runtime.Logger
             {
                 #if UNITY_EDITOR
                 if (EditorUtility.DisplayDialog("WhateverDevs' Core",
-                                                "There is no LoggerConfiguration asset on the resources folder. The logger won't work. Do you want to create one?",
+                                                "There is no LoggerConfiguration asset on the resources folder. The logger won't work. Do you want to automatically create one?",
                                                 "Sure!",
                                                 "No, I don't need logs"))
                     Log4NetConfigProvider.CreateLoggerConfigInResources();
@@ -53,8 +53,21 @@ namespace WhateverDevs.Core.Runtime.Logger
 
             if (!Log4NetConfigProvider.DefaultConfigSet)
             {
+                #if UNITY_EDITOR
+                if (EditorUtility.DisplayDialog("WhateverDevs' Core",
+                                                "The LoggerConfiguration asset does not reference the default config. The logger won't work. Do you want to automatically fix it?",
+                                                "Sure!",
+                                                "No, I don't need logs"))
+                    Log4NetConfigProvider.FixDefaultLoggerReference();
+                else
+                {
+                    Debug.LogError("The LoggerConfiguration asset does not reference the default config, set it or the logger won't work!");
+                    return;
+                }
+                #else
                 Debug.LogError("The LoggerConfiguration asset does not reference the default config, set it or the logger won't work!");
                 return;
+                #endif
             }
 
             FileInfo fileInfo = Log4NetConfigProvider.GetConfig(out string message);
