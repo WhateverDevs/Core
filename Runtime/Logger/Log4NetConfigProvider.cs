@@ -1,5 +1,9 @@
 ﻿using System.IO;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+
+#endif
 
 namespace WhateverDevs.Core.Runtime.Logger
 {
@@ -48,5 +52,30 @@ namespace WhateverDevs.Core.Runtime.Logger
 
             return fileInfo;
         }
+
+        #if UNITY_EDITOR
+
+        /// <summary>
+        /// Retrieves the default config from the package.
+        /// </summary>
+        /// <returns></returns>
+        public static Log4NetDefaultConfig GetDefaultConfig() =>
+            AssetDatabase
+               .LoadAssetAtPath<Log4NetDefaultConfig
+                >("Packages/whateverdevs.core/Runtime/Logger/Data/Log4NetDefaultConfig.asset");
+
+        /// <summary>
+        /// Create the logger configuration scriptable in the resources folder.
+        /// </summary>
+        public static void CreateLoggerConfigInResources()
+        {
+            if (!Directory.Exists("Assets/Resources")) Directory.CreateDirectory("Assets/Resources");
+
+            Log4NetConfiguration config = ScriptableObject.CreateInstance<Log4NetConfiguration>();
+            config.DefaultConfig = GetDefaultConfig();
+            AssetDatabase.CreateAsset(config, "Assets/Resources/LoggerConfiguration.asset");
+            AssetDatabase.SaveAssets();
+        }
+        #endif
     }
 }

@@ -23,16 +23,13 @@ namespace WhateverDevs.Core.Editor.Logger
                             MessageType.Error);
 
                 if (GUILayout.Button("Find default config"))
-                    TargetObject.DefaultConfig =
-                        AssetDatabase
-                           .LoadAssetAtPath<Log4NetDefaultConfig
-                            >("Packages/whateverdevs.core/Runtime/Logger/Data/Log4NetDefaultConfig.asset");
+                    TargetObject.DefaultConfig = Log4NetConfigProvider.GetDefaultConfig();
             }
             else
                 EditorGUILayout.HelpBox("Everything set up correctly, you can use the logger :)", MessageType.Info);
 
             PaintProperty("DefaultConfig");
-            
+
             PaintProperty("AlwaysOverride");
         }
     }

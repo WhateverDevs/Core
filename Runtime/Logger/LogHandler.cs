@@ -30,12 +30,25 @@ namespace WhateverDevs.Core.Runtime.Logger
         #if !UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod]
         #endif
-        static void Initialize()
+        private static void Initialize()
         {
             if (!Log4NetConfigProvider.ConfigExists)
             {
-                Debug.LogError("There is no LoggerConfiguration asset on the resources folder, create one or the logger won't work!");
-                return;
+                #if UNITY_EDITOR
+                if (EditorUtility.DisplayDialog("WhateverDevs' Core",
+                                                "There is no LoggerConfiguration asset on the resources folder. The logger won't work. Do you want to create one?",
+                                                "Sure!",
+                                                "No, I don't need logs"))
+                    Log4NetConfigProvider.CreateLoggerConfigInResources();
+                else
+                {
+                    Debug.LogError("There is no LoggerConfiguration asset on the resources folder, create one or the logger won't work!");
+                    return;
+                }
+                #else
+                    Debug.LogError("There is no LoggerConfiguration asset on the resources folder, create one or the logger won't work!");
+                    return;
+                #endif
             }
 
             if (!Log4NetConfigProvider.DefaultConfigSet)
