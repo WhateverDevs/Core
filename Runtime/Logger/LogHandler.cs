@@ -74,7 +74,9 @@ namespace WhateverDevs.Core.Runtime.Logger
 
             XmlConfigurator.Configure(fileInfo);
 
+            #if !UNITY_EDITOR
             Log.Info(message);
+            #endif
 
             // TODO: Here is the bind to the default debug log in case we want to extend anytime it. 
             // In that case we need to rebuild the whole console window because no log would be printed.
