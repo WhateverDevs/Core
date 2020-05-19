@@ -19,6 +19,14 @@ namespace WhateverDevs.Core.Runtime.Common
         public static bool IsDontDestroyOnLoad(this GameObject gameObject) => gameObject.scene.buildIndex == -1;
 
         /// <summary>
+        /// Determines if a string is null, empty or whitespace.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static bool IsNullEmptyOrWhiteSpace(this string value) =>
+            string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value);
+
+        /// <summary>
         /// Copy the content of a directory to another.
         /// </summary>
         /// <param name="source">Source directory.</param>
