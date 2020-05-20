@@ -18,22 +18,30 @@ namespace WhateverDevs.Core.Runtime.Ui
         public bool ButtonInTheSameObject = true;
 
         /// <summary>
+        /// Accessor to the button.
+        /// </summary>
+        public Button Button
+        {
+            get
+            {
+                if (ButtonInTheSameObject) ButtonReference = GetComponent<Button>();
+
+                if (ButtonReference == null) GetLogger().Error("Button reference has not been assigned.");
+
+                return ButtonReference;
+            }
+        }
+
+        /// <summary>
         /// Reference to the button.
         /// </summary>
         [HideIf("ButtonInTheSameObject")]
-        public Button Button;
+        public Button ButtonReference;
 
         /// <summary>
         /// Subscribe.
         /// </summary>
-        protected virtual void OnEnable()
-        {
-            if (ButtonInTheSameObject) Button = GetComponent<Button>();
-
-            if (Button == null) GetLogger().Error("Button reference has not been assigned.");
-
-            Button.onClick.AddListener(ButtonClicked);
-        }
+        protected virtual void OnEnable() => Button.onClick.AddListener(ButtonClicked);
 
         /// <summary>
         /// Unsubscribe.
