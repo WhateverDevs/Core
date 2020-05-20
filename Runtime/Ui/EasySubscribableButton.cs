@@ -1,7 +1,6 @@
 ﻿using System;
-using WhateverDevs.Core.Runtime.Ui;
 
-namespace Varguiniano.LosJoegos.Runtime.Ui.Common
+namespace WhateverDevs.Core.Runtime.Ui
 {
     /// <summary>
     /// A class that allows for easy subscribing to buttons through code.
@@ -16,6 +15,6 @@ namespace Varguiniano.LosJoegos.Runtime.Ui.Common
         /// <summary>
         /// Call the event.
         /// </summary>
-        protected override void ButtonClicked() => OnButtonClicked.Invoke();
+        protected override void ButtonClicked() => OnButtonClicked?.Invoke();
     }
 }

@@ -36,7 +36,7 @@ namespace WhateverDevs.Core.Runtime.Logger
             {
                 #if UNITY_EDITOR
                 if (EditorUtility.DisplayDialog("WhateverDevs' Core",
-                                                "There is no LoggerConfiguration asset on the resources folder. The logger won't work. Do you want to automatically create one?",
+                                                "There is no LoggerConfiguration asset on the resources folder. The logger won't work. Do you want to automatically create one? If you are seen this message while importing the project, hit \"No\" (TODO: Fix this.)",
                                                 "Sure!",
                                                 "No, I don't need logs"))
                     Log4NetConfigProvider.CreateLoggerConfigInResources();
