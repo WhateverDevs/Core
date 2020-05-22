@@ -40,12 +40,34 @@ namespace Varguiniano.Core.Editor.Build
         {
             bool buildSuccessful = GenerateVersion();
 
+            BuildProcessorHookLibrary hookLibrary = LoadHookLibrary("preprocessing");
+
+            if (hookLibrary != null)
+                for (int i = 0; i < hookLibrary.PreProcessorHooks.Length; ++i)
+                    if (!hookLibrary.PreProcessorHooks[i].RunHook())
+                        buildSuccessful = false;
+
             if (buildSuccessful)
                 GetLogger()
                    .Info("Successfully preprocessed build.");
             else
                 GetLogger()
                    .Error("There was an error preprocessing the build, check the console.");
+        }
+
+        private static BuildProcessorHookLibrary LoadHookLibrary(string mode)
+        {
+            GetStaticLogger().Info("Loading " + mode + " hook library...");
+
+            BuildProcessorHookLibrary hookLibrary =
+                AssetDatabase.LoadAssetAtPath<BuildProcessorHookLibrary>("Assets/Data/BuildProcessorHooks.asset");
+
+            GetStaticLogger()
+               .Info(hookLibrary == null
+                         ? "No hook library found. No custom build " + mode + " hooks added."
+                         : "Loaded custom build " + mode + " hooks.");
+
+            return hookLibrary;
         }
 
         /// <summary>
@@ -143,6 +165,13 @@ namespace Varguiniano.Core.Editor.Build
             else
                 GetStaticLogger().Info("Target is not standalone, skipping config copy.");
 
+            BuildProcessorHookLibrary hookLibrary = LoadHookLibrary("postprocessing");
+
+            if (hookLibrary != null)
+                for (int i = 0; i < hookLibrary.PreProcessorHooks.Length; ++i)
+                    if (!hookLibrary.PreProcessorHooks[i].RunHook())
+                        buildSuccessful = false;
+
             if (buildSuccessful)
                 GetStaticLogger().Info("Successfully postprocessed build in " + buildFolder + ".");
             else
@@ -167,6 +196,23 @@ namespace Varguiniano.Core.Editor.Build
 
             Utils.CopyFilesRecursively(new DirectoryInfo("Configuration"),
                                        new DirectoryInfo(buildPath + "/Configuration"));
+        }
+
+        /// <summary>
+        /// Creates the processor hooks library.
+        /// </summary>
+        [MenuItem("WhateverDevs/Build/Create Processor Hooks Library")]
+        public static void CreateBuildProcessorHooksLibrary()
+        {
+            if (!Directory.Exists("/Assets/Data")) Directory.CreateDirectory("/Assets/Data");
+            BuildProcessorHookLibrary library = ScriptableObject.CreateInstance<BuildProcessorHookLibrary>();
+            AssetDatabase.CreateAsset(library, "Assets/Data/BuildProcessorHooks.asset");
+            AssetDatabase.SaveAssets();
+
+            library =
+                AssetDatabase.LoadAssetAtPath<BuildProcessorHookLibrary>("Assets/Data/BuildProcessorHooks.asset");
+
+            Selection.activeObject = library;
         }
     }
 }
