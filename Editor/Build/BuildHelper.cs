@@ -6,6 +6,7 @@ using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using Varguiniano.Core.Runtime.Build;
 using WhateverDevs.Core.Runtime.Common;
 using Version = WhateverDevs.Core.Runtime.Build.Version;
 

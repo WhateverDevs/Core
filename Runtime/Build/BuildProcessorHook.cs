@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Varguiniano.Core.Editor.Build
+namespace Varguiniano.Core.Runtime.Build
 {
     /// <summary>
     /// Abstract class representing a custom preprocessor hook.
