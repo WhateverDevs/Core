@@ -169,8 +169,8 @@ namespace Varguiniano.Core.Editor.Build
             BuildProcessorHookLibrary hookLibrary = LoadHookLibrary("postprocessing");
 
             if (hookLibrary != null)
-                for (int i = 0; i < hookLibrary.PreProcessorHooks.Length; ++i)
-                    if (!hookLibrary.PreProcessorHooks[i].RunHook())
+                for (int i = 0; i < hookLibrary.PostProcessorHooks.Length; ++i)
+                    if (!hookLibrary.PostProcessorHooks[i].RunHook())
                         buildSuccessful = false;
 
             if (buildSuccessful)

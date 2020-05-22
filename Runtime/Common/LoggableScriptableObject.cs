@@ -1,14 +1,14 @@
-using log4net;
+﻿using log4net;
 using UnityEngine;
 
 namespace WhateverDevs.Core.Runtime.Common
 {
     /// <summary>
-    /// This is just the same as Loggable, but this one inherits from MonoBehaviour.
+    /// This is just the same as Loggable, but this one inherits from ScriptableObject.
     /// </summary>
     /// <typeparam name="TLoggable"></typeparam>
-    public abstract class LoggableMonoBehaviour<TLoggable> : MonoBehaviour, ILoggable
-        where TLoggable : LoggableMonoBehaviour<TLoggable>
+    public abstract class LoggableScriptableObject<TLoggable> : ScriptableObject, ILoggable
+        where TLoggable : LoggableScriptableObject<TLoggable>
     {
         /// <summary>
         /// Backfield for GetLogger.
