@@ -10,13 +10,11 @@ namespace Varguiniano.Core.Runtime.Build
         /// <summary>
         /// Hooks to run before the build.
         /// </summary>
-        [SerializeReference]
-        public IBuildProcessorHook[] PreProcessorHooks;
+        public BuildProcessorHook[] PreProcessorHooks;
 
         /// <summary>
         /// Hooks to run after the build.
         /// </summary>
-        [SerializeReference]
-        public IBuildProcessorHook[] PostProcessorHooks;
+        public BuildProcessorHook[] PostProcessorHooks;
     }
 }

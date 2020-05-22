@@ -6,9 +6,7 @@ namespace Varguiniano.Core.Runtime.Build
     /// Abstract class representing a custom preprocessor hook.
     /// This can be attached as preprocessor or post processor.
     /// </summary>
-    public abstract class BuildProcessorHook<TBuildProcessorHook> : LoggableScriptableObject<TBuildProcessorHook>,
-                                                                    IBuildProcessorHook
-        where TBuildProcessorHook : BuildProcessorHook<TBuildProcessorHook>
+    public abstract class BuildProcessorHook : LoggableScriptableObject<BuildProcessorHook>
     {
         /// <summary>
         /// Run your hook.
