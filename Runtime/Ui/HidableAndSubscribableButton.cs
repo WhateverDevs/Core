@@ -35,7 +35,7 @@ namespace Varguiniano.LosJoegos.Runtime.Ui.Common
         /// <summary>
         /// Reference to the canvas group.
         /// </summary>
-        private CanvasGroup CanvasGroup
+        protected CanvasGroup CanvasGroup
         {
             get
             {
