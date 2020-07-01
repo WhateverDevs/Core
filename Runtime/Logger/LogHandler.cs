@@ -10,13 +10,20 @@ using UnityEditor;
 
 namespace WhateverDevs.Core.Runtime.Logger
 {
+    #if UNITY_EDITOR
+    [InitializeOnLoad]
+    #endif
     public class LogHandler : ILogHandler
     {
         static LogHandler() => Initialize();
 
+        private static bool initialized;
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-        private static void Initialize()
+        public static void Initialize()
         {
+            if (initialized) return;
+
             #if UNITY_EDITOR
             if (EditorApplication.isUpdating) return;
             #endif
@@ -83,6 +90,8 @@ namespace WhateverDevs.Core.Runtime.Logger
             handler = new LogHandler();
             Debug.unityLogger.logHandler = handle
             */
+
+            initialized = true;
         }
 
         public void LogException(Exception exception, UnityEngine.Object context)

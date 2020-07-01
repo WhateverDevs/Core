@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using UnityEngine;
 using WhateverDevs.Core.Runtime.Common;
 using WhateverDevs.Core.Runtime.Serialization;
 
@@ -93,7 +94,7 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
                 GetLogger().Warn("Already initialized!");
                 return;
             }
-            
+
             AppEventsListener.Instance.AppQuitting += DeInitialize;
 
             buffer = new byte[bufferSize];
@@ -167,7 +168,9 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
         {
             while (messagesToSend.Count > 0)
             {
-                byte[] data = Encoding.UTF8.GetBytes(messagesToSend.Dequeue());
+                string message = messagesToSend.Dequeue();
+                Debug.Log(message);
+                byte[] data = Encoding.UTF8.GetBytes(message);
                 handler.Send(data, 0, data.Length, SocketFlags.None);
             }
         }
@@ -177,24 +180,34 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
         /// </summary>
         private void ReceiveTerminalMessage()
         {
-            handler = socket.Accept();
-
-            GetLogger().Info("Received socket connection.");
-
             while (!closeReceivingThread)
                 try
                 {
-                    handler.Receive(buffer);
-                    string json = Encoding.UTF8.GetString(buffer);
+                    if (!connectedToTerminal)
+                    {
+                        handler = socket.Accept();
 
-                    GetLogger().Info(json);
+                        GetLogger().Info("Received socket connection.");
+                    }
 
-                    TerminalMessage message = jsonSerializer.From<TerminalMessage>(json);
-                    connectedToTerminal = message.Connected;
+                    int result = handler.Receive(buffer);
 
-                    if (connectedToTerminal) GetLogger().Info("External terminal connected.");
+                    if (result == 0)
+                    {
+                        // This code will run when the receive method stops because we are not longer connected.
+                        if (connectedToTerminal) GetLogger().Info("External terminal disconnected.");
+                        connectedToTerminal = false;
+                    }
+                    else
+                    {
+                        string json = Encoding.UTF8.GetString(buffer);
+                        TerminalMessage message = jsonSerializer.From<TerminalMessage>(json);
+                        connectedToTerminal = message.Connected;
 
-                    // TODO: Process commands received.
+                        if (connectedToTerminal) GetLogger().Info("External terminal connected.");
+
+                        // TODO: Process commands received.
+                    }
                 }
                 catch
                 {

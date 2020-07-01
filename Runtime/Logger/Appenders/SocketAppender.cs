@@ -27,6 +27,8 @@ namespace WhateverDevs.Core.Runtime.Logger.Appenders
 
         protected override void Append(LoggingEvent loggingEvent)
         {
+            if (!Application.isPlaying) return;
+
             if (!SocketLoggingManager.Instance.Initialized)
                 SocketLoggingManager.Instance.Initialize(Ip, Port, SocketType.Stream, ProtocolType.Tcp, 4096);
 

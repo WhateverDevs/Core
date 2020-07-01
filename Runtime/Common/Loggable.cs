@@ -1,4 +1,5 @@
 using log4net;
+using WhateverDevs.Core.Runtime.Logger;
 
 namespace WhateverDevs.Core.Runtime.Common
 {
@@ -23,13 +24,24 @@ namespace WhateverDevs.Core.Runtime.Common
         /// Get the logger for this class.
         /// </summary>
         /// <returns></returns>
-        public ILog GetLogger() => logger ?? (logger = LogManager.GetLogger(typeof(TLoggable)));
+        public ILog GetLogger()
+        {
+            #if UNITY_EDITOR
+            LogHandler.Initialize();
+            #endif
+            return logger ?? (logger = LogManager.GetLogger(typeof(TLoggable)));
+        }
 
         /// <summary>
         /// Get the logger for this class.
         /// </summary>
         /// <returns></returns>
-        public static ILog GetStaticLogger() =>
-            staticLogger ?? (staticLogger = LogManager.GetLogger(typeof(TLoggable)));
+        public static ILog GetStaticLogger()
+        {
+            #if UNITY_EDITOR
+            LogHandler.Initialize();
+            #endif
+            return staticLogger ?? (staticLogger = LogManager.GetLogger(typeof(TLoggable)));
+        }
     }
 }

@@ -8,6 +8,7 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using WhateverDevs.Core.Runtime.Build;
 using WhateverDevs.Core.Runtime.Common;
+using WhateverDevs.Core.Runtime.Logger;
 using Version = WhateverDevs.Core.Runtime.Build.Version;
 
 namespace WhateverDevs.Core.Editor.Build
@@ -39,6 +40,9 @@ namespace WhateverDevs.Core.Editor.Build
         /// <param name="report">Report to add things to.</param>
         public void OnPreprocessBuild(BuildReport report)
         {
+            // This makes sure the logger is initialized even if the game hasn't been run on editor.
+            LogHandler.Initialize();
+            
             bool buildSuccessful = GenerateVersion();
 
             BuildProcessorHookLibrary hookLibrary = LoadHookLibrary("preprocessing");
