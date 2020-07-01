@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using WhateverDevs.Core.Runtime.Common;
 using WhateverDevs.Core.Runtime.Configuration;
 using Zenject;
 
 namespace WhateverDevs.Core.Test.Runtime.Configuration
 {
-    public class ConfigTestObject : MonoBehaviour
+    public class ConfigTestObject : LoggableMonoBehaviour<ConfigTestObject>
     {
         public IConfigurationManager ConfigurationManager;
 

@@ -1,6 +1,6 @@
 ﻿using WhateverDevs.Core.Runtime.Common;
 
-namespace Varguiniano.Core.Runtime.Build
+namespace WhateverDevs.Core.Runtime.Build
 {
     /// <summary>
     /// Abstract class representing a custom preprocessor hook.

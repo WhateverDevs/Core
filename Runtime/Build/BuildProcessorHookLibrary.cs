@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Varguiniano.Core.Runtime.Build
+namespace WhateverDevs.Core.Runtime.Build
 {
     /// <summary>
     /// Library with all the build processor hooks.

@@ -19,6 +19,6 @@ namespace WhateverDevs.Core.Runtime.Logger
         /// Always override the configs?
         /// </summary>
         [Tooltip("This will always override the configuration set on the persistent datapath with the default one.")]
-        public bool AlwaysOverride;
+        public bool AlwaysOverride = true;
     }
 }

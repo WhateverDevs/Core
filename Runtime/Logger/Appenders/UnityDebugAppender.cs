@@ -8,7 +8,7 @@ namespace WhateverDevs.Core.Runtime.Logger.Appenders
     {
         protected override void Append(LoggingEvent loggingEvent)
         {
-            var message = RenderLoggingEvent(loggingEvent);
+            string message = RenderLoggingEvent(loggingEvent);
             Debug.Log(message);
         }
     }

@@ -10,28 +10,17 @@ using UnityEditor;
 
 namespace WhateverDevs.Core.Runtime.Logger
 {
-    #if UNITY_EDITOR
-    [InitializeOnLoad]
-    #endif
     public class LogHandler : ILogHandler
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(LogHandler));
+        static LogHandler() => Initialize();
 
-        /*
-    public static ILogHandler DefaultHandler { get; private set; }
-    private static LogHandler handler;
-    */
-
-        static LogHandler()
-        {
-            Initialize();
-        }
-
-        #if !UNITY_EDITOR
-        [RuntimeInitializeOnLoadMethod]
-        #endif
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void Initialize()
         {
+            #if UNITY_EDITOR
+            if (EditorApplication.isUpdating) return;
+            #endif
+
             if (!Log4NetConfigProvider.ConfigExists)
             {
                 #if UNITY_EDITOR
@@ -70,13 +59,19 @@ namespace WhateverDevs.Core.Runtime.Logger
                 #endif
             }
 
+            // ReSharper disable once UnusedVariable
             FileInfo fileInfo = Log4NetConfigProvider.GetConfig(out string message);
 
             XmlConfigurator.Configure(fileInfo);
 
-            #if !UNITY_EDITOR
-            Log.Info(message);
-            #endif
+            #if UNITY_EDITOR
+            // We don't want this message on the editor each time we recompile.
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+                #endif
+            {
+                ILog objectLog = LogManager.GetLogger(typeof(LogHandler));
+                objectLog.Info(message);
+            }
 
             // TODO: Here is the bind to the default debug log in case we want to extend anytime it. 
             // In that case we need to rebuild the whole console window because no log would be printed.
@@ -84,10 +79,10 @@ namespace WhateverDevs.Core.Runtime.Logger
             // we could use the Application.LogReceived event and do whatever we want with any log event.
 
             /*
-        DefaultHandler = Debug.unityLogger.logHandler;
-        handler = new LogHandler();
-        Debug.unityLogger.logHandler = handle
-        */
+            DefaultHandler = Debug.unityLogger.logHandler;
+            handler = new LogHandler();
+            Debug.unityLogger.logHandler = handle
+            */
         }
 
         public void LogException(Exception exception, UnityEngine.Object context)

@@ -6,11 +6,11 @@ using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEditor.Callbacks;
 using UnityEngine;
-using Varguiniano.Core.Runtime.Build;
+using WhateverDevs.Core.Runtime.Build;
 using WhateverDevs.Core.Runtime.Common;
 using Version = WhateverDevs.Core.Runtime.Build.Version;
 
-namespace Varguiniano.Core.Editor.Build
+namespace WhateverDevs.Core.Editor.Build
 {
     /// <summary>
     /// Helper class with functions related to builds, scene management, etc.
