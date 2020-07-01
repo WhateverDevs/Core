@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -13,28 +12,66 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
     /// Class that handles the socket that will send the logs.
     /// This will only send messages, it won't receive them.
     /// </summary>
-    public class SocketLoggingManager : Loggable<SocketLoggingManager>
+    public class SocketLoggingManager : DotNetSingleton<SocketLoggingManager>
     {
-        public bool ShuttingDown;
-        
-        private readonly Socket socket;
+        /// <summary>
+        /// Flag to know if the manager is initialized.
+        /// </summary>
+        public bool Initialized;
 
+        /// <summary>
+        /// Flag to know if the manager is shutting down.
+        /// </summary>
+        public bool ShuttingDown;
+
+        /// <summary>
+        /// Reference to the socket used for connection.
+        /// </summary>
+        private Socket socket;
+
+        /// <summary>
+        /// Reference to the socket used for sending and receiving messages.
+        /// </summary>
         private Socket handler;
 
-        private readonly Queue<string> messagesToSend;
+        /// <summary>
+        /// Buffer of messages to send.
+        /// </summary>
+        private Queue<string> messagesToSend;
 
-        private readonly Thread sendingThread;
+        /// <summary>
+        /// Thread used to send the messages.
+        /// </summary>
+        private Thread sendingThread;
 
-        private readonly Thread receivingThread;
+        /// <summary>
+        /// Thread used to receive the messages.
+        /// </summary>
+        private Thread receivingThread;
 
-        private readonly byte[] buffer;
+        /// <summary>
+        /// Buffer where the received messages are stored.
+        /// </summary>
+        private byte[] buffer;
 
-        private readonly ISerializer<string> jsonSerializer;
+        /// <summary>
+        /// Reference to a json serializer.
+        /// </summary>
+        private ISerializer<string> jsonSerializer;
 
+        /// <summary>
+        /// Flag to know if we are connected to the terminal.
+        /// </summary>
         private bool connectedToTerminal;
 
+        /// <summary>
+        /// Flag to mark the sending thread for closing.
+        /// </summary>
         private volatile bool closeSendingThread;
 
+        /// <summary>
+        /// Flag to mark the receiving thread for closing.
+        /// </summary>
         private volatile bool closeReceivingThread;
 
         /// <summary>
@@ -45,13 +82,19 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
         /// <param name="socketType">Socket Type</param>
         /// /// <param name="protocolType">Protocol Type</param>
         /// <param name="bufferSize">Buffer Size</param>
-        public SocketLoggingManager(string ip,
-                                    int port,
-                                    SocketType socketType,
-                                    ProtocolType protocolType,
-                                    int bufferSize)
+        public void Initialize(string ip,
+                               int port,
+                               SocketType socketType,
+                               ProtocolType protocolType,
+                               int bufferSize)
         {
-            AppEventsListener.Instance.AppQuitting += ShutDownThreadsIfRunning;
+            if (Initialized)
+            {
+                GetLogger().Warn("Already initialized!");
+                return;
+            }
+            
+            AppEventsListener.Instance.AppQuitting += DeInitialize;
 
             buffer = new byte[bufferSize];
             messagesToSend = new Queue<string>();
@@ -73,6 +116,8 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
             sendingThread.Start();
             receivingThread = new Thread(ReceiveTerminalMessage);
             receivingThread.Start();
+
+            Initialized = true;
         }
 
         /// <summary>
@@ -84,21 +129,23 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
         /// <summary>
         /// Shutdown the threads.
         /// </summary>
-        private void ShutDownThreadsIfRunning()
+        private void DeInitialize()
         {
-            AppEventsListener.Instance.AppQuitting -= ShutDownThreadsIfRunning;
+            AppEventsListener.Instance.AppQuitting -= DeInitialize;
             ShuttingDown = true;
-            
+
             GetLogger().Info("Shutting down logging threads.");
             closeSendingThread = true;
             closeReceivingThread = true;
 
-            sendingThread.Join();
+            sendingThread?.Join();
 
-            receivingThread.Abort();
+            receivingThread?.Abort();
 
             handler?.Close();
             socket?.Close();
+
+            Initialized = false;
         }
 
         /// <summary>
@@ -149,7 +196,7 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
 
                     // TODO: Process commands received.
                 }
-                catch (Exception)
+                catch
                 {
                     // Exception? I don't know what you are talking about.
                 }

@@ -15,6 +15,6 @@ namespace WhateverDevs.Core.Runtime.Common
         /// <summary>
         /// Call the app quitting event.
         /// </summary>
-        private void OnDisable() => AppQuitting?.Invoke();
+        private void OnApplicationQuit() => AppQuitting?.Invoke();
     }
 }

@@ -25,19 +25,15 @@ namespace WhateverDevs.Core.Runtime.Logger.Appenders
         // ReSharper disable once MemberCanBePrivate.Global
         public int Port { get; set; }
 
-        /// <summary>
-        /// Instance of a logging manager.
-        /// </summary>
-        private SocketLoggingManager socketLoggingManager;
-
         protected override void Append(LoggingEvent loggingEvent)
         {
-            if (socketLoggingManager == null)
-                socketLoggingManager = new SocketLoggingManager(Ip, Port, SocketType.Stream, ProtocolType.Tcp, 4096);
+            if (!SocketLoggingManager.Instance.Initialized)
+                SocketLoggingManager.Instance.Initialize(Ip, Port, SocketType.Stream, ProtocolType.Tcp, 4096);
 
             string message = RenderLoggingEvent(loggingEvent);
 
-            if (Application.isPlaying && !socketLoggingManager.ShuttingDown) socketLoggingManager.Send(message);
+            if (Application.isPlaying && !SocketLoggingManager.Instance.ShuttingDown)
+                SocketLoggingManager.Instance.Send(message);
         }
     }
 }
