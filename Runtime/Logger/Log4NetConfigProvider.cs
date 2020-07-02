@@ -71,6 +71,8 @@ namespace WhateverDevs.Core.Runtime.Logger
         {
             Log4NetConfiguration config = Resources.Load<Log4NetConfiguration>("LoggerConfiguration");
             config.DefaultConfig = GetDefaultConfig();
+            EditorUtility.SetDirty(config);
+            AssetDatabase.SaveAssets();
         }
 
         /// <summary>
