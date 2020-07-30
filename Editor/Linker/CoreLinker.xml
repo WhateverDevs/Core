@@ -1,6 +1,9 @@
 <linker>
-    <!--This files preserves the entire assemblies for extenject and the core.-->
+    <!--This files preserves the entire assemblies for extenject, log4net, odin and the core.-->
     <assembly fullname="Zenject" preserve="all"/>
     <assembly fullname="Zenject-Editor" preserve="all"/>
+    <assembly fullname="Zenject-usage" preserve="all"/>
+    <assembly fullname="log4net" preserve="all"/>
+    <assembly fullname="Sirenix.OdinInspector.Attributes" preserve="all"/>
     <assembly fullname="WhateverDevs.Core.Runtime" preserve="all"/>
 </linker>
