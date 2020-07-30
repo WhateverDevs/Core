@@ -27,7 +27,7 @@ namespace WhateverDevs.Core.Editor.Linker
         /// <summary>
         /// Path of the original file.
         /// </summary>
-        private const string OriginalFile = "Packages/whateverdevs.core/Editor/Linker/LinkerSetup.cs";
+        private const string OriginalFile = "Packages/whateverdevs.core/Editor/Linker/CoreLinker.xml";
         
         /// <summary>
         /// Constructor that initializes when unity loads.
@@ -37,6 +37,13 @@ namespace WhateverDevs.Core.Editor.Linker
             if (!Directory.Exists(LinkerLocation)) Directory.CreateDirectory(LinkerLocation);
 
             if (File.Exists(LinkerLocation + LinkerName)) return;
+            OverwriteLinkerFile();
+        }
+
+        [MenuItem("WhateverDevs/Build/Overwrite IL2CPP Linker file")]
+        public static void OverwriteLinkerFile()
+        {
+            if (File.Exists(LinkerLocation + LinkerName)) File.Delete(LinkerLocation + LinkerName);
             File.Copy(OriginalFile, LinkerLocation + LinkerName);
             GetStaticLogger().Info("A link.xml file has been created for IL2CPP builds to work.");
         }
