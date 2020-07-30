@@ -1,0 +1,6 @@
+<linker>
+    <!--This files preserves the entire assemblies for extenject and the core.-->
+    <assembly fullname="Zenject" preserve="all"/>
+    <assembly fullname="Zenject-Editor" preserve="all"/>
+    <assembly fullname="WhateverDevs.Core.Runtime" preserve="all"/>
+</linker>
