@@ -15,7 +15,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// TODO: This will only work on Standalone and Android. We should add more platforms as needed.
         /// </summary>
         #if UNITY_ANDROID
-        private readonly string ConfigurationPath = Application.persistentDataPath + "/Configuration/";
+        private static readonly string ConfigurationPath = Application.persistentDataPath + "/Configuration/";
         #else
         private const string ConfigurationPath = "Configuration/";
         #endif
