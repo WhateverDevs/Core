@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -25,6 +26,21 @@ namespace WhateverDevs.Core.Runtime.Common
         /// <returns></returns>
         public static bool IsNullEmptyOrWhiteSpace(this string value) =>
             string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value);
+
+        /// <summary>
+        /// Shallow clones a list.
+        /// </summary>
+        /// <param name="original">Original list.</param>
+        /// <typeparam name="T">List genericity.</typeparam>
+        /// <returns>A shallow clone of the list.</returns>
+        public static List<T> ShallowClone<T>(this List<T> original)
+        {
+            List<T> clone = new List<T>();
+
+            for (int i = 0; i < original.Count; ++i) clone.Add(original[i]);
+
+            return clone;
+        }
 
         /// <summary>
         /// Copy the content of a directory to another.
