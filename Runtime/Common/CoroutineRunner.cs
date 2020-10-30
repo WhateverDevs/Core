@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 
 namespace WhateverDevs.Core.Runtime.Common
 {
@@ -11,10 +12,10 @@ namespace WhateverDevs.Core.Runtime.Common
         /// Runs the coroutine given.
         /// </summary>
         /// <param name="routine">The coroutine to run.</param>
-        public void RunRoutine(IEnumerator routine)
+        public Coroutine RunRoutine(IEnumerator routine)
         {
             GetLogger().Info("Running coroutine " + routine + ".");
-            StartCoroutine(routine);
+            return StartCoroutine(routine);
         }
     }
 }
