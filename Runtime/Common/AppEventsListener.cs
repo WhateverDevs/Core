@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace WhateverDevs.Core.Runtime.Common
 {
@@ -8,9 +9,29 @@ namespace WhateverDevs.Core.Runtime.Common
     public class AppEventsListener : Singleton<AppEventsListener>
     {
         /// <summary>
+        /// Update event.
+        /// </summary>
+        public Action<float> AppUpdate;
+
+        /// <summary>
+        /// Physics update event.
+        /// </summary>
+        public Action<float> PhysicsUpdate;
+
+        /// <summary>
         /// Called when the app is quitting.
         /// </summary>
         public Action AppQuitting;
+
+        /// <summary>
+        /// Call the event.
+        /// </summary>
+        private void Update() => AppUpdate?.Invoke(Time.deltaTime);
+
+        /// <summary>
+        /// Call the event.
+        /// </summary>
+        private void FixedUpdate() => PhysicsUpdate?.Invoke(Time.fixedDeltaTime);
 
         /// <summary>
         /// Call the app quitting event.
