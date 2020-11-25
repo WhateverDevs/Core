@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System.Net;
+using System.Net.Sockets;
 using log4net.Appender;
 using log4net.Core;
 using UnityEngine;
@@ -16,13 +17,6 @@ namespace WhateverDevs.Core.Runtime.Logger.Appenders
         /// </summary>
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         // ReSharper disable once MemberCanBePrivate.Global
-        public string Ip { get; set; }
-
-        /// <summary>
-        /// Set by the xml file.
-        /// </summary>
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        // ReSharper disable once MemberCanBePrivate.Global
         public int Port { get; set; }
 
         protected override void Append(LoggingEvent loggingEvent)
@@ -30,7 +24,7 @@ namespace WhateverDevs.Core.Runtime.Logger.Appenders
             if (!Application.isPlaying) return;
 
             if (!SocketLoggingManager.Instance.Initialized)
-                SocketLoggingManager.Instance.Initialize(Ip, Port, SocketType.Stream, ProtocolType.Tcp, 4096);
+                SocketLoggingManager.Instance.Initialize(IPAddress.Any, Port, SocketType.Stream, ProtocolType.Tcp, 4096);
 
             string message = RenderLoggingEvent(loggingEvent);
 

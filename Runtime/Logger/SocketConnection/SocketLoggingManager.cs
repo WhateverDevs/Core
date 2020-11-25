@@ -83,7 +83,7 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
         /// <param name="socketType">Socket Type</param>
         /// /// <param name="protocolType">Protocol Type</param>
         /// <param name="bufferSize">Buffer Size</param>
-        public void Initialize(string ip,
+        public void Initialize(IPAddress ip,
                                int port,
                                SocketType socketType,
                                ProtocolType protocolType,
@@ -101,7 +101,7 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
             messagesToSend = new Queue<string>();
             jsonSerializer = new JsonSerializer();
 
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+            IPEndPoint endPoint = new IPEndPoint(ip, port);
 
             if (socket?.Connected != true)
             {
