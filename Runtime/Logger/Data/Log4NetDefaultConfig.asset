@@ -13,23 +13,31 @@ MonoBehaviour:
   m_Name: Log4NetDefaultConfig
   m_EditorClassIdentifier: 
   DefaultConfig: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<log4net>\r\n   
-    <appender name=\"UnityDebugAppender\" type=\"WhateverDevs.Core.Runtime.Logger.Appenders.UnityDebugAppender,WhateverDevs.Core.Runtime\">\r\n       
-    <layout type=\"log4net.Layout.PatternLayout,log4net\">\r\n            <param
-    name=\"ConversionPattern\" value=\"#%c{2} #%d{ABSOLUTE} %p - Line:%L - %m%n\"/>\r\n       
-    </layout>\r\n    </appender>\r\n    <appender name=\"SocketAppender\" type=\"WhateverDevs.Core.Runtime.Logger.Appenders.SocketAppender,WhateverDevs.Core.Runtime\">\r\n       
+    <appender name=\"UnityDebugAppender\"\r\n              type=\"WhateverDevs.Core.Runtime.Logger.Appenders.UnityDebugAppender,WhateverDevs.Core.Runtime\">\r\n       
+    <layout type=\"log4net.Layout.PatternLayout,log4net\">\r\n            <converter>\r\n               
+    <name value=\"genericName\"/>\r\n                <type value=\"WhateverDevs.Core.Runtime.Logger.Patterns.GenericClassNamePatternLayoutConverter\"/>\r\n           
+    </converter>\r\n            <param name=\"ConversionPattern\" value=\"#%genericName
+    #%d{ABSOLUTE} %p - Line:%L - %m%n\"/>\r\n        </layout>\r\n    </appender>\r\n   
+    <appender name=\"SocketAppender\"\r\n              type=\"WhateverDevs.Core.Runtime.Logger.Appenders.SocketAppender,WhateverDevs.Core.Runtime\">\r\n       
     <Port>30000</Port>\r\n        <layout type=\"log4net.Layout.PatternLayout,log4net\">\r\n           
-    <param name=\"ConversionPattern\" value=\"#%c{2} #%d{ABSOLUTE} %p - Line:%L -
-    %m%n\"/>\r\n        </layout>\r\n    </appender>\r\n    <appender name=\"Logfile\"
-    type=\"log4net.Appender.FileAppender,log4net\">\r\n\t\t<file type=\"log4net.Util.PatternString,log4net\">\r\n\t\t\t<converter>\r\n\t\t\t\t<!--
-    Tell the configurator that this is the converter for \"%persistentDataStore\"
-    below -->\r\n\t\t\t\t<name value=\"persistentDataStore\" />\r\n\t\t\t\t<!-- Tell
-    the converter what to call to do the conversion -->\r\n\t\t\t\t<type value=\"WhateverDevs.Core.Runtime.Logger.PersistentDataStoreConverter,
-    WhateverDevs.Core.Runtime\" />\r\n\t\t\t</converter>\r\n\t\t\t<conversionPattern
-    value=\"%persistentDataStore/logs/logfile-%date{yyyy-MM-dd-HH-mm-ss}.log\" />\r\n\t\t</file>\r\n\t\t<appendToFile
-    value=\"true\" />\r\n\t\t<rollingStyle value=\"Date\" />\r\n\t\t<datePattern
-    value=\"yyyyMMdd\" />\r\n        <layout type=\"log4net.Layout.PatternLayout,log4net\">\r\n           
-    <param name=\"ConversionPattern\" value=\"#%c{2} #%d{ABSOLUTE} %p - Line:%L -
-    %m%n\"/>\r\n        </layout>\r\n    </appender>\r\n    <root>\r\n        <level
-    value=\"ALL\"/>\r\n        <appender-ref ref=\"UnityDebugAppender\"/>\r\n       
+    <converter>\r\n                <name value=\"genericName\"/>\r\n               
+    <type value=\"WhateverDevs.Core.Runtime.Logger.Patterns.GenericClassNamePatternLayoutConverter\"/>\r\n           
+    </converter>\r\n            <param name=\"ConversionPattern\" value=\"#%genericName
+    #%d{ABSOLUTE} %p - Line:%L - %m%n\"/>\r\n        </layout>\r\n    </appender>\r\n   
+    <appender name=\"Logfile\" type=\"log4net.Appender.FileAppender,log4net\">\r\n       
+    <file type=\"log4net.Util.PatternString,log4net\">\r\n            <converter>\r\n               
+    <!-- Tell the configurator that this is the converter for \"%persistentDataStore\"
+    below -->\r\n                <name value=\"persistentDataStore\"/>\r\n               
+    <!-- Tell the converter what to call to do the conversion -->\r\n               
+    <type value=\"WhateverDevs.Core.Runtime.Logger.PersistentDataStoreConverter,
+    WhateverDevs.Core.Runtime\"/>\r\n            </converter>\r\n            <conversionPattern
+    value=\"%persistentDataStore/logs/logfile-%date{yyyy-MM-dd-HH-mm-ss}.log\"/>\r\n       
+    </file>\r\n        <appendToFile value=\"true\"/>\r\n        <rollingStyle value=\"Date\"/>\r\n       
+    <datePattern value=\"yyyyMMdd\"/>\r\n        <layout type=\"log4net.Layout.PatternLayout,log4net\">\r\n           
+    <converter>\r\n                <name value=\"genericName\"/>\r\n               
+    <type value=\"WhateverDevs.Core.Runtime.Logger.Patterns.GenericClassNamePatternLayoutConverter\"/>\r\n           
+    </converter>\r\n            <param name=\"ConversionPattern\" value=\"#%genericName
+    #%d{ABSOLUTE} %p - Line:%L - %m%n\"/>\r\n        </layout>\r\n    </appender>\r\n   
+    <root>\r\n        <level value=\"ALL\"/>\r\n        <appender-ref ref=\"UnityDebugAppender\"/>\r\n       
     <appender-ref ref=\"SocketAppender\"/>\r\n        <appender-ref ref=\"Logfile\"/>\r\n   
     </root>\r\n</log4net>"
