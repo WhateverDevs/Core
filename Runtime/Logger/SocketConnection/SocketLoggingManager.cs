@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using UnityEngine;
 using WhateverDevs.Core.Runtime.Common;
 using WhateverDevs.Core.Runtime.Serialization;
 
@@ -13,7 +12,7 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
     /// Class that handles the socket that will send the logs.
     /// This will only send messages, it won't receive them.
     /// </summary>
-    public class SocketLoggingManager : DotNetSingleton<SocketLoggingManager>
+    public class SocketLoggingManager : Singleton<SocketLoggingManager>
     {
         /// <summary>
         /// Flag to know if the manager is initialized.
@@ -95,8 +94,6 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
                 return;
             }
 
-            AppEventsListener.Instance.AppQuitting += DeInitialize;
-
             buffer = new byte[bufferSize];
             messagesToSend = new Queue<string>();
             jsonSerializer = new JsonSerializer();
@@ -118,6 +115,7 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
             receivingThread = new Thread(ReceiveTerminalMessage);
             receivingThread.Start();
 
+            GetLogger().Info("Socket logging manager initialized.");
             Initialized = true;
         }
 
@@ -130,9 +128,8 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
         /// <summary>
         /// Shutdown the threads.
         /// </summary>
-        private void DeInitialize()
+        private void OnDisable()
         {
-            AppEventsListener.Instance.AppQuitting -= DeInitialize;
             ShuttingDown = true;
 
             GetLogger().Info("Shutting down logging threads.");
@@ -171,6 +168,7 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
                 string message = messagesToSend.Dequeue();
                 byte[] data = Encoding.UTF8.GetBytes(message);
                 handler.Send(data, 0, data.Length, SocketFlags.None);
+                Thread.Sleep(100); // Give it some time to send the message.
             }
         }
 

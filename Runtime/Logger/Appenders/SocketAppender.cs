@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using log4net.Appender;
 using log4net.Core;
@@ -19,17 +20,40 @@ namespace WhateverDevs.Core.Runtime.Logger.Appenders
         // ReSharper disable once MemberCanBePrivate.Global
         public int Port { get; set; }
 
+        private bool exceptionCatcherInitialized;
+
+        /// <summary>
+        /// Store the messages before the app is ready to send them later.
+        /// </summary>
+        private Queue<LoggingEvent> messageQueue = new Queue<LoggingEvent>();
+
         protected override void Append(LoggingEvent loggingEvent)
         {
-            if (!Application.isPlaying) return;
+            if (!Application.isPlaying)
+            {
+                messageQueue.Enqueue(loggingEvent);
+                return;
+            }
 
-            if (!SocketLoggingManager.Instance.Initialized)
-                SocketLoggingManager.Instance.Initialize(IPAddress.Any, Port, SocketType.Stream, ProtocolType.Tcp, 4096);
+            // Weird recurrence but it should work.
+            if (messageQueue.Count > 0) Append(messageQueue.Dequeue());
+
+            if (!exceptionCatcherInitialized && ExceptionCatcher.Instance != null)
+            {
+                // This should be enough to initialize the exception catcher.
+                exceptionCatcherInitialized = true;
+            }
+
+            if (!SocketLoggingManager.Instance.Initialized && SocketLoggingManager.Instance != null)
+                SocketLoggingManager.Instance.Initialize(IPAddress.Any,
+                                                         Port,
+                                                         SocketType.Stream,
+                                                         ProtocolType.Tcp,
+                                                         4096);
 
             string message = RenderLoggingEvent(loggingEvent);
 
-            if (Application.isPlaying && !SocketLoggingManager.Instance.ShuttingDown)
-                SocketLoggingManager.Instance.Send(message);
+            SocketLoggingManager.Instance.Send(message);
         }
     }
 }

@@ -1,6 +1,6 @@
 {
   "name": "whateverdevs.core",
-  "version": "0.0.44",
+  "version": "0.0.49",
   "dependencies": {
     "whateverdevs.extenject": "9.1.1",
     "varguiniano.extendededitor": "1.0.2",
@@ -12,5 +12,6 @@
   "author": {
     "name": "Whatever Devs",
     "url": "https://discord.gg/B8aaMzJ"
-  }
+  },
+  "type": "library"
 }
