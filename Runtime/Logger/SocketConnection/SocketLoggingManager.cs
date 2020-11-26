@@ -169,7 +169,6 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
             while (messagesToSend.Count > 0)
             {
                 string message = messagesToSend.Dequeue();
-                Debug.Log(message);
                 byte[] data = Encoding.UTF8.GetBytes(message);
                 handler.Send(data, 0, data.Length, SocketFlags.None);
             }
