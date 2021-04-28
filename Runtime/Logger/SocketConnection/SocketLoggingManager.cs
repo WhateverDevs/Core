@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Sirenix.OdinInspector;
 using WhateverDevs.Core.Runtime.Common;
 using WhateverDevs.Core.Runtime.Serialization;
 
@@ -17,11 +18,13 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
         /// <summary>
         /// Flag to know if the manager is initialized.
         /// </summary>
+        [ReadOnly]
         public bool Initialized;
 
         /// <summary>
         /// Flag to know if the manager is shutting down.
         /// </summary>
+        [ReadOnly]
         public bool ShuttingDown;
 
         /// <summary>

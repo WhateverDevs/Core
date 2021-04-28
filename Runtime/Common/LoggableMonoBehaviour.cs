@@ -12,9 +12,19 @@ namespace WhateverDevs.Core.Runtime.Common
         where TLoggable : LoggableMonoBehaviour<TLoggable>
     {
         /// <summary>
+        /// Get the logger for this class.
+        /// </summary>
+        public ILog Logger => GetLogger();
+
+        /// <summary>
         /// Backfield for GetLogger.
         /// </summary>
         private ILog logger;
+        
+        /// <summary>
+        /// Get the static logger for this class.
+        /// </summary>
+        public static ILog StaticLogger => GetStaticLogger();
         
         /// <summary>
         /// Backfield for GetLogger.
