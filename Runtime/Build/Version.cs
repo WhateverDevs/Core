@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using UnityEngine;
 
 namespace WhateverDevs.Core.Runtime.Build
@@ -59,6 +60,27 @@ namespace WhateverDevs.Core.Runtime.Build
                                                      .ToString();
 
         /// <summary>
+        /// Retrieves the version in a string.
+        /// </summary>
+        /// <param name="versionDisplayMode"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public string ToString(VersionDisplayMode versionDisplayMode)
+        {
+            switch (versionDisplayMode)
+            {
+                case VersionDisplayMode.Short: return ShortVersion;
+                case VersionDisplayMode.Full: return FullVersion;
+                default: throw new ArgumentException("Incorrect version display mode.");
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the version in a string.
+        /// </summary>
+        public override string ToString() => ToString(VersionDisplayMode.Full);
+
+        /// <summary>
         /// Convert the stability to string.
         /// </summary>
         /// <param name="stability">Given stability-</param>
@@ -74,6 +96,15 @@ namespace WhateverDevs.Core.Runtime.Build
 
             return "unknownStability";
         }
+    }
+    
+    /// <summary>
+    /// VersionDisplayMode.
+    /// </summary>
+    public enum VersionDisplayMode
+    {
+        Short,
+        Full
     }
 
     /// <summary>

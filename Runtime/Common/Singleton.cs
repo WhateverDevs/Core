@@ -42,17 +42,6 @@ namespace WhateverDevs.Core.Runtime.Common
         private static TSingleton Prefab => Resources.Load<TSingleton>(PrefabPath + PrefabName);
 
         /// <summary>
-        /// Static access to the logger.
-        /// </summary>
-        private static ILog StaticLogger => staticLogger ?? (staticLogger = LogManager.GetLogger(typeof(TSingleton)));
-
-        /// <summary>
-        /// Backfield for StaticLogger.
-        /// </summary>
-        // ReSharper disable once StaticMemberInGenericType
-        private static ILog staticLogger;
-
-        /// <summary>
         ///     Public singleton access, this is where magic happens.
         /// </summary>
         public static TSingleton Instance
