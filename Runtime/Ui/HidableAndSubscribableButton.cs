@@ -11,6 +11,17 @@ namespace Varguiniano.LosJoegos.Runtime.Ui.Common
     public class HidableAndSubscribableButton : EasySubscribableButton
     {
         /// <summary>
+        /// Is it being shown right now?
+        /// </summary>
+        [ReadOnly]
+        public bool Shown = true;
+
+        /// <summary>
+        /// Should we set the heigh to 0 when hiding?
+        /// </summary>
+        public bool SetHeightToZeroWhenHiding;
+
+        /// <summary>
         /// Show the button.
         /// </summary>
         [Button]
@@ -21,16 +32,30 @@ namespace Varguiniano.LosJoegos.Runtime.Ui.Common
         /// </summary>
         [Button]
         public void Hide() => Show(false);
-        
+
         /// <summary>
-        /// Show or hide the button.
+        /// Height before hiding.
         /// </summary>
-        /// <param name="show"></param>
-        public void Show(bool show)
+        [SerializeField]
+        [HideInInspector]
+        private float PreviousHeight;
+
+        /// <summary>
+        /// Reference to the rect transform.
+        /// </summary>
+        private RectTransform RectTransform
         {
-            Button.interactable = show;
-            CanvasGroup.alpha = show ? 1 : 0;
+            get
+            {
+                if (rectTransform == null) rectTransform = GetComponent<RectTransform>();
+                return rectTransform;
+            }
         }
+
+        /// <summary>
+        /// Backfield for RectTransform.
+        /// </summary>
+        private RectTransform rectTransform;
 
         /// <summary>
         /// Reference to the canvas group.
@@ -48,5 +73,27 @@ namespace Varguiniano.LosJoegos.Runtime.Ui.Common
         /// Backfield for CanvasGroup.
         /// </summary>
         private CanvasGroup canvasGroup;
+
+        /// <summary>
+        /// Show or hide the button.
+        /// </summary>
+        /// <param name="show"></param>
+        public void Show(bool show)
+        {
+            Button.interactable = show;
+            CanvasGroup.alpha = show ? 1 : 0;
+
+            if (SetHeightToZeroWhenHiding)
+            {
+                Vector2 rectTransformAnchoredSize = RectTransform.sizeDelta;
+
+                if (Shown) PreviousHeight = rectTransformAnchoredSize.y;
+                rectTransformAnchoredSize.y = show ? PreviousHeight : 0;
+
+                RectTransform.sizeDelta = rectTransformAnchoredSize;
+            }
+
+            Shown = show;
+        }
     }
 }
