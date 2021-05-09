@@ -43,6 +43,34 @@ namespace WhateverDevs.Core.Runtime.Common
         }
 
         /// <summary>
+        /// Converts a Vector3 list to a Vector2 list.
+        /// </summary>
+        /// <param name="original"></param>
+        /// <returns></returns>
+        public static List<Vector2> ToVector2List(this List<Vector3> original)
+        {
+            List<Vector2> newList = new List<Vector2>();
+            
+            for (int i = 0; i < original.Count; ++i) newList.Add(original[i]);
+
+            return newList;
+        }
+        
+        /// <summary>
+        /// Converts a Vector2 list to a Vector3 list.
+        /// </summary>
+        /// <param name="original"></param>
+        /// <returns></returns>
+        public static List<Vector3> ToVector3List(this List<Vector2> original)
+        {
+            List<Vector3> newList = new List<Vector3>();
+            
+            for (int i = 0; i < original.Count; ++i) newList.Add(original[i]);
+
+            return newList;
+        }
+
+        /// <summary>
         /// Copy the content of a directory to another.
         /// </summary>
         /// <param name="source">Source directory.</param>
