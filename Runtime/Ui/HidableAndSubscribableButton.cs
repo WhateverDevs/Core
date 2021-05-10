@@ -1,8 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
-using WhateverDevs.Core.Runtime.Ui;
 
-namespace Varguiniano.LosJoegos.Runtime.Ui.Common
+namespace WhateverDevs.Core.Runtime.Ui
 {
     /// <summary>
     /// Hidable and subscribable button.

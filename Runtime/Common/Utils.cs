@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -50,12 +51,12 @@ namespace WhateverDevs.Core.Runtime.Common
         public static List<Vector2> ToVector2List(this List<Vector3> original)
         {
             List<Vector2> newList = new List<Vector2>();
-            
+
             for (int i = 0; i < original.Count; ++i) newList.Add(original[i]);
 
             return newList;
         }
-        
+
         /// <summary>
         /// Converts a Vector2 list to a Vector3 list.
         /// </summary>
@@ -64,10 +65,23 @@ namespace WhateverDevs.Core.Runtime.Common
         public static List<Vector3> ToVector3List(this List<Vector2> original)
         {
             List<Vector3> newList = new List<Vector3>();
-            
+
             for (int i = 0; i < original.Count; ++i) newList.Add(original[i]);
 
             return newList;
+        }
+
+        public static T[,] ResizeArray<T>(this T[,] original, int rows, int cols)
+        {
+            T[,] newArray = new T[rows, cols];
+            int minRows = Math.Min(rows, original.GetLength(0));
+            int minCols = Math.Min(cols, original.GetLength(1));
+
+            for (int i = 0; i < minRows; i++)
+                for (int j = 0; j < minCols; j++)
+                    newArray[i, j] = original[i, j];
+
+            return newArray;
         }
 
         /// <summary>
