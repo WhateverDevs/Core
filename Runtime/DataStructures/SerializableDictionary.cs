@@ -11,7 +11,6 @@ namespace WhateverDevs.Core.Runtime.DataStructures
     /// <typeparam name="TV">Type of value.</typeparam>
     [Serializable]
     public class SerializableDictionary<TK, TV> : List<ObjectPair<TK, TV>>, IDictionary<TK, TV>
-        where TK : class where TV : class
     {
         /// <summary>
         /// Out dictionaries will never be read only.
@@ -58,9 +57,9 @@ namespace WhateverDevs.Core.Runtime.DataStructures
             get
             {
                 for (int i = 0; i < Count; ++i)
-                    if (this[i].Key == key)
+                    if (Compare(this[i].Key, key))
                         return this[i].Value;
-                
+
                 throw new KeyNotFoundException();
             }
             set => Add(key, value);
@@ -74,7 +73,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         public bool ContainsKey(TK key)
         {
             for (int i = 0; i < Count; ++i)
-                if (this[i].Key == key)
+                if (Compare(this[i].Key, key))
                     return true;
 
             return false;
@@ -88,7 +87,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         public bool Contains(KeyValuePair<TK, TV> item)
         {
             for (int i = 0; i < Count; ++i)
-                if (this[i].Key == item.Key && this[i].Value == item.Value)
+                if (Compare(this[i].Key, item.Key) && Compare(this[i].Value, item.Value))
                     return true;
 
             return false;
@@ -102,10 +101,10 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         /// <returns>True if successful.</returns>
         public bool TryGetValue(TK key, out TV value)
         {
-            value = null;
+            value = default;
 
             for (int i = 0; i < Count; ++i)
-                if (this[i].Key == key)
+                if (Compare(this[i].Key, key))
                 {
                     value = this[i].Value;
                     return true;
@@ -124,7 +123,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
             for (int i = 0; i < Count; ++i)
             {
                 ObjectPair<TK, TV> pair = this[i];
-                if (pair.Key != key) continue;
+                if (!Compare(pair.Key, key)) continue;
                 pair.Value = value;
                 return;
             }
@@ -154,7 +153,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
             for (int i = 0; i < Count; ++i)
             {
                 ObjectPair<TK, TV> pair = this[i];
-                if (pair.Key != key) continue;
+                if (!Compare(pair.Key, key)) continue;
                 pairToRemove = pair;
             }
 
@@ -173,7 +172,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
             for (int i = 0; i < Count; ++i)
             {
                 ObjectPair<TK, TV> pair = this[i];
-                if (pair.Key != item.Key || pair.Value != item.Value) continue;
+                if (!Compare(pair.Key, item.Key) || !Compare(pair.Value, item.Value)) continue;
                 pairToRemove = pair;
             }
 
@@ -191,7 +190,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
             for (int i = 0; i < Count; ++i)
             {
                 ObjectPair<TK, TV> pair = this[i];
-                
+
                 enumerableList.Add(new KeyValuePair<TK, TV>(pair.Key, pair.Value));
             }
 
@@ -209,11 +208,27 @@ namespace WhateverDevs.Core.Runtime.DataStructures
             for (int i = arrayIndex; i < Count; ++i)
             {
                 ObjectPair<TK, TV> pair = this[i];
-                
+
                 temporalList.Add(new KeyValuePair<TK, TV>(pair.Key, pair.Value));
             }
-            
+
             array = temporalList.ToArray();
+        }
+
+        /// <summary>
+        /// Compare two objects.
+        /// </summary>
+        /// <param name="firstObject"></param>
+        /// <param name="secondObject"></param>
+        /// <returns></returns>
+        private bool Compare<T>(T firstObject, T secondObject)
+        {
+            // ReSharper disable twice CompareNonConstrainedGenericWithNull
+            if (firstObject == null || secondObject == null) return false;
+
+            EqualityComparer<T> equalityComparer = EqualityComparer<T>.Default;
+
+            return equalityComparer.Equals(firstObject, secondObject);
         }
     }
 }

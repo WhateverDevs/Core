@@ -1,6 +1,6 @@
 {
   "name": "whateverdevs.core",
-  "version": "0.0.58",
+  "version": "0.0.59",
   "dependencies": {
     "whateverdevs.extenject": "9.1.1",
     "varguiniano.extendededitor": "1.0.2",
