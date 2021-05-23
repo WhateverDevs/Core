@@ -21,6 +21,19 @@ namespace WhateverDevs.Core.Runtime.DependencyInjection
             component.transform.parent = parent;
             return component;
         }
+        
+        /// <summary>
+        /// Create the object and assign its parent.
+        /// Use this method for Ui elements.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public TComponent CreateUiGameObject(Transform parent)
+        {
+            TComponent component = Create();
+            component.transform.SetParent(parent, false);
+            return component;
+        }
 
         /// <summary>
         /// Create the object and assign its position and rotation.
@@ -45,6 +58,21 @@ namespace WhateverDevs.Core.Runtime.DependencyInjection
         public TComponent CreateGameObject(Transform parent, Vector3 position, Quaternion rotation)
         {
             TComponent component = CreateGameObject(parent);
+            component.transform.SetPositionAndRotation(position, rotation);
+            return component;
+        }
+        
+        /// <summary>
+        /// Create the object and assign its parent, its position and rotation.
+        /// Use this method for Ui elements.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
+        public TComponent CreateUiGameObject(Transform parent, Vector3 position, Quaternion rotation)
+        {
+            TComponent component = CreateUiGameObject(parent);
             component.transform.SetPositionAndRotation(position, rotation);
             return component;
         }
