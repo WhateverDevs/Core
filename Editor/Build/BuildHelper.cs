@@ -42,7 +42,7 @@ namespace WhateverDevs.Core.Editor.Build
         {
             // This makes sure the logger is initialized even if the game hasn't been run on editor.
             LogHandler.Initialize();
-            
+
             bool buildSuccessful = GenerateVersion();
 
             BuildProcessorHookLibrary hookLibrary = LoadHookLibrary("preprocessing");
@@ -113,15 +113,15 @@ namespace WhateverDevs.Core.Editor.Build
             string now = CurrentDate;
 
             string newVersion = new StringBuilder(version.GameVersion.ToString()).Append(".")
-                                                                                 .Append(version.MayorVersion)
-                                                                                 .Append(".")
-                                                                                 .Append(newMinorVersion)
-                                                                                 .Append(Version
-                                                                                            .StabilityToString(version
-                                                                                                                  .Stability))
-                                                                                 .Append(".")
-                                                                                 .Append(now)
-                                                                                 .ToString();
+               .Append(version.MayorVersion)
+               .Append(".")
+               .Append(newMinorVersion)
+               .Append(Version
+                          .StabilityToString(version
+                                                .Stability))
+               .Append(".")
+               .Append(now)
+               .ToString();
 
             bool useNewVersion = EditorUtility.DisplayDialog("Game version",
                                                              "Shifting from "
@@ -152,6 +152,7 @@ namespace WhateverDevs.Core.Editor.Build
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
             bool buildSuccessful = true;
+            // ReSharper disable once PossibleNullReferenceException
             string buildFolder = Directory.GetParent(pathToBuiltProject).FullName;
 
             if (target == BuildTarget.StandaloneWindows
