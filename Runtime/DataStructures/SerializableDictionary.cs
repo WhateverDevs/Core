@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using UnityEngine;
 
 namespace WhateverDevs.Core.Runtime.DataStructures
 {
@@ -10,7 +12,11 @@ namespace WhateverDevs.Core.Runtime.DataStructures
     /// <typeparam name="TK">Type of key.</typeparam>
     /// <typeparam name="TV">Type of value.</typeparam>
     [Serializable]
-    public class SerializableDictionary<TK, TV> : List<ObjectPair<TK, TV>>, IDictionary<TK, TV>
+    public class SerializableDictionary<TK, TV> : List<ObjectPair<TK, TV>>,
+                                                  IDictionary<TK, TV>,
+                                                  ISerializationCallbackReceiver,
+                                                  IDeserializationCallback,
+                                                  ISerializable
     {
         /// <summary>
         /// Out dictionaries will never be read only.
@@ -64,6 +70,11 @@ namespace WhateverDevs.Core.Runtime.DataStructures
             }
             set => Add(key, value);
         }
+
+        /// <summary>
+        /// Backup list that will serialize.
+        /// </summary>
+        public List<ObjectPair<TK, TV>> SerializedList = new List<ObjectPair<TK, TV>>();
 
         /// <summary>
         /// Does the dictionary contain the given key?
@@ -230,5 +241,45 @@ namespace WhateverDevs.Core.Runtime.DataStructures
 
             return equalityComparer.Equals(firstObject, secondObject);
         }
+
+        /// <summary>
+        /// Save values to the backup list.
+        /// </summary>
+        public void OnBeforeSerialize()
+        {
+            SerializedList ??= new List<ObjectPair<TK, TV>>();
+            SerializedList.Clear();
+
+            foreach (KeyValuePair<TK, TV> objectPair in this)
+                SerializedList.Add(new ObjectPair<TK, TV>
+                                   {
+                                       Key = objectPair.Key,
+                                       Value = objectPair.Value
+                                   });
+        }
+
+        /// <summary>
+        /// Load values from the backup list.
+        /// </summary>
+        public void OnAfterDeserialize()
+        {
+            Clear();
+            foreach (ObjectPair<TK, TV> objectPair in SerializedList) Add(objectPair);
+        }
+
+        /// <summary>
+        /// Deserialize the backup list.
+        /// </summary>
+        /// <param name="sender"></param>
+        public void OnDeserialization(object sender) =>
+            ((IDeserializationCallback) SerializedList).OnDeserialization(sender);
+
+        /// <summary>
+        /// Get the object data of the backup list.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public void GetObjectData(SerializationInfo info, StreamingContext context) =>
+            ((ISerializable) SerializedList).GetObjectData(info, context);
     }
 }
