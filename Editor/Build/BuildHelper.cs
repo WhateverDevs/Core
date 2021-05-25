@@ -42,6 +42,8 @@ namespace WhateverDevs.Core.Editor.Build
         {
             // This makes sure the logger is initialized even if the game hasn't been run on editor.
             LogHandler.Initialize();
+            
+            Logger.Info("Building to " + report.summary.outputPath + ".");
 
             bool buildSuccessful = GenerateVersion();
 
@@ -49,25 +51,25 @@ namespace WhateverDevs.Core.Editor.Build
 
             if (hookLibrary != null)
                 for (int i = 0; i < hookLibrary.PreProcessorHooks.Length; ++i)
-                    if (!hookLibrary.PreProcessorHooks[i].RunHook())
+                    if (!hookLibrary.PreProcessorHooks[i].RunHook(report.summary.outputPath))
                         buildSuccessful = false;
 
             if (buildSuccessful)
-                GetLogger()
+                Logger
                    .Info("Successfully preprocessed build.");
             else
-                GetLogger()
+                Logger
                    .Error("There was an error preprocessing the build, check the console.");
         }
 
         private static BuildProcessorHookLibrary LoadHookLibrary(string mode)
         {
-            GetStaticLogger().Info("Loading " + mode + " hook library...");
+            StaticLogger.Info("Loading " + mode + " hook library...");
 
             BuildProcessorHookLibrary hookLibrary =
                 AssetDatabase.LoadAssetAtPath<BuildProcessorHookLibrary>("Assets/Data/BuildProcessorHooks.asset");
 
-            GetStaticLogger()
+            StaticLogger
                .Info(hookLibrary == null
                          ? "No hook library found. No custom build " + mode + " hooks added."
                          : "Loaded custom build " + mode + " hooks.");
@@ -100,7 +102,7 @@ namespace WhateverDevs.Core.Editor.Build
                 }
                 else
                 {
-                    GetLogger()
+                    Logger
                        .Error("No version found at "
                             + VersionPath
                             + ". Don't you want a version shipped with your game?");
@@ -138,7 +140,7 @@ namespace WhateverDevs.Core.Editor.Build
             EditorUtility.SetDirty(version);
             AssetDatabase.SaveAssets();
 
-            GetLogger().Info("New version asset generated.");
+            Logger.Info("New version asset generated.");
 
             return true;
         }
@@ -166,22 +168,22 @@ namespace WhateverDevs.Core.Editor.Build
                 catch (Exception e)
                 {
                     buildSuccessful = false;
-                    GetStaticLogger().Error("Exception!", e);
+                    StaticLogger.Error("Exception!", e);
                 }
             else
-                GetStaticLogger().Info("Target is not standalone, skipping config copy.");
+                StaticLogger.Info("Target is not standalone, skipping config copy.");
 
             BuildProcessorHookLibrary hookLibrary = LoadHookLibrary("postprocessing");
 
             if (hookLibrary != null)
                 for (int i = 0; i < hookLibrary.PostProcessorHooks.Length; ++i)
-                    if (!hookLibrary.PostProcessorHooks[i].RunHook())
+                    if (!hookLibrary.PostProcessorHooks[i].RunHook(pathToBuiltProject))
                         buildSuccessful = false;
 
             if (buildSuccessful)
-                GetStaticLogger().Info("Successfully postprocessed build in " + buildFolder + ".");
+                StaticLogger.Info("Successfully postprocessed build in " + buildFolder + ".");
             else
-                GetStaticLogger().Error("There was an error postprocessing the build, check the console.");
+                StaticLogger.Error("There was an error postprocessing the build, check the console.");
         }
 
         /// <summary>
@@ -193,10 +195,10 @@ namespace WhateverDevs.Core.Editor.Build
             if (Directory.Exists(buildPath + "/Configuration")) Utils.DeleteDirectory(buildPath + "/Configuration");
 
             if (Directory.Exists("Configuration"))
-                GetStaticLogger().Info("Configuration folder found, copying it to build.");
+                StaticLogger.Info("Configuration folder found, copying it to build.");
             else
             {
-                GetStaticLogger().Info("No configuration folder found, skipping config copy.");
+                StaticLogger.Info("No configuration folder found, skipping config copy.");
                 return;
             }
 

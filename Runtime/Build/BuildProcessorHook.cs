@@ -11,6 +11,6 @@ namespace WhateverDevs.Core.Runtime.Build
         /// <summary>
         /// Run your hook.
         /// </summary>
-        public abstract bool RunHook();
+        public abstract bool RunHook(string buildPath);
     }
 }
