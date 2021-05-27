@@ -18,7 +18,7 @@ namespace Editor.Utils
         public static void CleanAndRestart()
         {
             UpdatePowershellScripts();
-            
+
             if (!EditorUtility.DisplayDialog("Clean caches and restart",
                                              "This will force reimporting the project, make sure you have saved everything first.",
                                              "Continue",
@@ -47,7 +47,8 @@ namespace Editor.Utils
         /// </summary>
         private static void UpdatePowershellScripts()
         {
-            if (Directory.Exists("WhateverDevsScripts")) Directory.Delete("WhateverDevsScripts");
+            if (Directory.Exists("WhateverDevsScripts"))
+                WhateverDevs.Core.Runtime.Common.Utils.DeleteDirectory("WhateverDevsScripts");
 
             Directory.CreateDirectory("WhateverDevsScripts");
 
