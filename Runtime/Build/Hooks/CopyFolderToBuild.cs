@@ -25,7 +25,7 @@ namespace WhateverDevs.Core.Runtime.Build.Hooks
             DirectoryInfo buildParent = new DirectoryInfo(buildPath).Parent;
             DirectoryInfo targetFolder = new DirectoryInfo(buildParent + "/" + originalFolderInfo.Name);
 
-            if (targetFolder.Exists) targetFolder.Delete();
+            if (targetFolder.Exists) Utils.DeleteDirectory(targetFolder.FullName);
 
             targetFolder.Create();
             
