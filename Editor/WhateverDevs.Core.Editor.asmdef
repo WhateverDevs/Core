@@ -14,7 +14,7 @@
     "precompiledReferences": [
         "Zenject-usage.dll",
         "nunit.framework.dll",
-        "log4netPlastic.dll"
+        "log4net.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

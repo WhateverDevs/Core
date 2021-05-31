@@ -12,7 +12,7 @@
     "precompiledReferences": [
         "Zenject-usage.dll",
         "Sirenix.OdinInspector.Attributes.dll",
-        "log4netPlastic.dll"
+        "log4net.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
