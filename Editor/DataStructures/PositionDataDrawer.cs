@@ -126,7 +126,7 @@ namespace WhateverDevs.Core.Editor.DataStructures
 
             if (defaultResourcesError)
                 EditorGUILayout
-                   .HelpBox("You can't use a mesh from the default Unity ones, sorry.",
+                   .HelpBox("You can't use a mesh or material from the default Unity ones, sorry.",
                             MessageType.Error);
 
             meshToUse = (Mesh) EditorGUILayout.ObjectField("Debug mesh", meshToUse, typeof(Mesh), false);
@@ -142,12 +142,19 @@ namespace WhateverDevs.Core.Editor.DataStructures
                 property.FindPropertyRelative(DebugMaterialPropertyName).stringValue =
                     AssetDatabase.GetAssetPath(materialToUse);
 
-            if ("Library/unity default resources" != property.FindPropertyRelative(DebugMeshPropertyName).stringValue)
+            if ("Library/unity default resources" == property.FindPropertyRelative(DebugMeshPropertyName).stringValue)
+            {
+                defaultResourcesError = true;
+                meshToUse = null;
+                property.FindPropertyRelative(DebugMeshPropertyName).stringValue = null;
+            }
+
+            if ("Resources/unity_builtin_extra" != property.FindPropertyRelative(DebugMaterialPropertyName).stringValue)
                 return;
 
             defaultResourcesError = true;
-            meshToUse = null;
-            property.FindPropertyRelative(DebugMeshPropertyName).stringValue = null;
+            materialToUse = null;
+            property.FindPropertyRelative(DebugMaterialPropertyName).stringValue = null;
         }
 
         /// <summary>
@@ -185,14 +192,31 @@ namespace WhateverDevs.Core.Editor.DataStructures
 
             EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.Space();
+
             EditorGUILayout.PropertyField(property.FindPropertyRelative("Position"));
 
             EditorGUILayout.PropertyField(property.FindPropertyRelative("Rotation"));
 
-            showHandles =
-                EditorGUILayout.Toggle(new GUIContent("Show handles",
-                                                      "Show handles on the scene to be able to edit the position and rotation."),
-                                       showHandles);
+            EditorGUILayout.Space();
+
+            EditorGUILayout.BeginHorizontal();
+
+            {
+                showHandles =
+                    EditorGUILayout.Toggle(new GUIContent("Show handles",
+                                                          "Show handles on the scene to be able to edit the position and rotation."),
+                                           showHandles);
+
+                if (GUILayout.Button("Focus on position"))
+                    SceneView.lastActiveSceneView
+                             .Frame(new Bounds(serializedProperty
+                                              .FindPropertyRelative(PositionPropertyName)
+                                              .vector3Value,
+                                               Vector3.one));
+            }
+
+            EditorGUILayout.EndHorizontal();
         }
 
         /// <summary>
@@ -207,28 +231,39 @@ namespace WhateverDevs.Core.Editor.DataStructures
 
                 if (showHandles)
                 {
-                    serializedProperty
-                           .FindPropertyRelative(PositionPropertyName)
-                           .vector3Value =
-                        Handles.PositionHandle(serializedProperty
-                                              .FindPropertyRelative(PositionPropertyName)
-                                              .vector3Value,
-                                               Quaternion.Euler(serializedProperty
-                                                               .FindPropertyRelative(RotationPropertyName)
-                                                               .vector3Value));
+                    EditorGUI.BeginChangeCheck();
 
-                    serializedProperty
-                           .FindPropertyRelative(RotationPropertyName)
-                           .vector3Value =
-                        Handles.RotationHandle(Quaternion.Euler(serializedProperty
-                                                               .FindPropertyRelative(RotationPropertyName)
-                                                               .vector3Value),
-                                               serializedProperty
+                    {
+                        serializedProperty
+                               .FindPropertyRelative(PositionPropertyName)
+                               .vector3Value =
+                            Handles.PositionHandle(serializedProperty
                                                   .FindPropertyRelative(PositionPropertyName)
-                                                  .vector3Value)
-                               .eulerAngles;
+                                                  .vector3Value,
+                                                   Quaternion.Euler(serializedProperty
+                                                                   .FindPropertyRelative(RotationPropertyName)
+                                                                   .vector3Value));
 
-                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                        serializedProperty
+                               .FindPropertyRelative(RotationPropertyName)
+                               .vector3Value =
+                            Handles.RotationHandle(Quaternion.Euler(serializedProperty
+                                                                   .FindPropertyRelative(RotationPropertyName)
+                                                                   .vector3Value),
+                                                   serializedProperty
+                                                      .FindPropertyRelative(PositionPropertyName)
+                                                      .vector3Value)
+                                   .eulerAngles;
+
+                        serializedProperty.serializedObject.ApplyModifiedProperties();
+                    }
+
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        Undo.RecordObject(serializedProperty.serializedObject.targetObject, "Change spawns");
+                        EditorUtility.SetDirty(serializedProperty.serializedObject.targetObject);
+                        serializedProperty.serializedObject.ApplyModifiedProperties();
+                    }
                 }
 
                 materialToUse.SetPass(0);
