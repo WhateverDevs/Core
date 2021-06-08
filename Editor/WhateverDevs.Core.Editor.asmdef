@@ -14,7 +14,9 @@
     "precompiledReferences": [
         "Zenject-usage.dll",
         "nunit.framework.dll",
-        "log4net.dll"
+        "log4net.dll",
+        "Sirenix.OdinInspector.Attributes.dll",
+        "Sirenix.OdinInspector.Editor.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],
