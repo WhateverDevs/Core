@@ -15,7 +15,7 @@ namespace WhateverDevs.Core.Runtime.DependencyInjection
         /// </summary>
         /// <param name="parent"></param>
         /// <returns></returns>
-        public TComponent CreateGameObject(Transform parent)
+        public virtual TComponent CreateGameObject(Transform parent)
         {
             TComponent component = Create();
             component.transform.parent = parent;
@@ -28,7 +28,7 @@ namespace WhateverDevs.Core.Runtime.DependencyInjection
         /// </summary>
         /// <param name="parent"></param>
         /// <returns></returns>
-        public TComponent CreateUiGameObject(Transform parent)
+        public virtual TComponent CreateUiGameObject(Transform parent)
         {
             TComponent component = Create();
             component.transform.SetParent(parent, false);
@@ -41,7 +41,7 @@ namespace WhateverDevs.Core.Runtime.DependencyInjection
         /// <param name="position"></param>
         /// <param name="rotation"></param>
         /// <returns></returns>
-        public TComponent CreateGameObject(Vector3 position, Quaternion rotation)
+        public virtual TComponent CreateGameObject(Vector3 position, Quaternion rotation)
         {
             TComponent component = Create();
             component.transform.SetPositionAndRotation(position, rotation);
@@ -55,7 +55,7 @@ namespace WhateverDevs.Core.Runtime.DependencyInjection
         /// <param name="position"></param>
         /// <param name="rotation"></param>
         /// <returns></returns>
-        public TComponent CreateGameObject(Transform parent, Vector3 position, Quaternion rotation)
+        public virtual TComponent CreateGameObject(Transform parent, Vector3 position, Quaternion rotation)
         {
             TComponent component = CreateGameObject(parent);
             component.transform.SetPositionAndRotation(position, rotation);
@@ -70,7 +70,7 @@ namespace WhateverDevs.Core.Runtime.DependencyInjection
         /// <param name="position"></param>
         /// <param name="rotation"></param>
         /// <returns></returns>
-        public TComponent CreateUiGameObject(Transform parent, Vector3 position, Quaternion rotation)
+        public virtual TComponent CreateUiGameObject(Transform parent, Vector3 position, Quaternion rotation)
         {
             TComponent component = CreateUiGameObject(parent);
             component.transform.SetPositionAndRotation(position, rotation);
