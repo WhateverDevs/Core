@@ -48,6 +48,11 @@ namespace WhateverDevs.Core.Editor.DataStructures
         private bool showHandles;
 
         /// <summary>
+        /// Flag to activate debug mesh.
+        /// </summary>
+        private bool showMesh = true;
+
+        /// <summary>
         /// Mesh to use when positioning handles.
         /// </summary>
         private Mesh meshToUse;
@@ -217,6 +222,11 @@ namespace WhateverDevs.Core.Editor.DataStructures
             }
 
             EditorGUILayout.EndHorizontal();
+
+            showMesh =
+                EditorGUILayout.Toggle(new GUIContent("Show debug mesh",
+                                                      "Show the debug mesh on the scene."),
+                                       showMesh);
         }
 
         /// <summary>
@@ -266,6 +276,8 @@ namespace WhateverDevs.Core.Editor.DataStructures
                     }
                 }
 
+                if (!showMesh) return;
+                
                 materialToUse.SetPass(0);
 
                 Graphics.DrawMeshNow(meshToUse,
