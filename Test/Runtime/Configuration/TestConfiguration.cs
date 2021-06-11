@@ -10,9 +10,8 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
     [CreateAssetMenu(menuName = "WhateverDevs/Test/TestConfiguration", fileName = "TestConfiguration")]
     public class TestConfiguration : ConfigurationScriptableHolderUsingFirstValidPersister<TestConfigurationData>
     {
-        
     }
-    
+
     /// <summary>
     /// Testable example of configuration data.
     /// </summary>
