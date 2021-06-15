@@ -44,7 +44,7 @@ namespace WhateverDevs.Core.Test.Runtime.Configuration
 
             // Inject a lazy singleton Json File persister into the test configuration.
             Container.Bind<IPersister>()
-                     .To<ConfigurationJsonFilePersister>()
+                     .To<ConfigurationJsonFilePersisterOnLocalFolder>()
                      .AsSingle()
                      .WhenInjectedInto<TestConfiguration>()
                      .Lazy();

@@ -7,8 +7,9 @@ namespace WhateverDevs.Core.Runtime.Configuration
     /// <summary>
     /// Scriptable version of the configuration json file persister for editor referencing.
     /// </summary>
-    [CreateAssetMenu(menuName = "WhateverDevs/Persistence/ConfigurationJsonFile", fileName = "ConfigurationJsonFilePersister")]
-    public class ConfigurationJsonFilePersisterScriptable : PersisterScriptable
+    [CreateAssetMenu(menuName = "WhateverDevs/Persistence/ConfigurationJsonFileOnLocal",
+                     fileName = "ConfigurationJsonFilePersisterOnLocalFolder")]
+    public class ConfigurationJsonFilePersisterOnLocalFolderScriptable : PersisterScriptable
     {
         /// <summary>
         /// Reference to the json serializer.
@@ -19,11 +20,12 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// Actual persister.
         /// </summary>
         public override IPersister Persister =>
-            persister ?? (persister = new ConfigurationJsonFilePersister {Serializer = JsonSerializer.Serializer});
+            persisterOnLocalFolder ??=
+                new ConfigurationJsonFilePersisterOnLocalFolder {Serializer = JsonSerializer.Serializer};
 
         /// <summary>
         /// Backfield for persister.
         /// </summary>
-        private ConfigurationJsonFilePersister persister;
+        private ConfigurationJsonFilePersisterOnLocalFolder persisterOnLocalFolder;
     }
 }

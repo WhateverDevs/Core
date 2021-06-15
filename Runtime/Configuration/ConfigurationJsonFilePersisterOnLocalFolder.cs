@@ -1,24 +1,17 @@
 using System.IO;
-// ReSharper disable once RedundantUsingDirective
-using UnityEngine;
 using WhateverDevs.Core.Runtime.Persistence;
 
 namespace WhateverDevs.Core.Runtime.Configuration
 {
     /// <summary>
-    /// Json file persister that adds a prefix for storing the configuration.
+    /// Json file persister that adds a prefix for storing the configuration on the local folder.
     /// </summary>
-    public class ConfigurationJsonFilePersister : JsonFilePersister
+    public class ConfigurationJsonFilePersisterOnLocalFolder : JsonFilePersister
     {
         /// <summary>
         /// Path to the configuration that is automatically added to the destination.
-        /// TODO: This will only work on Standalone and Android. We should add more platforms as needed.
         /// </summary>
-        #if UNITY_ANDROID
-        private static readonly string ConfigurationPath = Application.persistentDataPath + "/Configuration/";
-        #else
-        private const string ConfigurationPath = "Configuration/";
-        #endif
+        protected virtual string ConfigurationPath => "Configuration/";
 
         /// <summary>
         /// Saves data to the given destination in a Json file.
@@ -40,13 +33,24 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// <param name="origin">File path of the json file.</param>
         /// <typeparam name="TOriginal">Type of the original data.</typeparam>
         /// <returns>True if it was successful.</returns>
-        public override bool Load<TOriginal>(out TOriginal data, string origin) =>
-            base.Load(out data, ConfigurationPath + origin);
+        public override bool Load<TOriginal>(out TOriginal data, string origin)
+        {
+            try
+            {
+                bool success = base.Load(out data, ConfigurationPath + origin);
+                return success;
+            }
+            catch
+            {
+                data = default;
+                return false;
+            }
+        }
 
         /// <summary>
         /// Checks if the configuration folder exists and creates it if it doesn't.
         /// </summary>
-        private static void CheckFolderAndCreate()
+        private void CheckFolderAndCreate()
         {
             if (!Directory.Exists(ConfigurationPath)) Directory.CreateDirectory(ConfigurationPath);
         }

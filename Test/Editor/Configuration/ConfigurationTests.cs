@@ -25,7 +25,7 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
         /// </summary>
         [SetUp]
         public void Setup() =>
-            persisters = new IPersister[] {new ConfigurationJsonFilePersister {Serializer = new JsonSerializer()}};
+            persisters = new IPersister[] {new ConfigurationJsonFilePersisterOnLocalFolder {Serializer = new JsonSerializer()}};
 
         /// <summary>
         /// Test normal json file serialization.
