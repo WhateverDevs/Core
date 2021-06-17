@@ -32,7 +32,7 @@ namespace WhateverDevs.Core.Editor.Build
         /// <summary>
         /// Current date in string version format.
         /// </summary>
-        private static string CurrentDate => DateTime.Now.ToString("yyyyMMddhhmmss");
+        private static string CurrentDate => DateTime.Now.ToString("yyyyMMddHHmmss");
 
         /// <summary>
         /// Operations to be performed before build.
