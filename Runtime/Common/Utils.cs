@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
+using WhateverDevs.Core.Runtime.DataStructures;
 
 namespace WhateverDevs.Core.Runtime.Common
 {
@@ -19,6 +20,30 @@ namespace WhateverDevs.Core.Runtime.Common
         /// <param name="gameObject">The game object to check.</param>
         /// <returns>True if it won't be destroyed.</returns>
         public static bool IsDontDestroyOnLoad(this GameObject gameObject) => gameObject.scene.buildIndex == -1;
+
+        /// <summary>
+        /// Sets the position and rotation of a transform from a position data object.
+        /// </summary>
+        /// <param name="transform">The transform to change.</param>
+        /// <param name="positionData">Position data to set.</param>
+        public static void SetPositionAndRotation(this Transform transform, PositionData positionData) =>
+            transform.SetPositionAndRotation(positionData.Position, Quaternion.Euler(positionData.Rotation));
+
+        /// <summary>
+        /// Sets the position of a transform from a position data object.
+        /// </summary>
+        /// <param name="transform">The transform to change.</param>
+        /// <param name="positionData">Position data to set.</param>
+        public static void SetPosition(this Transform transform, PositionData positionData) =>
+            transform.position = positionData.Position;
+
+        /// <summary>
+        /// Sets the rotation of a transform from a position data object.
+        /// </summary>
+        /// <param name="transform">The transform to change.</param>
+        /// <param name="positionData">Position data to set.</param>
+        public static void SetRotation(this Transform transform, PositionData positionData) =>
+            transform.rotation = Quaternion.Euler(positionData.Rotation);
 
         /// <summary>
         /// Determines if a string is null, empty or whitespace.
