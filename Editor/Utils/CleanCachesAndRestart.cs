@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using WhateverDevs.Core.Runtime.Common;
 
-namespace Editor.Utils
+namespace WhateverDevs.Core.Editor.Utils
 {
     /// <summary>
     /// Class with the util to clean the cache and restart.

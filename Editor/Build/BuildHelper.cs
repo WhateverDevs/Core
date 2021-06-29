@@ -42,7 +42,7 @@ namespace WhateverDevs.Core.Editor.Build
         {
             // This makes sure the logger is initialized even if the game hasn't been run on editor.
             LogHandler.Initialize();
-            
+
             Logger.Info("Building to " + report.summary.outputPath + ".");
 
             bool buildSuccessful = GenerateVersion();
@@ -192,7 +192,8 @@ namespace WhateverDevs.Core.Editor.Build
         /// <param name="buildPath">The path of the build.</param>
         private static void CopyConfigFolder(string buildPath)
         {
-            if (Directory.Exists(buildPath + "/Configuration")) Utils.DeleteDirectory(buildPath + "/Configuration");
+            if (Directory.Exists(buildPath + "/Configuration"))
+                Runtime.Common.Utils.DeleteDirectory(buildPath + "/Configuration");
 
             if (Directory.Exists("Configuration"))
                 StaticLogger.Info("Configuration folder found, copying it to build.");
@@ -202,8 +203,8 @@ namespace WhateverDevs.Core.Editor.Build
                 return;
             }
 
-            Utils.CopyFilesRecursively(new DirectoryInfo("Configuration"),
-                                       new DirectoryInfo(buildPath + "/Configuration"));
+            Runtime.Common.Utils.CopyFilesRecursively(new DirectoryInfo("Configuration"),
+                                                      new DirectoryInfo(buildPath + "/Configuration"));
         }
 
         /// <summary>
