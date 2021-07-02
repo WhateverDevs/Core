@@ -23,13 +23,16 @@ namespace WhateverDevs.Core.Runtime.Persistence
         /// </summary>
         /// <param name="data">Data to save.</param>
         /// <param name="destination">File path for the json.</param>
+        /// <param name="suppressErrors">Don't log errors, this is useful for systems that can still work
+        /// without the resource existing, like the configuration manager.</param>
         /// <typeparam name="TOriginal">Type of the original data.</typeparam>
         /// <returns>True if it was successful.</returns>
-        public virtual bool Save<TOriginal>(TOriginal data, string destination)
+        public virtual bool Save<TOriginal>(TOriginal data, string destination, bool suppressErrors = false)
         {
+            // ReSharper disable once PossibleNullReferenceException
             if (!Directory.GetParent(destination).Exists)
             {
-                GetLogger().Error("The given destination folder doesn't exist!");
+                if (!suppressErrors) Logger.Error("The given destination folder doesn't exist!");
                 return false;
             }
 
@@ -43,7 +46,7 @@ namespace WhateverDevs.Core.Runtime.Persistence
             }
             catch (Exception exception)
             {
-                GetLogger().Fatal(exception);
+                if (!suppressErrors) Logger.Fatal(exception);
                 return false;
             }
 
@@ -55,13 +58,15 @@ namespace WhateverDevs.Core.Runtime.Persistence
         /// </summary>
         /// <param name="data">Object that will store the data.</param>
         /// <param name="origin">File path of the json file.</param>
+        /// <param name="suppressErrors">Don't log errors, this is useful for systems that can still work
+        /// without the resource existing, like the configuration manager.</param>
         /// <typeparam name="TOriginal">Type of the original data.</typeparam>
         /// <returns>True if it was successful.</returns>
-        public virtual bool Load<TOriginal>(out TOriginal data, string origin)
+        public virtual bool Load<TOriginal>(out TOriginal data, string origin, bool suppressErrors = false)
         {
             if (!File.Exists(origin))
             {
-                GetLogger().Error("The given file does not exist: " + origin);
+                if (!suppressErrors) Logger.Error("The given file does not exist: " + origin);
                 throw new ArgumentException(); // We can't just return null as TOriginal may not be nullable.
             }
 

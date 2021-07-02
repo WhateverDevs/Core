@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using WhateverDevs.Core.Runtime.Common;
 using Zenject;
 
@@ -41,7 +40,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
 
             if (Configurations == null)
             {
-                Debug.LogError("Configurations have not been injected!");
+                Logger.Error("Configurations have not been injected!");
                 return false;
             }
 
@@ -49,7 +48,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
             {
                 if (checkedTypes.Contains(Configurations[i].GetType()))
                 {
-                    GetLogger()
+                    Logger
                        .Error("You have two configuration files of the same type added to the configuration list. "
                             + "Only one file of each type should be created. Manager won't initialize.");
 
@@ -57,7 +56,14 @@ namespace WhateverDevs.Core.Runtime.Configuration
                 }
 
                 checkedTypes.Add(Configurations[i].GetType());
-                Configurations[i].Load();
+
+                if (Configurations[i].Load()) continue;
+
+                Logger.Error("Couldn't not load "
+                           + Configurations[i].GetType()
+                           + " Won't initialize.");
+
+                return false;
             }
 
             return true;

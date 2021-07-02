@@ -16,7 +16,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
         public override bool Load()
         {
             for (int i = 0; i < Persisters.Count; ++i)
-                if (Persisters[i].Load(out ConfigData, ConfigurationName))
+                if (Persisters[i].Load(out ConfigData, ConfigurationName, true))
                     return true;
 
             return false;

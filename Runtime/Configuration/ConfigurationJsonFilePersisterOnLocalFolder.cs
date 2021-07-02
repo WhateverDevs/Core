@@ -18,12 +18,14 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         /// <param name="data">Data to save.</param>
         /// <param name="destination">File path for the json.</param>
+        /// <param name="suppressErrors">Don't log errors, this is useful for systems that can still work
+        /// without the resource existing, like the configuration manager.</param>
         /// <typeparam name="TOriginal">Type of the original data.</typeparam>
         /// <returns>True if it was successful.</returns>
-        public override bool Save<TOriginal>(TOriginal data, string destination)
+        public override bool Save<TOriginal>(TOriginal data, string destination, bool suppressErrors = false)
         {
             CheckFolderAndCreate();
-            return base.Save(data, ConfigurationPath + destination);
+            return base.Save(data, ConfigurationPath + destination, suppressErrors);
         }
 
         /// <summary>
@@ -31,13 +33,15 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         /// <param name="data">Object that will store the data.</param>
         /// <param name="origin">File path of the json file.</param>
+        /// <param name="suppressErrors">Don't log errors, this is useful for systems that can still work
+        /// without the resource existing, like the configuration manager.</param>
         /// <typeparam name="TOriginal">Type of the original data.</typeparam>
         /// <returns>True if it was successful.</returns>
-        public override bool Load<TOriginal>(out TOriginal data, string origin)
+        public override bool Load<TOriginal>(out TOriginal data, string origin, bool suppressErrors = false)
         {
             try
             {
-                bool success = base.Load(out data, ConfigurationPath + origin);
+                bool success = base.Load(out data, ConfigurationPath + origin, suppressErrors);
                 return success;
             }
             catch
