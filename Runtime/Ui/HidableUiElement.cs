@@ -20,6 +20,16 @@ namespace WhateverDevs.Core.Runtime.Ui
     public abstract class HidableUiElement<T> : LoggableMonoBehaviour<T> where T : HidableUiElement<T>
     {
         /// <summary>
+        /// Toggle interactable when showing and hiding?
+        /// </summary>
+        public bool ToggleInteractable;
+
+        /// <summary>
+        /// Toggle blocking raycasts when showing and hiding?
+        /// </summary>
+        public bool ToggleBlockRaycasts;
+
+        /// <summary>
         /// Reference to the canvas group to be able to show and hide the panel.
         /// </summary>
         protected CanvasGroup CanvasGroup
@@ -41,6 +51,13 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// </summary>
         /// <param name="show"></param>
         [Button]
-        public virtual void Show(bool show = true) => CanvasGroup.alpha = show ? 1 : 0;
+        public virtual void Show(bool show = true)
+        {
+            CanvasGroup.alpha = show ? 1 : 0;
+
+            if (ToggleInteractable) CanvasGroup.interactable = show;
+
+            if (ToggleBlockRaycasts) CanvasGroup.blocksRaycasts = show;
+        }
     }
 }
