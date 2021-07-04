@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using JetBrains.Annotations;
 using log4net.Appender;
 using log4net.Core;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace WhateverDevs.Core.Runtime.Logger.Appenders
     /// <summary>
     /// Appender that relays the messages to a socket.
     /// </summary>
+    [UsedImplicitly]
     public class SocketAppender : AppenderSkeleton
     {
         /// <summary>
@@ -20,6 +22,9 @@ namespace WhateverDevs.Core.Runtime.Logger.Appenders
         // ReSharper disable once MemberCanBePrivate.Global
         public int Port { get; set; }
 
+        /// <summary>
+        /// Flat to know if the exception catcher has initialized.
+        /// </summary>
         private bool exceptionCatcherInitialized;
 
         /// <summary>
@@ -27,6 +32,10 @@ namespace WhateverDevs.Core.Runtime.Logger.Appenders
         /// </summary>
         private Queue<LoggingEvent> messageQueue = new Queue<LoggingEvent>();
 
+        /// <summary>
+        /// Called when logging happens.
+        /// </summary>
+        /// <param name="loggingEvent"></param>
         protected override void Append(LoggingEvent loggingEvent)
         {
             if (!Application.isPlaying)

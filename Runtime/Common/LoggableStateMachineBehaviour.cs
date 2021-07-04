@@ -41,7 +41,7 @@ namespace WhateverDevs.Core.Runtime.Common
             #if UNITY_EDITOR
             LogHandler.Initialize();
             #endif
-            return logger ?? (logger = LogManager.GetLogger(typeof(TLoggable)));
+            return logger ??= LogManager.GetLogger(typeof(TLoggable));
         }
         
         /// <summary>
@@ -53,7 +53,7 @@ namespace WhateverDevs.Core.Runtime.Common
             #if UNITY_EDITOR
             LogHandler.Initialize();
             #endif
-            return staticLogger ?? (staticLogger = LogManager.GetLogger(typeof(TLoggable)));
+            return staticLogger ??= LogManager.GetLogger(typeof(TLoggable));
         }
     }
 }

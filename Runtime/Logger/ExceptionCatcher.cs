@@ -14,7 +14,7 @@ namespace WhateverDevs.Core.Runtime.Logger
         private void OnEnable()
         {
             Application.logMessageReceived += ExceptionCallBack;
-            GetLogger().Info("Global exception catching ready.");
+            Logger.Debug("Global exception catching ready.");
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace WhateverDevs.Core.Runtime.Logger
         private static void ExceptionCallBack(string condition, string stacktrace, LogType logType)
         {
             if (logType == LogType.Exception || logType == LogType.Assert)
-                GetStaticLogger().Fatal(condition + "\n" + stacktrace);
+                StaticLogger.Fatal(condition + "\n" + stacktrace);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace WhateverDevs.Core.Runtime.Logger
         private void OnDisable()
         {
             Application.logMessageReceived -= ExceptionCallBack;
-            GetLogger().Info("Global exception catching off.");
+            Logger.Debug("Global exception catching off.");
         }
     }
 }
