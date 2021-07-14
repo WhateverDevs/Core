@@ -87,9 +87,10 @@ namespace WhateverDevs.Core.Runtime.Configuration
             }
 
             for (int i = 0; i < Configurations.Count; ++i)
-                if (Configurations[i] is IConfiguration<TConfigurationData>)
+                if (Configurations[i] is IConfiguration<TConfigurationData>
+                 || typeof(TConfigurationData).IsAssignableFrom(Configurations[i].GetConfigurationType()))
                 {
-                    configurationData = ((IConfiguration<TConfigurationData>) Configurations[i]).ConfigurationData;
+                    configurationData = Configurations[i].UnsafeRetrieveConfiguration<TConfigurationData>();
                     return true;
                 }
 
@@ -117,12 +118,12 @@ namespace WhateverDevs.Core.Runtime.Configuration
             }
 
             for (int i = 0; i < Configurations.Count; ++i)
-                if (Configurations[i] is IConfiguration<TConfigurationData>)
+                if (Configurations[i] is IConfiguration<TConfigurationData>
+                 || typeof(TConfigurationData).IsAssignableFrom(Configurations[i].GetConfigurationType()))
                 {
-                    IConfiguration<TConfigurationData> configuration =
-                        (IConfiguration<TConfigurationData>) Configurations[i];
+                    IConfiguration configuration = Configurations[i];
 
-                    configuration.ConfigurationData = configurationData;
+                    configuration.UnsafeSetConfiguration(configurationData);
                     configuration.Save();
 
                     ConfigurationUpdated?.Invoke(configurationData);

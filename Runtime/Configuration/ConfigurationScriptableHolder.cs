@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using log4net;
 using WhateverDevs.Core.Runtime.Persistence;
@@ -43,6 +44,37 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         [SerializeField]
         protected TConfigurationData ConfigData;
+
+        /// <summary>
+        /// Retrieve the type of configuration used.
+        /// </summary>
+        /// <returns></returns>
+        public Type GetConfigurationType() => typeof(TConfigurationData);
+
+        /// <summary>
+        /// Retrieve the configuration for this holder or null if it doesn't match.
+        /// </summary>
+        /// <typeparam name="T">The type of configuration to retrieve.</typeparam>
+        /// <returns>Either the configuration or null if it doesn't match.</returns>
+        public T UnsafeRetrieveConfiguration<T>() where T : ConfigurationData
+        {
+            if (ConfigurationData is T data) return data;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Set the configuration for this holder or null if it doesn't match.
+        /// To be overriden if necessary by configuration holder extenders.
+        /// </summary>
+        /// <typeparam name="T">The type of configuration to set.</typeparam>
+        /// <returns>True if it could save it, false if it couldn't or it can't be cast.</returns>
+        public virtual bool UnsafeSetConfiguration<T>(T newConfiguration) where T : ConfigurationData
+        {
+            if (typeof(T) != typeof(TConfigurationData)) return false;
+            ConfigurationData = newConfiguration as TConfigurationData;
+            return true;
+        }
 
         /// <summary>
         /// Save the data using the persistent persisters.
@@ -119,7 +151,6 @@ namespace WhateverDevs.Core.Runtime.Configuration
         [HideInEditorMode]
         [Button]
         private void LoadWithInjectedPersisters() => Load();
-        
 
         /// <summary>
         /// Assign the persisters to the object.

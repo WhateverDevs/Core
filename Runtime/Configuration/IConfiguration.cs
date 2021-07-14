@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using WhateverDevs.Core.Runtime.Persistence;
 
@@ -14,7 +15,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// Priority on which persisters to use on load should be implemented by children.
         /// </summary>
         List<IPersister> Persisters { get; set; }
-        
+
         /// <summary>
         /// Data this configuration will hold.
         /// </summary>
@@ -26,6 +27,28 @@ namespace WhateverDevs.Core.Runtime.Configuration
     /// </summary>
     public interface IConfiguration
     {
+        /// <summary>
+        /// Retrieve the type of configuration used.
+        /// </summary>
+        /// <returns></returns>
+        Type GetConfigurationType();
+
+        /// <summary>
+        /// Retrieve the configuration for this holder or null if it doesn't match.
+        /// </summary>
+        /// <typeparam name="TConfigurationData">The type of configuration to retrieve.</typeparam>
+        /// <returns>Either the configuration or null if it doesn't match.</returns>
+        TConfigurationData UnsafeRetrieveConfiguration<TConfigurationData>()
+            where TConfigurationData : ConfigurationData;
+
+        /// <summary>
+        /// Set the configuration for this holder or null if it doesn't match.
+        /// </summary>
+        /// <typeparam name="TConfigurationData">The type of configuration to set.</typeparam>
+        /// <returns>True if it could save it, false if it couldn't or it can't be cast.</returns>
+        bool UnsafeSetConfiguration<TConfigurationData>(TConfigurationData newConfiguration)
+            where TConfigurationData : ConfigurationData;
+
         /// <summary>
         /// Save the data using the persistent persisters.
         /// </summary>

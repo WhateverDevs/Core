@@ -96,6 +96,14 @@ namespace WhateverDevs.Core.Runtime.Common
             return newList;
         }
 
+        /// <summary>
+        /// Resize an array with the given rows and columns.
+        /// </summary>
+        /// <param name="original"></param>
+        /// <param name="rows"></param>
+        /// <param name="cols"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static T[,] ResizeArray<T>(this T[,] original, int rows, int cols)
         {
             T[,] newArray = new T[rows, cols];
