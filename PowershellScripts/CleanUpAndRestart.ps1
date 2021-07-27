@@ -64,6 +64,20 @@ if ($UnityPath)
         Remove-Item $folder -Recurse;
     }
 
+    $folder = "Build"
+    if (Test-Path $folder)
+    {
+        Write-Host "Deleting $folder..."
+        Remove-Item $folder -Recurse;
+    }
+
+    $folder = "Bundles"
+    if (Test-Path $folder)
+    {
+        Write-Host "Deleting $folder..."
+        Remove-Item $folder -Recurse;
+    }
+
     $folder = ".idea"
     if (Test-Path $folder)
     {

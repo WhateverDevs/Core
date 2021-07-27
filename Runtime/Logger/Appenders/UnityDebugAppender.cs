@@ -17,12 +17,23 @@ namespace WhateverDevs.Core.Runtime.Logger.Appenders
         /// <param name="loggingEvent"></param>
         protected override void Append(LoggingEvent loggingEvent)
         {
-            if (loggingEvent.Level == Level.Fatal)
+            if (loggingEvent.Level == Level.Fatal || loggingEvent.Level == Level.Off)
                 // We don't actually need to log exceptions again.
                 return;
 
             string message = RenderLoggingEvent(loggingEvent);
-            Debug.Log(message);
+
+            if (loggingEvent.Level == Level.Log4Net_Debug
+             || loggingEvent.Level == Level.Emergency
+             || loggingEvent.Level == Level.Alert
+             || loggingEvent.Level == Level.Critical
+             || loggingEvent.Level == Level.Severe
+             || loggingEvent.Level == Level.Error)
+                Debug.LogError(message);
+            else if (loggingEvent.Level == Level.Warn)
+                Debug.LogWarning(message);
+            else
+                Debug.Log(message);
         }
     }
 }
