@@ -4,10 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using WhateverDevs.Core.Runtime.Common;
 using Object = UnityEngine.Object;
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace WhateverDevs.Core.Editor.Utils
 {
@@ -43,7 +45,7 @@ namespace WhateverDevs.Core.Editor.Utils
                     UseShellExecute = true
                 };
 
-            Process process = new Process {StartInfo = startInfo};
+            Process process = new Process { StartInfo = startInfo };
             process.Start();
         }
 
@@ -91,6 +93,13 @@ namespace WhateverDevs.Core.Editor.Utils
                     SceneAsset scene = AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
                     if (scene == null) continue;
 
+                    // Check if the scene is in a readonly package and ignore it if it is.
+                    PackageInfo packageInfo = PackageInfo.FindForAssetPath(scenePath);
+
+                    if (packageInfo != null)
+                        if (packageInfo.source != PackageSource.Embedded && packageInfo.source != PackageSource.Local)
+                            continue;
+
                     // ReSharper disable once AccessToStaticMemberViaDerivedType
                     EditorSceneManager.OpenScene(scenePath);
 
@@ -122,7 +131,7 @@ namespace WhateverDevs.Core.Editor.Utils
                                                  "Loading previously opened scene",
                                                  .999f);
 
-                EditorSceneManager.OpenScene(previousScene);
+                if (!previousScene.IsNullEmptyOrWhiteSpace()) EditorSceneManager.OpenScene(previousScene);
 
                 EditorUtility.ClearProgressBar();
             }
