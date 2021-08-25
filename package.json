@@ -1,6 +1,6 @@
 {
   "name": "whateverdevs.core",
-  "version": "0.0.92",
+  "version": "0.0.93",
   "dependencies": {
     "whateverdevs.extenject": "9.1.1",
     "varguiniano.extendededitor": "1.0.2",
@@ -9,11 +9,10 @@
   },
   "displayName": "Whatever Devs' Core",
   "description": "Core with our basic functionalities.",
-  "unity": "2020.3",
+  "unity": "2021.1",
   "author": {
     "name": "Whatever Devs",
     "url": "https://discord.gg/B8aaMzJ"
   },
-  "type": "library",
-  "unityRelease": "10f1"
+  "type": "library"
 }
