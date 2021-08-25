@@ -19,6 +19,6 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         /// Get a random element from the library.
         /// </summary>
         /// <returns></returns>
-        public T GetRandomColor() => Elements[Random.Range(0, Elements.Count)];
+        public T GetRandom() => Elements[Random.Range(0, Elements.Count)];
     }
 }

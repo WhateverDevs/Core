@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WhateverDevs.Core.Runtime.DataStructures;
 
-namespace WhateverDevs.Core.Runtime.Serialization.Rendering
+namespace WhateverDevs.Core.Runtime.Rendering
 {
     /// <summary>
     /// Scriptable object to store a palette of colors.
