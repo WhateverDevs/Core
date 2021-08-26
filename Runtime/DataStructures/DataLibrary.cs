@@ -12,7 +12,14 @@ namespace WhateverDevs.Core.Runtime.DataStructures
     {
         /// <summary>
         /// List of types in the library.
+        ///
+        /// We could add attributes on the child class but we would get a serialization error,
+        /// so attributes are added here.
+        /// 
+        /// Attributes support:
+        /// Alpha and hdr colors.
         /// </summary>
+        [ColorUsage(true, true)]
         public List<T> Elements;
 
         /// <summary>
