@@ -1,5 +1,6 @@
 using log4net;
 using UnityEngine;
+using WhateverDevs.Core.Behaviours;
 
 namespace WhateverDevs.Core.Runtime.Common
 {
@@ -11,7 +12,7 @@ namespace WhateverDevs.Core.Runtime.Common
     ///     To prevent that, add `protected TSingleton () {}` to your singleton class.
     ///     As a note, this is made as MonoBehaviour because we need Coroutines.
     /// </summary>
-    public abstract class Singleton<TSingleton> : LoggableMonoBehaviour<TSingleton>
+    public abstract class Singleton<TSingleton> : WhateverBehaviour<TSingleton>
         where TSingleton : Singleton<TSingleton>
     {
         /// <summary>

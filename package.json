@@ -4,8 +4,7 @@
   "dependencies": {
     "whateverdevs.extenject": "9.1.1",
     "varguiniano.extendededitor": "1.0.2",
-    "com.unity.textmeshpro": "2.0.1",
-    "com.unity.mathematics": "1.2.5"
+    "com.unity.textmeshpro": "2.0.1"
   },
   "displayName": "Whatever Devs' Core",
   "description": "Core with our basic functionalities.",

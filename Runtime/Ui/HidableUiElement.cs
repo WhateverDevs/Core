@@ -1,4 +1,5 @@
 using UnityEngine;
+using WhateverDevs.Core.Behaviours;
 using WhateverDevs.Core.Runtime.Common;
 
 #if ODIN_INSPECTOR_3
@@ -20,7 +21,7 @@ namespace WhateverDevs.Core.Runtime.Ui
     /// </summary>
     /// <typeparam name="T">The inheriting class, used for logging.</typeparam>
     [RequireComponent(typeof(CanvasGroup))]
-    public abstract class HidableUiElement<T> : LoggableMonoBehaviour<T> where T : HidableUiElement<T>
+    public abstract class HidableUiElement<T> : WhateverBehaviour<T> where T : HidableUiElement<T>
     {
         /// <summary>
         /// Toggle interactable when showing and hiding?

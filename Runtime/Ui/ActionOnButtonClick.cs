@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using WhateverDevs.Core.Behaviours;
 using WhateverDevs.Core.Runtime.Common;
 
 #if ODIN_INSPECTOR_3
@@ -12,7 +13,7 @@ namespace WhateverDevs.Core.Runtime.Ui
     /// Abstract class for classes that listen to a button click event.
     /// </summary>
     /// <typeparam name="T">The inheriting class.</typeparam>
-    public abstract class ActionOnButtonClick<T> : LoggableMonoBehaviour<T> where T : ActionOnButtonClick<T>
+    public abstract class ActionOnButtonClick<T> : WhateverBehaviour<T> where T : ActionOnButtonClick<T>
     {
         /// <summary>
         /// Is the button in the same game object?

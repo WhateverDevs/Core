@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using WhateverDevs.Core.Behaviours;
 using WhateverDevs.Core.Runtime.Common;
 
 #if ODIN_INSPECTOR_3
@@ -12,7 +13,7 @@ namespace WhateverDevs.Core.Runtime.Ui
     /// Class that enables easy updating of a TMP text.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class EasyUpdateText<T> : LoggableMonoBehaviour<T> where T : EasyUpdateText<T>
+    public abstract class EasyUpdateText<T> : WhateverBehaviour<T> where T : EasyUpdateText<T>
     {
         /// <summary>
         /// Is the text in the same game object?
