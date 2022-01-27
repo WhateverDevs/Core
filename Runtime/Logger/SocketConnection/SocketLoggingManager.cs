@@ -3,9 +3,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using Sirenix.OdinInspector;
 using WhateverDevs.Core.Runtime.Common;
 using WhateverDevs.Core.Runtime.Serialization;
+
+#if ODIN_INSPECTOR_3
+using Sirenix.OdinInspector;
+#endif
 
 namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
 {
@@ -18,13 +21,17 @@ namespace WhateverDevs.Core.Runtime.Logger.SocketConnection
         /// <summary>
         /// Flag to know if the manager is initialized.
         /// </summary>
+        #if ODIN_INSPECTOR_3
         [ReadOnly]
+        #endif
         public bool Initialized;
 
         /// <summary>
         /// Flag to know if the manager is shutting down.
         /// </summary>
+        #if ODIN_INSPECTOR_3
         [ReadOnly]
+        #endif
         public bool ShuttingDown;
 
         /// <summary>

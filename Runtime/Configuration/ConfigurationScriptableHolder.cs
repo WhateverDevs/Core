@@ -4,7 +4,9 @@ using log4net;
 using WhateverDevs.Core.Runtime.Persistence;
 using UnityEngine;
 using Zenject;
+#if ODIN_INSPECTOR_3
 using Sirenix.OdinInspector;
+#endif
 
 namespace WhateverDevs.Core.Runtime.Configuration
 {
@@ -104,8 +106,10 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// Method to be able to save on editor using Odin.
         /// </summary>
         /// <param name="persisterScriptables">List of persisters to use.</param>
+        #if ODIN_INSPECTOR_3
         [HideInPlayMode]
         [Button(ButtonStyle.FoldoutButton)]
+        #endif
         private void Save(PersisterScriptable[] persisterScriptables)
         {
             if (persisterScriptables == null)
@@ -123,8 +127,10 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// Method to able to load on editor using Odin.
         /// </summary>
         /// <param name="persisterScriptables">List of persisters to use.</param>
+        #if ODIN_INSPECTOR_3
         [HideInPlayMode]
         [Button(ButtonStyle.FoldoutButton)]
+        #endif
         private void Load(PersisterScriptable[] persisterScriptables)
         {
             if (persisterScriptables == null)
@@ -141,15 +147,19 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// <summary>
         /// Method to able to save on runtime editor using Odin.
         /// </summary>
+        #if ODIN_INSPECTOR_3
         [HideInEditorMode]
         [Button]
+        #endif
         private void SaveWithInjectedPersisters() => Save();
 
         /// <summary>
         /// Method to able to load on runtime editor using Odin.
         /// </summary>
+        #if ODIN_INSPECTOR_3
         [HideInEditorMode]
         [Button]
+        #endif
         private void LoadWithInjectedPersisters() => Load();
 
         /// <summary>

@@ -1,11 +1,11 @@
 {
   "name": "whateverdevs.core",
-  "version": "0.0.95",
+  "version": "0.1.0",
   "dependencies": {
     "whateverdevs.extenject": "9.1.1",
     "varguiniano.extendededitor": "1.0.2",
-    "varguiniano.private.odin-editor-only": "3.0.5-Mathematics2",
-    "com.unity.textmeshpro": "2.0.1"
+    "com.unity.textmeshpro": "2.0.1",
+    "com.unity.mathematics": "1.2.5"
   },
   "displayName": "Whatever Devs' Core",
   "description": "Core with our basic functionalities.",

@@ -1,7 +1,10 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using WhateverDevs.Core.Runtime.Common;
+
+#if ODIN_INSPECTOR_3
+using Sirenix.OdinInspector;
+#endif
 
 namespace WhateverDevs.Core.Runtime.Ui
 {
@@ -35,7 +38,9 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// <summary>
         /// Reference to the button.
         /// </summary>
+        #if ODIN_INSPECTOR_3
         [HideIf("ButtonInTheSameObject")]
+        #endif
         public Button ButtonReference;
 
         /// <summary>

@@ -1,5 +1,8 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
+
+#if ODIN_INSPECTOR_3
+using Sirenix.OdinInspector;
+#endif
 
 namespace WhateverDevs.Core.Runtime.Ui
 {
@@ -12,7 +15,9 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// <summary>
         /// Is it being shown right now?
         /// </summary>
+        #if ODIN_INSPECTOR_3
         [ReadOnly]
+        #endif
         public bool Shown = true;
 
         /// <summary>
@@ -23,13 +28,17 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// <summary>
         /// Show the button.
         /// </summary>
+        #if ODIN_INSPECTOR_3
         [Button]
+        #endif
         public void Show() => Show(true);
 
         /// <summary>
         /// Hide the button.
         /// </summary>
+        #if ODIN_INSPECTOR_3
         [Button]
+        #endif
         public void Hide() => Show(false);
 
         /// <summary>

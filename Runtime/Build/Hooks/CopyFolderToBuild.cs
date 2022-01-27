@@ -1,7 +1,10 @@
 using System.IO;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using WhateverDevs.Core.Runtime.Common;
+
+#if ODIN_INSPECTOR_3
+using Sirenix.OdinInspector;
+#endif
 
 namespace WhateverDevs.Core.Runtime.Build.Hooks
 {
@@ -11,7 +14,9 @@ namespace WhateverDevs.Core.Runtime.Build.Hooks
     [CreateAssetMenu(menuName = "WhateverDevs/BuildHooks/CopyFolder", fileName = "CopyFolderToBuild")]
     public class CopyFolderToBuild : BuildProcessorHook
     {
+        #if ODIN_INSPECTOR_3
         [FolderPath]
+        #endif
         public string Folder;
 
         /// <summary>
@@ -28,7 +33,7 @@ namespace WhateverDevs.Core.Runtime.Build.Hooks
             if (targetFolder.Exists) Utils.DeleteDirectory(targetFolder.FullName);
 
             targetFolder.Create();
-            
+
             Logger.Info("Copying folder " + Folder + " to build.");
 
             Utils.CopyFilesRecursively(originalFolderInfo, targetFolder);

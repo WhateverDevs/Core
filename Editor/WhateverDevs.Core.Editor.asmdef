@@ -1,6 +1,6 @@
 {
     "name": "WhateverDevs.Core.Editor",
-    "rootNamespace": "",
+    "rootNamespace": "WhateverDevs.Core",
     "references": [
         "GUID:6f75e3e9b2be11e40a79ad3ceec60e41",
         "GUID:ed8b64f314bc6ca478e1df735ff57046"
@@ -16,7 +16,8 @@
         "nunit.framework.dll",
         "log4net.dll",
         "Sirenix.OdinInspector.Attributes.dll",
-        "Sirenix.OdinInspector.Editor.dll"
+        "Sirenix.OdinInspector.Editor.dll",
+        "Sirenix.Utilities.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

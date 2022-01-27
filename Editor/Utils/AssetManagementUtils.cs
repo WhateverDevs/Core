@@ -138,6 +138,36 @@ namespace WhateverDevs.Core.Editor.Utils
         }
 
         /// <summary>
+        /// Creates a folder if does not exist.
+        /// </summary>
+        /// <param name="path">Path to that folder.</param>
+        public static void CreateFolderIfDoesNotExists(string path)
+        {
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+        }
+
+        /// <summary>
+        /// Finds all assets of a certain type.
+        /// </summary>
+        /// <typeparam name="T">Type to search.</typeparam>
+        /// <returns>A list of all assets with that type.</returns>
+        public static List<T> FindAssetsByType<T>() where T : Object
+        {
+            List<T> assets = new();
+            string[] guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
+
+            for (int i = 0; i < guids.Length; i++)
+            {
+                string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+                T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+
+                if (asset != null) assets.Add(asset);
+            }
+
+            return assets;
+        }
+
+        /// <summary>
         /// Updates the powershell scripts folder.
         /// </summary>
         private static void UpdatePowershellScripts()

@@ -1,6 +1,9 @@
-using Sirenix.OdinInspector;
 using UnityEngine;
 using WhateverDevs.Core.Runtime.Common;
+
+#if ODIN_INSPECTOR_3
+using Sirenix.OdinInspector;
+#endif
 
 namespace WhateverDevs.Core.Runtime.Ui
 {
@@ -50,7 +53,9 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// Show or hide the element.
         /// </summary>
         /// <param name="show"></param>
+        #if ODIN_INSPECTOR_3
         [Button]
+        #endif
         public virtual void Show(bool show = true)
         {
             CanvasGroup.alpha = show ? 1 : 0;
