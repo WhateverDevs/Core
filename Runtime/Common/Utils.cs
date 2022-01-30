@@ -69,6 +69,14 @@ namespace WhateverDevs.Core.Runtime.Common
         }
 
         /// <summary>
+        /// Get a random element of a list.
+        /// </summary>
+        /// <param name="original">Original list.</param>
+        /// <typeparam name="T">Type of element in the list.</typeparam>
+        /// <returns>A random element of that list.</returns>
+        public static T Random<T>(this List<T> original) => original[UnityEngine.Random.Range(0, original.Count)];
+
+        /// <summary>
         /// Converts a Vector3 list to a Vector2 list.
         /// </summary>
         /// <param name="original"></param>
