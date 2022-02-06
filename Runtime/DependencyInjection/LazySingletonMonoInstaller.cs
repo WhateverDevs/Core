@@ -13,7 +13,7 @@ namespace WhateverDevs.Core.DependencyInjection
         /// Reference to the object to install.
         /// </summary>
         [SerializeField]
-        private T Reference;
+        protected T Reference;
 
         /// <summary>
         /// Install the reference as a lazy singleton.
