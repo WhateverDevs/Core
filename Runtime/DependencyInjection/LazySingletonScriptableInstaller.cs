@@ -7,7 +7,7 @@ namespace WhateverDevs.Core.DependencyInjection
     /// Installer for objects that need to be installed as a lazy singleton.
     /// </summary>
     /// <typeparam name="T">Object type to install.</typeparam>
-    public class LazySingletonScriptableInstaller<T> : ScriptableObjectInstaller where T : MonoBehaviour
+    public class LazySingletonScriptableInstaller<T> : ScriptableObjectInstaller where T : ScriptableObject
     {
         /// <summary>
         /// Reference to the object to install.
