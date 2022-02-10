@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
+using WhateverDevs.Core.Runtime.Common;
 
 namespace WhateverDevs.Core.Runtime.DataStructures
 {
@@ -19,6 +20,11 @@ namespace WhateverDevs.Core.Runtime.DataStructures
                                                   ISerializable
     {
         /// <summary>
+        /// Backup list that will serialize.
+        /// </summary>
+        public List<ObjectPair<TK, TV>> SerializedList = new();
+        
+        /// <summary>
         /// Out dictionaries will never be read only.
         /// </summary>
         public bool IsReadOnly => false;
@@ -30,7 +36,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         {
             get
             {
-                List<TK> keyList = new List<TK>();
+                List<TK> keyList = new();
 
                 for (int i = 0; i < Count; ++i) keyList.Add(this[i].Key);
 
@@ -45,7 +51,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         {
             get
             {
-                List<TV> valueList = new List<TV>();
+                List<TV> valueList = new();
 
                 for (int i = 0; i < Count; ++i) valueList.Add(this[i].Value);
 
@@ -70,11 +76,6 @@ namespace WhateverDevs.Core.Runtime.DataStructures
             }
             set => Add(key, value);
         }
-
-        /// <summary>
-        /// Backup list that will serialize.
-        /// </summary>
-        public List<ObjectPair<TK, TV>> SerializedList = new List<ObjectPair<TK, TV>>();
 
         /// <summary>
         /// Does the dictionary contain the given key?
@@ -183,7 +184,8 @@ namespace WhateverDevs.Core.Runtime.DataStructures
             for (int i = 0; i < Count; ++i)
             {
                 ObjectPair<TK, TV> pair = this[i];
-                if (!Compare(pair.Key, item.Key) || !Compare(pair.Value, item.Value)) continue;
+                (TK key, TV value) = item;
+                if (!Compare(pair.Key, key) || !Compare(pair.Value, value)) continue;
                 pairToRemove = pair;
             }
 
@@ -196,7 +198,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         /// <returns>The enumerator</returns>
         public new IEnumerator<KeyValuePair<TK, TV>> GetEnumerator()
         {
-            List<KeyValuePair<TK, TV>> enumerableList = new List<KeyValuePair<TK, TV>>();
+            List<KeyValuePair<TK, TV>> enumerableList = new();
 
             for (int i = 0; i < Count; ++i)
             {
@@ -214,7 +216,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         // ReSharper disable twice RedundantAssignment
         public void CopyTo(KeyValuePair<TK, TV>[] array, int arrayIndex)
         {
-            List<KeyValuePair<TK, TV>> temporalList = new List<KeyValuePair<TK, TV>>();
+            List<KeyValuePair<TK, TV>> temporalList = new();
 
             for (int i = arrayIndex; i < Count; ++i)
             {
@@ -250,11 +252,11 @@ namespace WhateverDevs.Core.Runtime.DataStructures
             SerializedList ??= new List<ObjectPair<TK, TV>>();
             SerializedList.Clear();
 
-            foreach (KeyValuePair<TK, TV> objectPair in this)
+            foreach ((TK key, TV value) in this)
                 SerializedList.Add(new ObjectPair<TK, TV>
                                    {
-                                       Key = objectPair.Key,
-                                       Value = objectPair.Value
+                                       Key = key,
+                                       Value = value
                                    });
         }
 
@@ -272,7 +274,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         /// </summary>
         /// <param name="sender"></param>
         public void OnDeserialization(object sender) =>
-            ((IDeserializationCallback) SerializedList).OnDeserialization(sender);
+            ((IDeserializationCallback)SerializedList).OnDeserialization(sender);
 
         /// <summary>
         /// Get the object data of the backup list.
@@ -280,6 +282,12 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         /// <param name="info"></param>
         /// <param name="context"></param>
         public void GetObjectData(SerializationInfo info, StreamingContext context) =>
-            ((ISerializable) SerializedList).GetObjectData(info, context);
+            ((ISerializable)SerializedList).GetObjectData(info, context);
+
+        /// <summary>
+        /// Shallow clones the dictionary.
+        /// </summary>
+        /// <returns>A shallow clone.</returns>
+        public SerializableDictionary<TK, TV> ShallowClone() => new() { SerializedList = SerializedList.ShallowClone() };
     }
 }
