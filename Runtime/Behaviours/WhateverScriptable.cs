@@ -1,4 +1,5 @@
-﻿using WhateverDevs.Core.Runtime.Common;
+﻿using UnityEngine;
+using WhateverDevs.Core.Runtime.Common;
 
 namespace WhateverDevs.Core.Behaviours
 {
@@ -17,5 +18,9 @@ namespace WhateverDevs.Core.Behaviours
     public class WhateverScriptable<TLogger> : LoggableScriptableObject<TLogger>
         where TLogger : WhateverScriptable<TLogger>
     {
+        /// <summary>
+        /// Cached object to wait a frame.
+        /// </summary>
+        protected readonly WaitForEndOfFrame WaitAFrame = new();
     }
 }

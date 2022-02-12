@@ -1,4 +1,5 @@
-﻿using WhateverDevs.Core.Runtime.Common;
+﻿using UnityEngine;
+using WhateverDevs.Core.Runtime.Common;
 
 namespace WhateverDevs.Core.Behaviours
 {
@@ -16,5 +17,9 @@ namespace WhateverDevs.Core.Behaviours
     /// <typeparam name="TLogger">Object to be used on the logs.</typeparam>
     public class WhateverBehaviour<TLogger> : LoggableMonoBehaviour<TLogger> where TLogger : WhateverBehaviour<TLogger>
     {
+        /// <summary>
+        /// Cached object to wait a frame.
+        /// </summary>
+        protected readonly WaitForEndOfFrame WaitAFrame = new();
     }
 }
