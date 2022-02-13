@@ -19,11 +19,6 @@ namespace WhateverDevs.Core.Editor.VersionControlLog4NetCheck
         private const string PackageName = "com.unity.collab-proxy";
 
         /// <summary>
-        /// Recommended package version.
-        /// </summary>
-        private const string RecommendedVersion = "1.15.9";
-
-        /// <summary>
         /// Path to data.
         /// </summary>
         private const string DataFolder = "Assets/Data/";
@@ -86,13 +81,11 @@ namespace WhateverDevs.Core.Editor.VersionControlLog4NetCheck
             {
                 if (packageInfo.name != PackageName) continue;
 
-                if (packageInfo.version.Equals(RecommendedVersion)) continue;
-
                 if (EditorUtility.DisplayDialog("Whatever Dev's Core",
-                                                "The core needs to update the Version Control package to version 1.15.9 compile. If you still get assembly errors after updating it, restart Unity.",
-                                                "Update",
+                                                "The core needs to remove the Version Control package in other to work correctly. If you still get assembly errors after updating it, restart Unity.",
+                                                "Fix",
                                                 "I'll do it myself"))
-                    Client.Add(packageInfo.name + "@" + RecommendedVersion);
+                    Client.Remove(packageInfo.name);
                 else
                 {
                     settings.CheckDismissed = true;
