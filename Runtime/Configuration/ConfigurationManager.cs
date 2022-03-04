@@ -36,7 +36,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         protected override bool OnInitialization()
         {
-            List<Type> checkedTypes = new List<Type>();
+            List<Type> checkedTypes = new();
 
             if (Configurations == null)
             {
@@ -49,8 +49,8 @@ namespace WhateverDevs.Core.Runtime.Configuration
                 if (checkedTypes.Contains(Configurations[i].GetType()))
                 {
                     Logger
-                       .Error("You have two configuration files of the same type added to the configuration list. "
-                            + "Only one file of each type should be created. Manager won't initialize.");
+                       .Error("You have two configuration of the same type added to the configuration list. "
+                            + "Only one of each type should be created. Manager won't initialize.");
 
                     return false;
                 }
@@ -59,11 +59,11 @@ namespace WhateverDevs.Core.Runtime.Configuration
 
                 if (Configurations[i].Load()) continue;
 
-                Logger.Error("Couldn't not load "
-                           + Configurations[i].GetType()
-                           + " Won't initialize.");
+                Logger.Warn("Couldn't not load "
+                          + Configurations[i].GetType()
+                          + " Default will be used to create a persistent config.");
 
-                return false;
+                Configurations[i].Save();
             }
 
             return true;
@@ -95,7 +95,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
                 }
 
             GetLogger()
-               .Error("Config file not found for configuration type "
+               .Error("Config not found for configuration type "
                     + typeof(TConfigurationData)
                     + "!");
 
@@ -132,7 +132,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
                 }
 
             GetLogger()
-               .Error("Config file not found for configuration type "
+               .Error("Config not found for configuration type "
                     + typeof(TConfigurationData)
                     + "!");
 
