@@ -124,6 +124,16 @@ namespace WhateverDevs.Core.Runtime.Common
 
             return newArray;
         }
+        
+        /// <summary>
+        /// Gets all items for an enum value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IEnumerable<T> GetAllItems<T>()
+        {
+            foreach (object item in Enum.GetValues(typeof(T))) yield return (T)item;
+        }
 
         /// <summary>
         /// Copy the content of a directory to another.
