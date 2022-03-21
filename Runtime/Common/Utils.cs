@@ -15,6 +15,22 @@ namespace WhateverDevs.Core.Runtime.Common
     public static class Utils
     {
         /// <summary>
+        /// Get the modulus of a number and an operator.
+        /// From: https://stackoverflow.com/questions/10065080/mod-explanation/10065670#10065670
+        /// </summary>
+        /// <param name="a">The number.</param>
+        /// <param name="n">The operator.</param>
+        /// <returns>The modulus.</returns>
+        public static int Modulus(this int a, int n)
+        {
+            int result = a % n;
+
+            if (result < 0 && n > 0 || result > 0 && n < 0) result += n;
+
+            return result;
+        }
+
+        /// <summary>
         /// Checks if a game object has the DontDestroyOnLoadFlag.
         /// </summary>
         /// <param name="gameObject">The game object to check.</param>
