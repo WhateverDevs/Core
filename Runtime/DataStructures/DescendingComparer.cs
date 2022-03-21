@@ -8,7 +8,7 @@ namespace WhateverDevs.Core.Runtime.DataStructures
     /// See: https://stackoverflow.com/questions/931891/reverse-sorted-dictionary-in-net
     /// </summary>
     /// <typeparam name="T">Element to compare.</typeparam>
-    class DescendingComparer<T> : IComparer<T> where T : IComparable<T>
+    public class DescendingComparer<T> : IComparer<T> where T : IComparable<T>
     {
         /// <summary>
         /// Compare the two elements.
