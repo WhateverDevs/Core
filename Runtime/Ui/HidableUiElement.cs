@@ -1,6 +1,5 @@
 using UnityEngine;
 using WhateverDevs.Core.Behaviours;
-using WhateverDevs.Core.Runtime.Common;
 
 #if ODIN_INSPECTOR_3
 using Sirenix.OdinInspector;
@@ -32,6 +31,12 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// Toggle blocking raycasts when showing and hiding?
         /// </summary>
         public bool ToggleBlockRaycasts;
+
+        /// <summary>
+        /// Flag to know if it is being shown.
+        /// </summary>
+        [ReadOnly]
+        public bool Shown => CanvasGroup.alpha > 0;
 
         /// <summary>
         /// Reference to the canvas group to be able to show and hide the panel.
