@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
-using WhateverDevs.Core.Runtime.Common;
 
 namespace WhateverDevs.Core.Runtime.DataStructures
 {
@@ -288,6 +287,13 @@ namespace WhateverDevs.Core.Runtime.DataStructures
         /// Shallow clones the dictionary.
         /// </summary>
         /// <returns>A shallow clone.</returns>
-        public SerializableDictionary<TK, TV> ShallowClone() => new() { SerializedList = SerializedList.ShallowClone() };
+        public SerializableDictionary<TK, TV> ShallowClone()
+        {
+            SerializableDictionary<TK, TV> clone = new();
+
+            foreach ((TK key, TV value) in this) clone[key] = value;
+
+            return clone;
+        }
     }
 }
