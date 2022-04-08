@@ -35,7 +35,9 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// <summary>
         /// Flag to know if it is being shown.
         /// </summary>
+        #if ODIN_INSPECTOR_3
         [ReadOnly]
+        #endif
         public bool Shown => CanvasGroup.alpha > 0;
 
         /// <summary>
