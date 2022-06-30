@@ -1,7 +1,7 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 using WhateverDevs.Core.Editor.Utils;
-using WhateverDevs.Core.Runtime.Common;
 
 #if ODIN_INSPECTOR_3
 using Sirenix.OdinInspector.Editor;
@@ -14,8 +14,7 @@ namespace WhateverDevs.Core.Editor.OdinCompatibility
     /// <summary>
     /// Class to make sure odin is installed and working correctly.
     /// </summary>
-    [InitializeOnLoad]
-    public class OdinChecks : Loggable<OdinChecks>
+    public class OdinChecks
     {
         /// <summary>
         /// Path to data.
@@ -48,11 +47,19 @@ namespace WhateverDevs.Core.Editor.OdinCompatibility
         private static OdinSettings odinSettings;
 
         /// <summary>
+        /// Flag to know if the project has been imported and initialized.
+        /// </summary>
+        private static bool initialized;
+
+        /// <summary>
         /// Check all odin compatibility.
         /// </summary>
-        static OdinChecks()
+        [InitializeOnLoadMethod]
+        private static void CheckOdin()
         {
             CheckSettings();
+
+            if (!initialized) return;
 
             bool odinFound = false;
 
@@ -78,7 +85,9 @@ namespace WhateverDevs.Core.Editor.OdinCompatibility
 
             #endif
 
-            if (odinFound || odinSettings.AcknowledgedOdinNeed) return;
+            if (odinFound) return;
+
+            if (odinSettings.AcknowledgedOdinNeed) return;
 
             if (!EditorUtility.DisplayDialog(WindowTitle,
                                              "Odin inspector is not enabled. While the core compiles, it is NOT DESIGNED to work without Odin. Please consider buying it on the Asset Store.",
@@ -102,7 +111,22 @@ namespace WhateverDevs.Core.Editor.OdinCompatibility
 
             odinSettings = AssetDatabase.LoadAssetAtPath<OdinSettings>(OdinSettingsPath);
 
-            if (odinSettings != null) return;
+            if (odinSettings != null)
+            {
+                initialized = true;
+                return;
+            }
+
+            if (File.Exists(OdinSettingsPath))
+            {
+                initialized = false;
+                return;
+            }
+
+            initialized = true;
+
+            Debug.Log("#WhateverDevs Core #Generating settings for Odin compatibility.");
+
             odinSettings = ScriptableObject.CreateInstance<OdinSettings>();
             AssetDatabase.CreateAsset(odinSettings, OdinSettingsPath);
             AssetDatabase.SaveAssets();
