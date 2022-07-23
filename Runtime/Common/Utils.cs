@@ -70,6 +70,23 @@ namespace WhateverDevs.Core.Runtime.Common
             string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value);
 
         /// <summary>
+        /// Convert a Vector3 to Vector3Int.
+        /// </summary>
+        /// <param name="vector">A Vector3.</param>
+        /// <returns>A Vector3Int.</returns>
+        public static Vector3Int ToInts(this Vector3 vector) =>
+            new(Mathf.RoundToInt(vector.x),
+                Mathf.RoundToInt(vector.y),
+                Mathf.RoundToInt(vector.z));
+
+        /// <summary>
+        /// Convert a Vector3Int to Vector3.
+        /// </summary>
+        /// <param name="vector">A Vector3Int.</param>
+        /// <returns>A Vector3.</returns>
+        public static Vector3 ToFloats(this Vector3Int vector) => new(vector.x, vector.y, vector.z);
+
+        /// <summary>
         /// Shallow clones a list.
         /// </summary>
         /// <param name="original">Original list.</param>
@@ -140,7 +157,7 @@ namespace WhateverDevs.Core.Runtime.Common
 
             return newArray;
         }
-        
+
         /// <summary>
         /// Gets all items for an enum value.
         /// </summary>
