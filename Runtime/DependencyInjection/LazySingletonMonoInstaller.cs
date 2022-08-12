@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace WhateverDevs.Core.DependencyInjection
+namespace WhateverDevs.Core.Runtime.DependencyInjection
 {
     /// <summary>
     /// Installer for objects in scene that need to be installed as a lazy singleton.

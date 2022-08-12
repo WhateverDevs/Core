@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace WhateverDevs.Core.DependencyInjection
+namespace WhateverDevs.Core.Runtime.DependencyInjection
 {
     /// <summary>
     /// Installer for objects that need to be installed as a lazy singleton.
@@ -18,6 +18,10 @@ namespace WhateverDevs.Core.DependencyInjection
         /// <summary>
         /// Install the reference as a lazy singleton.
         /// </summary>
-        public override void InstallBindings() => Container.Bind<T>().FromInstance(Reference).AsSingle().Lazy();
+        public override void InstallBindings()
+        {
+            Container.QueueForInject(Reference);
+            Container.Bind<T>().FromInstance(Reference).AsSingle().Lazy();
+        }
     }
 }
