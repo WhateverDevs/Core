@@ -96,7 +96,7 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// Show or hide the button.
         /// </summary>
         /// <param name="show"></param>
-        public void Show(bool show)
+        public virtual void Show(bool show)
         {
             Button.interactable = show;
             CanvasGroup.alpha = show ? 1 : 0;
