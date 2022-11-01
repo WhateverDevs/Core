@@ -55,7 +55,6 @@
     <root>
         <level value="ALL"/>
         <appender-ref ref="UnityDebugAppender"/>
-        <appender-ref ref="SocketAppender"/>
         <appender-ref ref="EventAppender"/>
         <appender-ref ref="Logfile"/>
     </root>

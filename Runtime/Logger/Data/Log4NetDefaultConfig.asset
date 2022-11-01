@@ -44,5 +44,5 @@ MonoBehaviour:
     </converter>\r\n            <param name=\"ConversionPattern\" value=\"#%genericName
     #%d{ABSOLUTE} %p - Line:%L - %m%n\"/>\r\n        </layout>\r\n    </appender>\r\n   
     <root>\r\n        <level value=\"ALL\"/>\r\n        <appender-ref ref=\"UnityDebugAppender\"/>\r\n       
-    <appender-ref ref=\"SocketAppender\"/>\r\n        <appender-ref ref=\"EventAppender\"/>\r\n       
-    <appender-ref ref=\"Logfile\"/>\r\n    </root>\r\n</log4net>"
+    <appender-ref ref=\"EventAppender\"/>\r\n        <appender-ref ref=\"Logfile\"/>\r\n   
+    </root>\r\n</log4net>"
