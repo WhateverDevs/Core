@@ -12,9 +12,15 @@ namespace WhateverDevs.Core.Runtime.Common
         /// Runs the coroutine given.
         /// </summary>
         /// <param name="routine">The coroutine to run.</param>
-        public Coroutine RunRoutine(IEnumerator routine)
+        public static Coroutine RunRoutine(IEnumerator routine) => Instance.RunRoutineInternal(routine);
+
+        /// <summary>
+        /// Runs the coroutine given.
+        /// </summary>
+        /// <param name="routine">The coroutine to run.</param>
+        private Coroutine RunRoutineInternal(IEnumerator routine)
         {
-            GetLogger().Info("Running coroutine " + routine + ".");
+            Logger.Info("Running coroutine " + routine + ".");
             return StartCoroutine(routine);
         }
     }
