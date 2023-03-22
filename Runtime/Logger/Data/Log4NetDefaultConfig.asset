@@ -18,12 +18,6 @@ MonoBehaviour:
     <name value=\"genericName\"/>\r\n                <type value=\"WhateverDevs.Core.Runtime.Logger.Patterns.GenericClassNamePatternLayoutConverter\"/>\r\n           
     </converter>\r\n            <param name=\"ConversionPattern\" value=\"#%genericName
     #%d{ABSOLUTE} %p - Line:%L - %m%n\"/>\r\n        </layout>\r\n    </appender>\r\n   
-    <appender name=\"SocketAppender\"\r\n              type=\"WhateverDevs.Core.Runtime.Logger.Appenders.SocketAppender,WhateverDevs.Core.Runtime\">\r\n       
-    <Port>30000</Port>\r\n        <layout type=\"log4net.Layout.PatternLayout,log4net\">\r\n           
-    <converter>\r\n                <name value=\"genericName\"/>\r\n               
-    <type value=\"WhateverDevs.Core.Runtime.Logger.Patterns.GenericClassNamePatternLayoutConverter\"/>\r\n           
-    </converter>\r\n            <param name=\"ConversionPattern\" value=\"#%genericName
-    #%d{ABSOLUTE} %p - Line:%L - %m%n\"/>\r\n        </layout>\r\n    </appender>\r\n   
     <appender name=\"EventAppender\"\r\n              type=\"WhateverDevs.Core.Runtime.Logger.Appenders.EventAppender,WhateverDevs.Core.Runtime\">\r\n       
     <layout type=\"log4net.Layout.PatternLayout,log4net\">\r\n            <converter>\r\n               
     <name value=\"genericName\"/>\r\n                <type value=\"WhateverDevs.Core.Runtime.Logger.Patterns.GenericClassNamePatternLayoutConverter\"/>\r\n           
