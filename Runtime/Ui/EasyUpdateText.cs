@@ -48,6 +48,6 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// Updates the text with the given string.
         /// </summary>
         /// <param name="text"></param>
-        public void UpdateText(string text) => Text.SetText(text);
+        public virtual void UpdateText(string text) => Text.SetText(text);
     }
 }
