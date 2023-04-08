@@ -134,8 +134,7 @@ namespace WhateverDevs.Core.Editor.Build
                                                              "Shift version",
                                                              "Leave previous minor version");
 
-            if (!useNewVersion) return true;
-            version.MinorVersion = newMinorVersion;
+            if (useNewVersion) version.MinorVersion = newMinorVersion;
             version.Date = now;
             EditorUtility.SetDirty(version);
             AssetDatabase.SaveAssets();

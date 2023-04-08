@@ -34,7 +34,7 @@ namespace WhateverDevs.Core.Runtime.Build
         /// Version stability.
         /// </summary>
         public VersionStability Stability;
-        
+
         /// <summary>
         /// Get the short version string.
         /// </summary>
@@ -65,15 +65,13 @@ namespace WhateverDevs.Core.Runtime.Build
         /// <param name="versionDisplayMode"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public string ToString(VersionDisplayMode versionDisplayMode)
-        {
-            switch (versionDisplayMode)
+        public string ToString(VersionDisplayMode versionDisplayMode) =>
+            versionDisplayMode switch
             {
-                case VersionDisplayMode.Short: return ShortVersion;
-                case VersionDisplayMode.Full: return FullVersion;
-                default: throw new ArgumentException("Incorrect version display mode.");
-            }
-        }
+                VersionDisplayMode.Short => ShortVersion,
+                VersionDisplayMode.Full => FullVersion,
+                _ => throw new ArgumentException("Incorrect version display mode.")
+            };
 
         /// <summary>
         /// Retrieves the version in a string.
@@ -85,19 +83,16 @@ namespace WhateverDevs.Core.Runtime.Build
         /// </summary>
         /// <param name="stability">Given stability-</param>
         /// <returns>String version.</returns>
-        public static string StabilityToString(VersionStability stability)
-        {
-            switch (stability)
+        public static string StabilityToString(VersionStability stability) =>
+            stability switch
             {
-                case VersionStability.Alpha: return "a";
-                case VersionStability.Beta: return "b";
-                case VersionStability.Release: return "";
-            }
-
-            return "unknownStability";
-        }
+                VersionStability.Alpha => "a",
+                VersionStability.Beta => "b",
+                VersionStability.Release => "",
+                _ => "unknownStability"
+            };
     }
-    
+
     /// <summary>
     /// VersionDisplayMode.
     /// </summary>
