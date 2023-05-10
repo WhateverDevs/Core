@@ -46,19 +46,24 @@ namespace WhateverDevs.Core.Editor.VersionControlLog4NetCheck
         /// <summary>
         /// Object to store listing packages request.
         /// </summary>
-        private static readonly ListRequest ListRequest;
+        private static ListRequest listRequest;
 
         /// <summary>
         /// Check if the version control package is installed, the version and suggest to reboot.
         /// </summary>
-        static VersionControlCheck()
+        static VersionControlCheck() => EditorApplication.delayCall += Initialize;
+
+        /// <summary>
+        /// Initialize after the editor has been loaded.
+        /// </summary>
+        private static void Initialize()
         {
             CheckSettings();
 
             // ReSharper disable once PossibleNullReferenceException
             if (settings.CheckDismissed) return;
-            
-            ListRequest = Client.List();
+
+            listRequest = Client.List();
             EditorApplication.update += OnVersionCheckFinished;
         }
 
@@ -67,17 +72,17 @@ namespace WhateverDevs.Core.Editor.VersionControlLog4NetCheck
         /// </summary>
         private static void OnVersionCheckFinished()
         {
-            if (!ListRequest.IsCompleted) return;
+            if (!listRequest.IsCompleted) return;
 
             EditorApplication.update -= OnVersionCheckFinished;
 
-            if (ListRequest.Status == StatusCode.Failure)
+            if (listRequest.Status == StatusCode.Failure)
             {
                 Debug.LogError("Error listing packages.");
                 return;
             }
 
-            foreach (PackageInfo packageInfo in ListRequest.Result)
+            foreach (PackageInfo packageInfo in listRequest.Result)
             {
                 if (packageInfo.name != PackageName) continue;
 
