@@ -67,10 +67,10 @@ namespace WhateverDevs.Core.Runtime.Common
                         return instance;
                     }
 
-                    instance = (TSingleton) FindObjectOfType(typeof(TSingleton));
+                    instance = FindFirstObjectByType<TSingleton>();
                     CheckDontDestroyOnLoad();
 
-                    if (FindObjectsOfType(typeof(TSingleton)).Length > 1)
+                    if (FindObjectsByType<TSingleton>(FindObjectsSortMode.None).Length > 1)
                     {
                         StaticLogger.Error("Something went really wrong "
                                          + " - there should never be more than 1 singleton!"

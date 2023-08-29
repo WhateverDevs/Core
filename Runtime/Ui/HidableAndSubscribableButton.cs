@@ -24,7 +24,7 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// Should we set the heigh to 0 when hiding?
         /// </summary>
         public bool SetHeightToZeroWhenHiding;
-        
+
         /// <summary>
         /// Toggle interactable when showing and hiding?
         /// </summary>
@@ -98,10 +98,13 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// <param name="show"></param>
         public virtual void Show(bool show)
         {
-            Button.interactable = show;
             CanvasGroup.alpha = show ? 1 : 0;
-            
-            if (ToggleInteractable) CanvasGroup.interactable = show;
+
+            if (ToggleInteractable)
+            {
+                CanvasGroup.interactable = show;
+                Button.interactable = show;
+            }
 
             if (ToggleBlockRaycasts) CanvasGroup.blocksRaycasts = show;
 
