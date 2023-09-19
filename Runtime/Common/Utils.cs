@@ -25,7 +25,7 @@ namespace WhateverDevs.Core.Runtime.Common
         {
             int result = a % n;
 
-            if (result < 0 && n > 0 || result > 0 && n < 0) result += n;
+            if ((result < 0 && n > 0) || (result > 0 && n < 0)) result += n;
 
             return result;
         }
@@ -94,7 +94,7 @@ namespace WhateverDevs.Core.Runtime.Common
         /// <returns>A shallow clone of the list.</returns>
         public static List<T> ShallowClone<T>(this List<T> original)
         {
-            List<T> clone = new List<T>();
+            List<T> clone = new();
 
             for (int i = 0; i < original.Count; ++i) clone.Add(original[i]);
 
@@ -110,13 +110,24 @@ namespace WhateverDevs.Core.Runtime.Common
         public static T Random<T>(this List<T> original) => original[UnityEngine.Random.Range(0, original.Count)];
 
         /// <summary>
+        /// Add a new element to a list if the list doesn't contain it already.
+        /// </summary>
+        /// <param name="original">Original list.</param>
+        /// <param name="element">Element to add.</param>
+        /// <typeparam name="T">Type of element in the list.</typeparam>
+        public static void AddIfNew<T>(this List<T> original, T element)
+        {
+            if (!original.Contains(element)) original.Add(element);
+        }
+
+        /// <summary>
         /// Converts a Vector3 list to a Vector2 list.
         /// </summary>
         /// <param name="original"></param>
         /// <returns></returns>
         public static List<Vector2> ToVector2List(this List<Vector3> original)
         {
-            List<Vector2> newList = new List<Vector2>();
+            List<Vector2> newList = new();
 
             for (int i = 0; i < original.Count; ++i) newList.Add(original[i]);
 
@@ -130,7 +141,7 @@ namespace WhateverDevs.Core.Runtime.Common
         /// <returns></returns>
         public static List<Vector3> ToVector3List(this List<Vector2> original)
         {
-            List<Vector3> newList = new List<Vector3>();
+            List<Vector3> newList = new();
 
             for (int i = 0; i < original.Count; ++i) newList.Add(original[i]);
 

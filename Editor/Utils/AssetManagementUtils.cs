@@ -109,7 +109,7 @@ namespace WhateverDevs.Core.Editor.Utils
 
                     sceneLoaded = false;
 
-                    foreach (GameObject gameObject in Object.FindObjectsOfType<GameObject>())
+                    foreach (GameObject gameObject in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
                     {
                         // Reflection probes are giving false positives for some reason.
                         if (gameObject.GetComponent<ReflectionProbe>() != null) continue;
