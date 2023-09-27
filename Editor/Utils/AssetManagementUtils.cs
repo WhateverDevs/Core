@@ -109,7 +109,12 @@ namespace WhateverDevs.Core.Editor.Utils
 
                     sceneLoaded = false;
 
+                    // ReSharper disable once MissingIndent
+                    #if UNITY_2023_1_OR_NEWER
                     foreach (GameObject gameObject in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
+                    #else
+                    foreach (GameObject gameObject in Object.FindObjectsOfType<GameObject>())
+                    #endif
                     {
                         // Reflection probes are giving false positives for some reason.
                         if (gameObject.GetComponent<ReflectionProbe>() != null) continue;

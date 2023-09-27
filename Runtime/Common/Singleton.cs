@@ -1,4 +1,3 @@
-using log4net;
 using UnityEngine;
 using WhateverDevs.Core.Behaviours;
 
@@ -67,10 +66,20 @@ namespace WhateverDevs.Core.Runtime.Common
                         return instance;
                     }
 
+                    #if UNITY_2023_1_OR_NEWER
                     instance = FindFirstObjectByType<TSingleton>();
+                    #else
+                    instance = FindObjectOfType<TSingleton>();
+                    #endif
+
                     CheckDontDestroyOnLoad();
 
+                    // ReSharper disable once MissingIndent
+                    #if UNITY_2023_1_OR_NEWER
                     if (FindObjectsByType<TSingleton>(FindObjectsSortMode.None).Length > 1)
+                    #else
+                    if (FindObjectsOfType(typeof(TSingleton)).Length > 1)
+                    #endif
                     {
                         StaticLogger.Error("Something went really wrong "
                                          + " - there should never be more than 1 singleton!"
