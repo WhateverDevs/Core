@@ -121,6 +121,18 @@ namespace WhateverDevs.Core.Runtime.Common
         }
 
         /// <summary>
+        /// Convert a IEnumerable back to a Serializable Dictionary.
+        /// Useful after a linq query.
+        /// </summary>
+        /// <param name="enumerable">Enumerable to convert.</param>
+        /// <typeparam name="TK">Dictionary key.</typeparam>
+        /// <typeparam name="TV">Dictionary value.</typeparam>
+        /// <returns>The generated dictionary.</returns>
+        public static SerializableDictionary<TK, TV> ToSerializableDictionary<TK, TV>(
+            this IEnumerable<ObjectPair<TK, TV>> enumerable) =>
+            new() { SerializedList = enumerable.ToList() };
+
+        /// <summary>
         /// Converts a Vector3 list to a Vector2 list.
         /// </summary>
         /// <param name="original"></param>
