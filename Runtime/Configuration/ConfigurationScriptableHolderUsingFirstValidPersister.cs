@@ -16,14 +16,14 @@ namespace WhateverDevs.Core.Runtime.Configuration
         public override bool Load()
         {
             TConfigurationData defaultData = ConfigData;
-            
+
             for (int i = 0; i < Persisters.Count; ++i)
                 if (Persisters[i].Load(out ConfigData, ConfigurationName, true))
                     return true;
 
             // Use the default if all persisters fail.
             ConfigData = defaultData;
-            
+
             return false;
         }
     }

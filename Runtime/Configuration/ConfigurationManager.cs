@@ -63,7 +63,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
                           + Configurations[i].GetType()
                           + " Default will be used to create a persistent config.");
 
-                Configurations[i].Save();
+                Configurations[i].SaveDefault();
             }
 
             return true;

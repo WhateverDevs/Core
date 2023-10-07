@@ -54,6 +54,12 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         /// <returns>True if it was successful.</returns>
         bool Save();
+        
+        /// <summary>
+        /// Save the default data.
+        /// </summary>
+        /// <returns>True if it was successful.</returns>
+        bool SaveDefault();
 
         /// <summary>
         /// Load the data using the persistent persisters.

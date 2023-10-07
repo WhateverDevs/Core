@@ -21,5 +21,12 @@ namespace WhateverDevs.Core.Test.Editor.Configuration
         public string SomeString;
 
         public int SomeInt;
+
+        protected override TConfigurationData Clone<TConfigurationData>() =>
+            new TestConfigurationData
+            {
+                SomeString = SomeString,
+                SomeInt = SomeInt
+            } as TConfigurationData;
     }
 }

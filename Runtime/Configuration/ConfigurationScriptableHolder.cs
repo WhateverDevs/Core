@@ -46,6 +46,12 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         [SerializeField]
         protected TConfigurationData ConfigData;
+        
+        /// <summary>
+        /// Default data that will be used when no configuration file is found.
+        /// </summary>
+        [SerializeField]
+        private TConfigurationData DefaultConfigurationData;
 
         /// <summary>
         /// Retrieve the type of configuration used.
@@ -91,6 +97,17 @@ namespace WhateverDevs.Core.Runtime.Configuration
                     success = false;
 
             return success;
+        }
+
+        /// <summary>
+        /// Save the data using the persistent persisters.
+        /// </summary>
+        /// <returns>True if it was successful.</returns>
+        public bool SaveDefault()
+        {
+            ConfigurationData = DefaultConfigurationData.Clone<TConfigurationData>();
+
+            return Save();
         }
 
         /// <summary>
