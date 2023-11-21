@@ -1,10 +1,9 @@
 {
   "name": "whateverdevs.core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "dependencies": {
     "whateverdevs.extenject": "9.1.1",
-    "varguiniano.extendededitor": "1.0.2",
-    "com.unity.textmeshpro": "2.0.1"
+    "varguiniano.extendededitor": "1.0.2"
   },
   "displayName": "Whatever Devs' Core",
   "description": "Core with our basic functionalities.",
