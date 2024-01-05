@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using WhateverDevs.Core.Behaviours;
-using WhateverDevs.Core.Runtime.Common;
 
 #if ODIN_INSPECTOR_3
 using Sirenix.OdinInspector;
@@ -24,17 +23,7 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// <summary>
         /// Accessor to the button.
         /// </summary>
-        public Button Button
-        {
-            get
-            {
-                if (ButtonInTheSameObject) ButtonReference = GetComponent<Button>();
-
-                if (ButtonReference == null) GetLogger().Error("Button reference has not been assigned.");
-
-                return ButtonReference;
-            }
-        }
+        public Button Button => ButtonInTheSameObject ? GetCachedComponent<Button>() : ButtonReference;
 
         /// <summary>
         /// Reference to the button.
@@ -42,7 +31,8 @@ namespace WhateverDevs.Core.Runtime.Ui
         #if ODIN_INSPECTOR_3
         [HideIf("ButtonInTheSameObject")]
         #endif
-        public Button ButtonReference;
+        [SerializeField]
+        private Button ButtonReference;
 
         /// <summary>
         /// Subscribe.

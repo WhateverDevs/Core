@@ -24,17 +24,7 @@ namespace WhateverDevs.Core.Runtime.Ui
         /// <summary>
         /// Accessor to the Text.
         /// </summary>
-        public TMP_Text Text
-        {
-            get
-            {
-                if (TextInTheSameObject) TextReference = GetComponent<TMP_Text>();
-
-                if (TextReference == null) GetLogger().Error("Text reference has not been assigned.");
-
-                return TextReference;
-            }
-        }
+        public TMP_Text Text => TextInTheSameObject ? GetCachedComponent<TMP_Text>() : TextReference;
 
         /// <summary>
         /// Reference to the Text.

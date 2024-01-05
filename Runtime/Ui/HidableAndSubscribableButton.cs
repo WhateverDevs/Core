@@ -59,63 +59,29 @@ namespace WhateverDevs.Core.Runtime.Ui
         private float PreviousHeight;
 
         /// <summary>
-        /// Reference to the rect transform.
-        /// </summary>
-        private RectTransform RectTransform
-        {
-            get
-            {
-                if (rectTransform == null) rectTransform = GetComponent<RectTransform>();
-                return rectTransform;
-            }
-        }
-
-        /// <summary>
-        /// Backfield for RectTransform.
-        /// </summary>
-        private RectTransform rectTransform;
-
-        /// <summary>
-        /// Reference to the canvas group.
-        /// </summary>
-        protected CanvasGroup CanvasGroup
-        {
-            get
-            {
-                if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
-                return canvasGroup;
-            }
-        }
-
-        /// <summary>
-        /// Backfield for CanvasGroup.
-        /// </summary>
-        private CanvasGroup canvasGroup;
-
-        /// <summary>
         /// Show or hide the button.
         /// </summary>
         /// <param name="show"></param>
         public virtual void Show(bool show)
         {
-            CanvasGroup.alpha = show ? 1 : 0;
+            GetCachedComponent<CanvasGroup>().alpha = show ? 1 : 0;
 
             if (ToggleInteractable)
             {
-                CanvasGroup.interactable = show;
+                GetCachedComponent<CanvasGroup>().interactable = show;
                 Button.interactable = show;
             }
 
-            if (ToggleBlockRaycasts) CanvasGroup.blocksRaycasts = show;
+            if (ToggleBlockRaycasts) GetCachedComponent<CanvasGroup>().blocksRaycasts = show;
 
             if (SetHeightToZeroWhenHiding)
             {
-                Vector2 rectTransformAnchoredSize = RectTransform.sizeDelta;
+                Vector2 rectTransformAnchoredSize = GetCachedComponent<RectTransform>().sizeDelta;
 
                 if (Shown) PreviousHeight = rectTransformAnchoredSize.y;
                 rectTransformAnchoredSize.y = show ? PreviousHeight : 0;
 
-                RectTransform.sizeDelta = rectTransformAnchoredSize;
+                GetCachedComponent<RectTransform>().sizeDelta = rectTransformAnchoredSize;
             }
 
             Shown = show;

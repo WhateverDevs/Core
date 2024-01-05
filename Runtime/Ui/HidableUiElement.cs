@@ -38,24 +38,7 @@ namespace WhateverDevs.Core.Runtime.Ui
         #if ODIN_INSPECTOR_3
         [ReadOnly]
         #endif
-        public bool Shown => CanvasGroup.alpha > 0;
-
-        /// <summary>
-        /// Reference to the canvas group to be able to show and hide the panel.
-        /// </summary>
-        protected CanvasGroup CanvasGroup
-        {
-            get
-            {
-                if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
-                return canvasGroup;
-            }
-        }
-
-        /// <summary>
-        /// Backfield for CanvasGroup.
-        /// </summary>
-        private CanvasGroup canvasGroup;
+        public bool Shown => GetCachedComponent<CanvasGroup>().alpha > 0;
 
         /// <summary>
         /// Show or hide the element.
@@ -66,11 +49,11 @@ namespace WhateverDevs.Core.Runtime.Ui
         #endif
         public virtual void Show(bool show = true)
         {
-            CanvasGroup.alpha = show ? 1 : 0;
+            GetCachedComponent<CanvasGroup>().alpha = show ? 1 : 0;
 
-            if (ToggleInteractable) CanvasGroup.interactable = show;
+            if (ToggleInteractable) GetCachedComponent<CanvasGroup>().interactable = show;
 
-            if (ToggleBlockRaycasts) CanvasGroup.blocksRaycasts = show;
+            if (ToggleBlockRaycasts) GetCachedComponent<CanvasGroup>().blocksRaycasts = show;
         }
     }
 }
