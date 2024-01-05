@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace WhateverDevs.Core.Behaviours
 {
@@ -13,7 +12,7 @@ namespace WhateverDevs.Core.Behaviours
         /// <summary>
         /// Cache of all the component references.
         /// </summary>
-        private readonly Dictionary<Type, Component> cache = new();
+        private readonly Dictionary<Type, object> cache = new();
 
         /// <summary>
         /// Like TryGetComponent but the reference is cached.
@@ -22,6 +21,7 @@ namespace WhateverDevs.Core.Behaviours
         {
             component = GetCachedComponent<T>();
 
+            // ReSharper disable once CompareNonConstrainedGenericWithNull
             return component != null;
         }
 
@@ -30,7 +30,7 @@ namespace WhateverDevs.Core.Behaviours
         /// </summary>
         public override T GetCachedComponent<T>()
         {
-            if (cache.TryGetValue(typeof(T), out Component component))
+            if (cache.TryGetValue(typeof(T), out object component))
             {
                 if (component == null)
                     cache.Remove(typeof(T));
@@ -50,6 +50,7 @@ namespace WhateverDevs.Core.Behaviours
         {
             component = GetCachedComponentInChildren<T>(includeInactive);
 
+            // ReSharper disable once CompareNonConstrainedGenericWithNull
             return component != null;
         }
 
@@ -58,7 +59,7 @@ namespace WhateverDevs.Core.Behaviours
         /// </summary>
         public override T GetCachedComponentInChildren<T>(bool includeInactive = false)
         {
-            if (cache.TryGetValue(typeof(T), out Component component))
+            if (cache.TryGetValue(typeof(T), out object component))
             {
                 if (component == null)
                     cache.Remove(typeof(T));
@@ -78,6 +79,7 @@ namespace WhateverDevs.Core.Behaviours
         {
             component = GetCachedComponentInParent<T>();
 
+            // ReSharper disable once CompareNonConstrainedGenericWithNull
             return component != null;
         }
 
@@ -86,7 +88,7 @@ namespace WhateverDevs.Core.Behaviours
         /// </summary>
         public override T GetCachedComponentInParent<T>()
         {
-            if (cache.TryGetValue(typeof(T), out Component component))
+            if (cache.TryGetValue(typeof(T), out object component))
             {
                 if (component == null)
                     cache.Remove(typeof(T));

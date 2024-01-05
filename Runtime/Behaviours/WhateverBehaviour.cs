@@ -47,37 +47,35 @@ namespace WhateverDevs.Core.Behaviours
         /// <summary>
         /// Like TryGetComponent but the reference is cached.
         /// </summary>
-        public virtual bool TryGetCachedComponent<T>(out T component) where T : Component =>
+        public virtual bool TryGetCachedComponent<T>(out T component) =>
             ComponentReferenceCache.TryGetCachedComponent(out component);
 
         /// <summary>
         /// Like GetComponent but the reference is cached.
         /// </summary>
-        public virtual T GetCachedComponent<T>() where T : Component => ComponentReferenceCache.GetCachedComponent<T>();
+        public virtual T GetCachedComponent<T>() => ComponentReferenceCache.GetCachedComponent<T>();
 
         /// <summary>
         /// Like TryGetComponentInChildren but the reference is cached.
         /// </summary>
-        public virtual bool TryGetCachedComponentInChildren<T>(out T component, bool includeInactive = false)
-            where T : Component =>
+        public virtual bool TryGetCachedComponentInChildren<T>(out T component, bool includeInactive = false) =>
             ComponentReferenceCache.TryGetCachedComponentInChildren(out component, includeInactive);
 
         /// <summary>
         /// Like GetComponentInChildren but the reference is cached.
         /// </summary>
-        public virtual T GetCachedComponentInChildren<T>(bool includeInactive = false) where T : Component =>
+        public virtual T GetCachedComponentInChildren<T>(bool includeInactive = false) =>
             ComponentReferenceCache.GetCachedComponentInChildren<T>(includeInactive);
 
         /// <summary>
         /// Like TryGetComponentInParent but the reference is cached.
         /// </summary>
-        public virtual bool TryGetCachedComponentInParent<T>(out T component) where T : Component =>
+        public virtual bool TryGetCachedComponentInParent<T>(out T component) =>
             ComponentReferenceCache.TryGetCachedComponentInParent(out component);
 
         /// <summary>
         /// Like GetComponentInParent but the reference is cached.
         /// </summary>
-        public virtual T GetCachedComponentInParent<T>() where T : Component =>
-            ComponentReferenceCache.GetCachedComponentInParent<T>();
+        public virtual T GetCachedComponentInParent<T>() => ComponentReferenceCache.GetCachedComponentInParent<T>();
     }
 }
