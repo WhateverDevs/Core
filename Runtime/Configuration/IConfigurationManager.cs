@@ -27,6 +27,15 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// <returns>True if it was successful.</returns>
         bool GetConfiguration<TConfigurationData>(out TConfigurationData configurationData)
             where TConfigurationData : ConfigurationData;
+        
+        /// <summary>
+        /// Retrieves the default values of a certain configuration.
+        /// </summary>
+        /// <param name="configurationData">The configuration asked for.</param>
+        /// <typeparam name="TConfigurationData">The type of configuration to retrieve.</typeparam>
+        /// <returns>True if it was successful.</returns>
+        bool GetDefaultConfiguration<TConfigurationData>(out TConfigurationData configurationData)
+            where TConfigurationData : ConfigurationData;
 
         /// <summary>
         /// Sets a new configuration of the given type.

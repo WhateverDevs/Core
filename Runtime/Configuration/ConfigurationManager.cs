@@ -103,6 +103,39 @@ namespace WhateverDevs.Core.Runtime.Configuration
         }
 
         /// <summary>
+        /// Retrieves the default values of a certain configuration.
+        /// </summary>
+        /// <param name="configurationData">The configuration asked for.</param>
+        /// <typeparam name="TConfigurationData">The type of configuration to retrieve.</typeparam>
+        /// <returns>True if it was successful.</returns>
+        public bool GetDefaultConfiguration<TConfigurationData>(out TConfigurationData configurationData)
+            where TConfigurationData : ConfigurationData
+        {
+            configurationData = null;
+
+            if (!Initialized)
+            {
+                GetLogger().Error("The configuration manager has not been initialized!");
+                return false;
+            }
+
+            for (int i = 0; i < Configurations.Count; ++i)
+                if (Configurations[i] is IConfiguration<TConfigurationData>
+                 || typeof(TConfigurationData).IsAssignableFrom(Configurations[i].GetConfigurationType()))
+                {
+                    configurationData = Configurations[i].UnsafeRetrieveDefaultConfiguration<TConfigurationData>();
+                    return true;
+                }
+
+            GetLogger()
+               .Error("Default config not found for configuration type "
+                    + typeof(TConfigurationData)
+                    + "!");
+
+            return false;
+        }
+
+        /// <summary>
         /// Sets a new configuration of the given type.
         /// </summary>
         /// <param name="configurationData">The new configuration values.</param>

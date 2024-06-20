@@ -40,6 +40,14 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// <returns>Either the configuration or null if it doesn't match.</returns>
         TConfigurationData UnsafeRetrieveConfiguration<TConfigurationData>()
             where TConfigurationData : ConfigurationData;
+        
+        /// <summary>
+        /// Retrieve the default configuration for this holder or null if it doesn't match.
+        /// </summary>
+        /// <typeparam name="TConfigurationData">The type of configuration to retrieve.</typeparam>
+        /// <returns>Either the configuration or null if it doesn't match.</returns>
+        TConfigurationData UnsafeRetrieveDefaultConfiguration<TConfigurationData>()
+            where TConfigurationData : ConfigurationData;
 
         /// <summary>
         /// Set the configuration for this holder or null if it doesn't match.

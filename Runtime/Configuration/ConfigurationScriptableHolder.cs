@@ -46,7 +46,7 @@ namespace WhateverDevs.Core.Runtime.Configuration
         /// </summary>
         [SerializeField]
         protected TConfigurationData ConfigData;
-        
+
         /// <summary>
         /// Default data that will be used when no configuration file is found.
         /// </summary>
@@ -67,6 +67,18 @@ namespace WhateverDevs.Core.Runtime.Configuration
         public T UnsafeRetrieveConfiguration<T>() where T : ConfigurationData
         {
             if (ConfigurationData is T data) return data;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieve the default configuration for this holder or null if it doesn't match.
+        /// </summary>
+        /// <typeparam name="T">The type of configuration to retrieve.</typeparam>
+        /// <returns>Either the configuration or null if it doesn't match.</returns>
+        public T UnsafeRetrieveDefaultConfiguration<T>() where T : ConfigurationData
+        {
+            if (DefaultConfigurationData is T data) return data;
 
             return null;
         }
